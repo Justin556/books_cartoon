@@ -5,8 +5,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 /**
- * @Author: wxySmile
- * @Date 20-1-3 上午11:18
  * 全局设置允许跨域请求
  */
 @Configuration

@@ -1,9 +1,5 @@
 package com.app.books.result;
 
-/**
- * @Author: wxySmile
- * @Date 20-1-2 上午11:58
- */
 public class ResultFactory {
 
     public static Result buildSuccessResult(Object data,String message) {

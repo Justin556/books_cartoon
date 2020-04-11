@@ -10,11 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
-/**
- * @Author: wxySmile
- * @Date 20-1-3 下午5:11
- * 完成token认证
- */
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
 

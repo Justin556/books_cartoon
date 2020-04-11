@@ -4,10 +4,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-/**
- * @Author: wxySmile
- * @Date 20-1-3 下午5:10
- */
 @Configuration
 public class IntercepterConfig implements WebMvcConfigurer{
     private TokenInterceptor tokenInterceptor;

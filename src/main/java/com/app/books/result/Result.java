@@ -5,10 +5,6 @@ import lombok.Data;
 
 import java.util.HashMap;
 
-/**
- * @Author: wxySmile
- * @Date 20-1-2 上午11:50
- */
 @Data
 public class Result {
 
