@@ -15,6 +15,7 @@ public interface ComicMapper {
 
     @Select("<script> select * from t_comic where 1=1 " +
             "<if test=\"name !=null and name !=''\"> AND title like \"%\"#{name}\"%\" </if>" +
+            "<if test=\"status !=null and status !=''\"> AND status =#{status} </if>" +
             "</script>")
     List<Comic> findAll(ComicQuery comicQuery);
 

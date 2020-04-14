@@ -30,4 +30,22 @@ public class ComicServiceImpl implements ComicService {
     public Result details(ComicQuery comicQuery) {
         return Result.success(comicMapper.details(comicQuery));
     }
+
+    @Override
+    public Result homePage(ComicQuery comicQuery) {
+        comicQuery.setStatus(1);
+        PageHelper.startPage(1,4);//这行是重点，表示从pageNum页开始，每页pageSize条数据
+        List<Comic> list = comicMapper.findAll(comicQuery);
+
+        comicQuery.setStatus(2);
+        PageHelper.startPage(1,4);//这行是重点，表示从pageNum页开始，每页pageSize条数据
+        list.addAll(comicMapper.findAll(comicQuery));
+
+        comicQuery.setStatus(3);
+        PageHelper.startPage(1,4);//这行是重点，表示从pageNum页开始，每页pageSize条数据
+        list.addAll(comicMapper.findAll(comicQuery));
+
+        PageInfo<Comic> pageInfo = new PageInfo<Comic>(list);
+        return Result.success(pageInfo);
+    }
 }

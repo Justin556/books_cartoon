@@ -7,4 +7,7 @@ public interface ComicService {
     Result comicList(ComicQuery comicQuery);
 
     Result details(ComicQuery comicQuery);
+
+    Result homePage(ComicQuery comicQuery);
+
 }

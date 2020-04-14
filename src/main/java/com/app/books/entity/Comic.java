@@ -27,7 +27,7 @@ public class Comic extends BaseEntity {
     private String detailPic;
     //排序权值
     private Integer sort = 1;
-    //状态:1连载 2完结
+    //状态:1连载 2完结 3最新上架
     private Integer status = 1;
 
 }

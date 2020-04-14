@@ -21,4 +21,6 @@ public class ComicQuery {
     private int pageSize;
 
     private int pageNumber;
+
+    private int status;
 }

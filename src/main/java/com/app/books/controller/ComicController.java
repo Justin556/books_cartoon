@@ -23,9 +23,14 @@ public class ComicController {
         return Result.success(comicService.comicList(comicQuery));
     }
 
+    @GetMapping("homePage")
+    public Result homePage(ComicQuery comicQuery) {
+        return Result.success(comicService.homePage(comicQuery));
+    }
+
     @GetMapping("details")
     public Result details(ComicQuery comicQuery) {
-        return Result.success(comicService.comicList(comicQuery));
+        return Result.success(comicService.details(comicQuery));
     }
 
     //打赏
