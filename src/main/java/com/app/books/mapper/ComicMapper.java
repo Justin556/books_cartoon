@@ -1,5 +1,6 @@
 package com.app.books.mapper;
 
+import com.app.books.dto.ComicQuery;
 import com.app.books.entity.Comic;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -12,7 +13,11 @@ import java.util.List;
 @Repository
 public interface ComicMapper {
 
-    @Select("<script> select * from t_comic </script>")
-    List<Comic> findAll();
+    @Select("<script> select * from t_comic where 1=1 " +
+            "<if test=\"name !=null and name !=''\"> AND title like \"%\"#{name}\"%\" </if>" +
+            "</script>")
+    List<Comic> findAll(ComicQuery comicQuery);
 
+    @Select("<script> select * from t_comic where id = #{id} </script>")
+    Comic details(ComicQuery comicQuery);
 }

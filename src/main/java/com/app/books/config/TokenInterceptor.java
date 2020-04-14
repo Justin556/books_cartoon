@@ -1,14 +1,6 @@
 package com.app.books.config;
-import com.app.books.result.Result;
-import com.app.books.result.ResultFactory;
-import com.app.books.utils.JWTUtil;
-import com.app.books.utils.JsonUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
 
 @Component
 public class TokenInterceptor implements HandlerInterceptor {

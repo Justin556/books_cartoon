@@ -1,20 +1,50 @@
 package com.app.books.result;
 
-
 import lombok.Data;
 
-import java.util.HashMap;
-
+/**
+ * 返回数据
+ */
 @Data
-public class Result {
+public class Result<T> {
+    private int code;
+    private String desc;
+    private T data;
 
-    private Object data;
-    private HashMap<String,Object> meta =new HashMap<>();
+    public Result() {
+    }
 
-    public Result(Object data, String msg, Integer status) {
-        meta.put("msg",msg);
-        meta.put("status",status);
+    public Result(int code, String desc, T data) {
+        this.code = code;
+        this.desc = desc;
         this.data = data;
     }
 
+    public static Result success(Object data) {
+        Result result = new Result();
+        result.setCode(200);
+        result.setDesc("SUCCESS");
+        result.setData(data);
+        return result;
+    }
+
+
+
+    public static Result success() {
+        return success(null);
+    }
+
+    public static Result error(int code, String desc) {
+        Result result = new Result();
+        result.setCode(code);
+        result.setDesc(desc);
+        return result;
+    }
+
+    public static Result error(String desc) {
+        Result result = new Result();
+        result.setCode(500);
+        result.setDesc(desc);
+        return result;
+    }
 }
