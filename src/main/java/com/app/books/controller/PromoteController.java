@@ -40,10 +40,10 @@ public class PromoteController {
     //本人推广二维码生成
     @GetMapping("yards")
     public Result yards(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String text = "https://www.fzdm.com/";
+        String text = "https://www.baidu.com/";
         //不含Logo
-       String fileName = QrCodeUtils2.encode(text, null, "C:\\Users\\jacks\\Desktop\\aa", true);
-       return Result.success("C:\\Users\\jacks\\Desktop\\aa\\"+fileName);
+       String fileName = QrCodeUtils2.encode(text, null, "/home/project/picture/qrCode", true);
+       return Result.success("/home/project/picture/qrCode"+fileName);
     }
 
     //增加本人推广用户
