@@ -5,22 +5,13 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import com.sun.deploy.net.HttpResponse;
-import io.netty.channel.ConnectTimeoutException;
-import org.json.JSONObject;
-import org.springframework.http.HttpEntity;
 import sun.misc.BASE64Encoder;
-import sun.net.www.http.HttpClient;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.SocketTimeoutException;
 import java.util.Hashtable;
-import java.util.Map;
 
 public class QrCodeUtils {
     public static String creatRrCode(String contents, int width, int height) {
