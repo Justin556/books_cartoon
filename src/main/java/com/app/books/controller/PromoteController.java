@@ -44,7 +44,7 @@ public class PromoteController {
         String text = "https://www.baidu.com/";
         //不含Logo
        String fileName = QrCodeUtils2.encode(text, null, "/home/project/picture/qrCode", true);
-       return Result.success("/home/project/picture/qrCode"+fileName);
+       return Result.success("/books/qrCode/"+fileName);
     }
 
     //增加本人推广用户
