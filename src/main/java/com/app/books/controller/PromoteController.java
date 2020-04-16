@@ -2,6 +2,7 @@ package com.app.books.controller;
 
 
 import com.app.books.dto.ComicQuery;
+import com.app.books.dto.UserQuery;
 import com.app.books.entity.UserRetailLevel;
 import com.app.books.result.Result;
 import com.app.books.service.ComicService;
@@ -33,8 +34,8 @@ public class PromoteController {
 
     //本人推广用户列表
     @GetMapping("page")
-    public Result promoteList(ComicQuery comicQuery) {
-        return promoteService.promoteList();
+    public Result promoteList(UserQuery userQuery) {
+        return promoteService.promoteList(userQuery);
     }
 
     //本人推广二维码生成

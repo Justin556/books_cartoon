@@ -28,6 +28,6 @@ public class Comic extends BaseEntity {
     //排序权值
     private Integer sort = 1;
     //状态:1连载 2完结 3最新上架
-    private Integer status = 1;
+    private Integer status;
 
 }

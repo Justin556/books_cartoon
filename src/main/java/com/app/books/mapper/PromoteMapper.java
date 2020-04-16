@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface PromoteMapper {
 
-    @Select("<script>  select (SELECT tu.ali_name from t_user as tu where id=trl.down_one)  as aliName from t_user_retail_level as trl where user_id=#{id} </script>")
+    @Select("<script>  select (SELECT tu.user_name from t_user as tu where id=trl.user_id)  as aliName from t_user_retail_level as trl where parent_id=#{id} </script>")
     List<User> findAllLowerLevel(String id);
 
     @Select("<script> insert into t_user_retail_level(down_one,user_id) values (#{downOne},#{userId}) </script>")
