@@ -20,22 +20,22 @@ public class ComicController {
 
     @GetMapping("page")
     public Result page(ComicQuery comicQuery) {
-        return Result.success(comicService.comicList(comicQuery));
+        return comicService.comicList(comicQuery);
     }
 
     @GetMapping("homePage")
     public Result homePage(ComicQuery comicQuery) {
-        return Result.success(comicService.homePage(comicQuery));
+        return comicService.homePage(comicQuery);
     }
 
     @GetMapping("details")
     public Result details(ComicQuery comicQuery) {
-        return Result.success(comicService.details(comicQuery));
+        return comicService.details(comicQuery);
     }
 
     //打赏
     @GetMapping("exceptional")
     public Result exceptional(ComicQuery comicQuery) {
-        return Result.success(comicService.comicList(comicQuery));
+        return comicService.comicList(comicQuery);
     }
 }
