@@ -27,6 +27,9 @@ public class User extends BaseEntity {
     //用户名称
     private String userName;
 
+    //密码
+    private String password;
+
     //用户编号
     private String userNo;
 
