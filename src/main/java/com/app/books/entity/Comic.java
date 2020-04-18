@@ -1,4 +1,4 @@
-package com.app.books.entity;
+package com.lee.video.entity.xs;;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +27,7 @@ public class Comic extends BaseEntity {
     private String detailPic;
     //排序权值
     private Integer sort = 1;
-    //状态:1连载 2完结 3最新上架
-    private Integer status;
+    //状态:1连载 2完结
+    private Integer status = 1;
 
 }

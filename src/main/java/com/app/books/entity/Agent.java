@@ -1,4 +1,4 @@
-package com.app.books.entity;
+package com.lee.video.entity.xs;;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +28,7 @@ public class Agent extends BaseEntity {
     private float separate;
     //扣除比例
     private float ratio;
-    //二维码（先保留吧）
+    //代理推广二维码
     private String gqrCode;
     //余额
     private BigDecimal balance;

@@ -1,5 +1,6 @@
-package com.app.books.entity;
+package com.lee.video.entity.xs;;
 
+import com.lee.video.entity.xs.BaseEntity;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -13,9 +14,6 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "t_user")
 public class User extends BaseEntity {
-
-    //用户id
-    private Integer id;
 
     //用户来源（0来源与代理，1来源分销，后续可能来源棋牌游戏等）
     private Integer userSource;

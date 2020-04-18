@@ -1,5 +1,6 @@
-package com.app.books.entity;
+package com.lee.video.entity.xs;
 
+import com.lee.video.entity.xs.BaseEntity;
 import lombok.Data;
 
 import javax.persistence.Entity;

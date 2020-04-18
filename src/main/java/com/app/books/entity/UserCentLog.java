@@ -1,4 +1,4 @@
-package com.app.books.entity;
+package com.lee.video.entity.xs;;
 
 import lombok.Data;
 

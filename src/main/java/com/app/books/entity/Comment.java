@@ -1,8 +1,9 @@
-package com.app.books.entity;
+package com.lee.video.entity.xs;;
 
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
