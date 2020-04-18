@@ -1,17 +1,21 @@
-package com.lee.video.entity.xs;;
+package com.app.books.entity;;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Getter
 @Setter
-@Entity
 //小说章节内容
-@Table(name = "t_book_episodes")
-public class BookEpisodes extends BaseEntity {
+public class BookEpisodes {
+    private Integer id;
+
+    private Date createTime;
+
+    private Date updateTime;
     //小说ID
     private Integer bid;
     //章节标题

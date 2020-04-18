@@ -1,14 +1,10 @@
 package com.app.books.service.serviceImpl;
 
-import com.app.books.dto.ComicQuery;
 import com.app.books.dto.UserQuery;
-import com.app.books.entity.Comic;
 import com.app.books.entity.User;
 import com.app.books.entity.UserRetailLevel;
-import com.app.books.mapper.ComicMapper;
 import com.app.books.mapper.PromoteMapper;
 import com.app.books.result.Result;
-import com.app.books.service.ComicService;
 import com.app.books.service.PromoteService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

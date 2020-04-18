@@ -1,18 +1,20 @@
-package com.lee.video.entity.xs;;
+package com.app.books.entity;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "t_agent_balance_log")
 //代理充值提现
-public class AgentBalanceLog extends BaseEntity {
+public class AgentBalanceLog {
+    private Integer id;
+
+    private Date createTime;
+
+    private Date updateTime;
     //代理用户id
     private Integer proxyId;
     //单号

@@ -1,18 +1,20 @@
-package com.lee.video.entity.xs;;
+package com.app.books.entity;;
 
-import com.lee.video.entity.xs.BaseEntity;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.util.Date;
+
 
 /**
  * 充值配置表
  */
 @Data
-@Entity
-@Table(name = "t_recharge_config")
-public class Recharge extends BaseEntity {
+public class Recharge {
+    private Integer id;
+
+    private Date createTime;
+
+    private Date updateTime;
 
     //充值数
     private Integer rechargeNum;

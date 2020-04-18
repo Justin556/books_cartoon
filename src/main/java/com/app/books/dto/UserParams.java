@@ -1,10 +1,5 @@
 package com.app.books.dto;
 
-import com.app.books.entity.BaseEntity;
-import lombok.Data;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.math.BigDecimal;
 
 /**

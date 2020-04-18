@@ -1,18 +1,20 @@
-package com.lee.video.entity.xs;;
+package com.app.books.entity;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "t_agent_share_log")
 //代理佣金分成记录
-public class AgentShareLog extends BaseEntity {
+public class AgentShareLog {
+    private Integer id;
+
+    private Date createTime;
+
+    private Date updateTime;
     //代理用户id
     private Integer proxyId;
     //单号

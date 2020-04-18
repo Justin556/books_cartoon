@@ -1,18 +1,19 @@
-package com.lee.video.entity.xs;;
+package com.app.books.entity;;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 用户打赏
  */
 @Data
-@Entity
-@Table(name = "t_user_send_log")
-public class UserSendLog extends BaseEntity {
+public class UserSendLog {
+    private Integer id;
+
+    private Date createTime;
+
+    private Date updateTime;
 
     //用户id
     private Integer userId;

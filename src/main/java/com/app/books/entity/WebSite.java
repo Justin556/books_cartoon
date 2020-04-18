@@ -1,18 +1,20 @@
-package com.lee.video.entity.xs;;
+package com.app.books.entity;;
 
-import com.lee.video.entity.xs.BaseEntity;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.util.Date;
+
 
 /**
  * 站点设置表
  */
 @Data
-@Entity
-@Table(name = "t_web_site")
-public class WebSite extends BaseEntity {
+public class WebSite {
+    private Integer id;
+
+    private Date createTime;
+
+    private Date updateTime;
 
     //站点名称
     private String siteName;

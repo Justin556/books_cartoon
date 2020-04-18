@@ -1,18 +1,20 @@
-package com.lee.video.entity.xs;;
+package com.app.books.entity;;
 
-import com.lee.video.entity.xs.BaseEntity;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.util.Date;
+
 
 /**
  * 用户分销配置表
  */
 @Data
-@Entity
-@Table(name = "t_retail_store")
-public class RetailStore extends BaseEntity {
+public class RetailStore {
+    private Integer id;
+
+    private Date createTime;
+
+    private Date updateTime;
 
     //分销名称
     private String retailStoreName;

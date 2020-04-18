@@ -1,15 +1,19 @@
-package com.lee.video.entity.xs;;
+package com.app.books.entity;;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "t_book")
-public class Book extends BaseEntity {
+public class Book {
+    private Integer id;
+
+    private Date createTime;
+
+    private Date updateTime;
     //书名
     private String title;
     //大分类,总裁 校园 科幻

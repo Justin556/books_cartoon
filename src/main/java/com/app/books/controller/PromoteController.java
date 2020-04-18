@@ -1,11 +1,9 @@
 package com.app.books.controller;
 
 
-import com.app.books.dto.ComicQuery;
 import com.app.books.dto.UserQuery;
 import com.app.books.entity.UserRetailLevel;
 import com.app.books.result.Result;
-import com.app.books.service.ComicService;
 import com.app.books.service.PromoteService;
 import com.app.books.utils.QrCodeUtils2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/promote/")

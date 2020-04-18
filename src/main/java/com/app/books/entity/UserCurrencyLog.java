@@ -1,18 +1,20 @@
-package com.lee.video.entity.xs;;
+package com.app.books.entity;;
 
-import com.lee.video.entity.xs.BaseEntity;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.util.Date;
+
 
 /**
  * 用户书币变动表
  */
 @Data
-@Entity
-@Table(name = "t_user_currency_log")
-public class UserCurrencyLog extends BaseEntity {
+public class UserCurrencyLog {
+    private Integer id;
+
+    private Date createTime;
+
+    private Date updateTime;
 
     //用户编号
     private Integer userId;

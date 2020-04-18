@@ -1,16 +1,20 @@
-package com.lee.video.entity.xs;;
+package com.app.books.entity;;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import java.util.Date;
+
 
 @Getter
 @Setter
-@Entity
 //漫画列表
-@Table(name = "t_comic")
-public class ComicInfo extends BaseEntity {
+public class ComicInfo {
+    private Integer id;
+
+    private Date createTime;
+
+    private Date updateTime;
     //打赏书币
     private Integer send = 0;
     //属性:1免费 2付费

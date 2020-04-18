@@ -1,17 +1,19 @@
-package com.lee.video.entity.xs;
+package com.app.books.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * 打赏配置表
  */
 @Data
-@Entity
-@Table(name = "t_exceptional_config")
-public class Exceptional extends BaseEntity {
+public class Exceptional {
+    private Integer id;
+
+    private Date createTime;
+
+    private Date updateTime;
 
     //打赏图片
     private String exceptionalImg;

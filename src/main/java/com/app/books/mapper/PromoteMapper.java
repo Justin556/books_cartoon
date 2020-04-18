@@ -1,6 +1,5 @@
 package com.app.books.mapper;
 
-import com.app.books.dto.ComicQuery;
 import com.app.books.entity.Comic;
 import com.app.books.entity.User;
 import com.app.books.entity.UserRetailLevel;

@@ -1,18 +1,19 @@
-package com.lee.video.entity.xs;
+package com.app.books.entity;
 
-import com.lee.video.entity.xs.BaseEntity;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * 广告配置表
  */
 @Data
-@Entity
-@Table(name = "t_advertising_config")
-public class Advertising extends BaseEntity {
+public class Advertising {
+    private Integer id;
+
+    private Date createTime;
+
+    private Date updateTime;
 
     //是否开启
     private Integer isOpen;

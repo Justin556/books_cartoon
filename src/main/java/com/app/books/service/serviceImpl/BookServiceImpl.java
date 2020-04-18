@@ -1,14 +1,11 @@
 package com.app.books.service.serviceImpl;
 
 import com.app.books.dto.BookQuery;
-import com.app.books.dto.ComicQuery;
 import com.app.books.entity.BookInfo;
 import com.app.books.entity.Comic;
 import com.app.books.mapper.BookMapper;
-import com.app.books.mapper.ComicMapper;
 import com.app.books.result.Result;
 import com.app.books.service.BookService;
-import com.app.books.service.ComicService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;

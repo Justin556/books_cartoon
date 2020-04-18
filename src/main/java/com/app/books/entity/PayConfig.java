@@ -1,18 +1,20 @@
-package com.lee.video.entity.xs;
+package com.app.books.entity;
 
-import com.lee.video.entity.xs.BaseEntity;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.util.Date;
+
 
 /**
  * 支付配置表
  */
 @Data
-@Entity
-@Table(name = "t_pay_config")
-public class PayConfig extends BaseEntity {
+public class PayConfig {
+    private Integer id;
+
+    private Date createTime;
+
+    private Date updateTime;
 
     private String payCompanyName;
 

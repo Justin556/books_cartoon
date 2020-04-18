@@ -1,19 +1,20 @@
-package com.lee.video.entity.xs;;
+package com.app.books.entity;;
 
-import com.lee.video.entity.xs.BaseEntity;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 用户表
  */
 @Data
-@Entity
-@Table(name = "t_user")
-public class User extends BaseEntity {
+public class User {
+    private Integer id;
+
+    private Date createTime;
+
+    private Date updateTime;
 
     //用户来源（0来源与代理，1来源分销，后续可能来源棋牌游戏等）
     private Integer userSource;

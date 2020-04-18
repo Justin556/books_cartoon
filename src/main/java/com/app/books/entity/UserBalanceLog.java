@@ -1,19 +1,20 @@
-package com.lee.video.entity.xs;;
+package com.app.books.entity;;
 
-import com.lee.video.entity.xs.BaseEntity;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 用户提现，充值
  */
 @Data
-@Entity
-@Table(name = "t_user_balance_log")
-public class UserBalanceLog extends BaseEntity {
+public class UserBalanceLog {
+    private Integer id;
+
+    private Date createTime;
+
+    private Date updateTime;
 
     //用户编号
     private Integer userId;

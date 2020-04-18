@@ -1,16 +1,19 @@
-package com.lee.video.entity.xs;;
+package com.app.books.entity;;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import java.util.Date;
 
 @Getter
 @Setter
-@Entity
 //小说点赞
-@Table(name = "t_book_likes")
-public class BookLikes extends BaseEntity {
+public class BookLikes {
+    private Integer id;
+
+    private Date createTime;
+
+    private Date updateTime;
     //用户id
     private Integer userId;
     //小说id
