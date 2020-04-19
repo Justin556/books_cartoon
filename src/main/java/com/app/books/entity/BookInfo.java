@@ -15,10 +15,6 @@ public class BookInfo {
     private Date createTime;
 
     private Date updateTime;
-    //打赏书币
-    private Integer send = 0;
-    //状态:1连载 2完结
-    private Integer status = 1;
     //最新多少集(话)
     private Integer episodes = 0;
     //是否精选推荐 1是 0否
@@ -31,10 +27,6 @@ public class BookInfo {
     private Integer chargeMoney = 0;
     //人气值
     private Integer reader = 0;
-    //点赞数
-    private Integer likes = 0;
-    //收藏数
-    private Integer collect = 0;
     //新书/非新书
     private Integer isNew = 0;
     //小说id

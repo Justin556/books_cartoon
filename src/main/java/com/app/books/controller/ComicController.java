@@ -1,7 +1,7 @@
 package com.app.books.controller;
 
 
-import com.app.books.dto.ComicQuery;
+import com.app.books.vo.ComicQuery;
 import com.app.books.result.Result;
 import com.app.books.service.ComicService;
 import org.springframework.beans.factory.annotation.Autowired;

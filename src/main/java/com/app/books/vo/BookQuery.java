@@ -1,21 +1,22 @@
-package com.app.books.dto;
+package com.app.books.vo;
 
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 漫画列表查询条件
+ * 小说列表查询条件
  */
 @Getter
 @Setter
-public class UserQuery {
+public class BookQuery {
 
     private String name;
 
-    private String id;
+    private String type;
 
     private int pageSize;
 
     private int pageNumber;
 
+    private int status;
 }

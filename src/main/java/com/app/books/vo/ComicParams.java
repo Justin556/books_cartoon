@@ -1,8 +1,7 @@
-package com.app.books.dto;
+package com.app.books.vo;
 
 import javax.persistence.Column;
 import javax.persistence.Lob;
-import java.math.BigDecimal;
 
 /**
  * 漫画列表

@@ -1,7 +1,7 @@
 package com.app.books.controller;
 
 
-import com.app.books.dto.UserQuery;
+import com.app.books.vo.UserQuery;
 import com.app.books.entity.UserRetailLevel;
 import com.app.books.result.Result;
 import com.app.books.service.PromoteService;

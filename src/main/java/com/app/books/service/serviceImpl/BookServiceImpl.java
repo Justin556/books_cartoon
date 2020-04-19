@@ -1,8 +1,10 @@
 package com.app.books.service.serviceImpl;
 
-import com.app.books.dto.BookQuery;
+import com.app.books.pojo.BookDetailsPojo;
+import com.app.books.vo.BookQuery;
 import com.app.books.entity.BookInfo;
 import com.app.books.entity.Comic;
+import com.app.books.entity.Comment;
 import com.app.books.entity.UserSendLog;
 import com.app.books.mapper.BookMapper;
 import com.app.books.result.Result;
@@ -29,9 +31,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Result details(int bookId) {
-        BookInfo bookInfo = bookMapper.details(bookId);
-        return Result.success(bookInfo);
+    public BookDetailsPojo details(Integer bookId) {
+        BookDetailsPojo bookDetailsPojo = bookMapper.details(bookId);
+        bookDetailsPojo.setSendList(bookMapper.userSendList(bookId));
+        bookDetailsPojo.setCommentList(bookMapper.commentList(bookId));
+        bookDetailsPojo.setBookEpisodeList(bookMapper.bookEpisodeList(bookId));
+        return bookDetailsPojo;
     }
 
     @Override
@@ -42,6 +47,16 @@ public class BookServiceImpl implements BookService {
     @Override
     public Result userSendList(Integer bookId) {
 
-        return null;
+        return Result.success(bookMapper.userSendList(bookId));
+    }
+
+    @Override
+    public void insertComment(Comment comment) {
+        bookMapper.insertComment(comment);
+    }
+
+    @Override
+    public Result commentList(Integer bookId) {
+        return Result.success(bookMapper.commentList(bookId));
     }
 }

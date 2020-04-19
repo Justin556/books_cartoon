@@ -29,4 +29,8 @@ public class UserSendLog {
 
     //打赏小说或漫画的某个章节id
     private Integer zjId;
+
+    //----------------子查询字段--------------------
+    //用户名
+    private String userName;
 }

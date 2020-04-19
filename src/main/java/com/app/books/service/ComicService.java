@@ -1,6 +1,6 @@
 package com.app.books.service;
 
-import com.app.books.dto.ComicQuery;
+import com.app.books.vo.ComicQuery;
 import com.app.books.result.Result;
 
 public interface ComicService {

@@ -1,6 +1,6 @@
 package com.app.books.service.serviceImpl;
 
-import com.app.books.dto.ComicQuery;
+import com.app.books.vo.ComicQuery;
 import com.app.books.entity.Comic;
 import com.app.books.mapper.ComicMapper;
 import com.app.books.result.Result;

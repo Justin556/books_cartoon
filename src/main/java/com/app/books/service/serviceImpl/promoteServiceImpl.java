@@ -1,6 +1,6 @@
 package com.app.books.service.serviceImpl;
 
-import com.app.books.dto.UserQuery;
+import com.app.books.vo.UserQuery;
 import com.app.books.entity.User;
 import com.app.books.entity.UserRetailLevel;
 import com.app.books.mapper.PromoteMapper;

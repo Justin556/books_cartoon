@@ -9,7 +9,7 @@ import lombok.Data;
 public class Result<T> {
     private int code;
     private String desc;
-    private T data;
+    private Object data;
 
     public Result() {
     }

@@ -1,6 +1,6 @@
 package com.app.books.mapper;
 
-import com.app.books.dto.ComicQuery;
+import com.app.books.vo.ComicQuery;
 import com.app.books.entity.Comic;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
