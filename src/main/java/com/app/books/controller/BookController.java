@@ -47,6 +47,7 @@ public class BookController {
      * @return
      */
     @GetMapping("userSend")
+    @ApiOperation(value = "用户打赏")
     public Result userSend(UserSendLog userSendLog) {
         bookService.userSend(userSendLog);
         return Result.success();
