@@ -3,6 +3,7 @@ package com.app.books.service.serviceImpl;
 import com.app.books.dto.BookQuery;
 import com.app.books.entity.BookInfo;
 import com.app.books.entity.Comic;
+import com.app.books.entity.UserSendLog;
 import com.app.books.mapper.BookMapper;
 import com.app.books.result.Result;
 import com.app.books.service.BookService;
@@ -34,9 +35,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Result homePage(BookQuery bookQuery) {
-        return null;
+    public void userSend(UserSendLog userSendLog) {
+        bookMapper.userSend(userSendLog);
     }
 
+    @Override
+    public Result userSendList(Integer bookId) {
 
+        return null;
+    }
 }
