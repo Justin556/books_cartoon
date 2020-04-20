@@ -26,10 +26,15 @@ public class BookController {
         return bookService.bookList(bookQuery);
     }
 
-    /*@GetMapping("homePage")
-    public Result homePage(BookQuery bookQuery) {
-        return bookService.homePage(bookQuery);
-    }*/
+    /**
+     * 主页：猜你喜欢/大家一起看
+     * @param
+     * @return
+     */
+    @GetMapping("homePage")
+    public Result homePage() {
+        return Result.success(bookService.homePage());
+    }
 
     /**
      * 单部小说详情
@@ -86,8 +91,8 @@ public class BookController {
 
     @GetMapping("categoryPageList")
     @ApiOperation(value = "分类小说分页列表")
-    public Result categoryPageList() {
-        return Result.success(bookService.categoryList());
+    public Result categoryPageList(Integer pageNumber, Integer pageSize, Integer category) {
+        return Result.success(bookService.categoryPageList(pageNumber, pageSize, category));
     }
 }
 

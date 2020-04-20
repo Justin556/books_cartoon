@@ -91,7 +91,7 @@ public interface BookMapper {
     List<BookEpisodes> bookEpisodeList(Integer bookId);
 
     /**
-     * 查询该分类下的小说
+     * 查询该分类下的小说 前5项
      * @param category
      * @return
      */
@@ -99,4 +99,23 @@ public interface BookMapper {
             "FROM t_book WHERE category = #{category}\n" +
             "LIMIT 0,5")
     List<Book> getBookByCategory(Integer category);
+
+    /**
+     * 查询该分类下的小说
+     * @param category
+     * @return
+     */
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author\n" +
+            "FROM t_book WHERE category = #{category}")
+    List<Book> categoryPageList(Integer category);
+
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author, (SELECT sum(amount) FROM t_user_send_log WHERE out_id = t_book.id) as countSend\n" +
+            "FROM t_book\n" +
+            "ORDER BY countSend DESC")
+    List<Book> maybeLike();
+
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author, (SELECT count(1) FROM t_book_likes WHERE bid = t_book.id) as countLike\n" +
+            "FROM t_book\n" +
+            "ORDER BY countLike DESC")
+    List<Book> watchTogether();
 }

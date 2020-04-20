@@ -73,5 +73,24 @@ public class BookServiceImpl implements BookService {
         return lists;
     }
 
+    @Override
+    public PageInfo<Book> categoryPageList(Integer pageNumber, Integer pageSize, Integer category) {
+        PageHelper.startPage(pageNumber,pageSize);
+        List<Book> list = bookMapper.categoryPageList(category);
+        PageInfo<Book> pageInfo = new PageInfo<Book>(list);
+        return pageInfo;
+    }
 
+    public List<Map<String, Object>> homePage() {
+        List<Map<String, Object>> lists = new ArrayList<>();
+        Map<String, Object> map1 = new HashMap<>();
+        Map<String, Object> map2 = new HashMap<>();
+        map1.put("title", "猜你喜欢");
+        map1.put("list", bookMapper.maybeLike());
+        map2.put("title", "大家都在看");
+        map2.put("list", bookMapper.watchTogether());
+        lists.add(map1);
+        lists.add(map2);
+        return lists;
+    }
 }
