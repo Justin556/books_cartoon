@@ -32,6 +32,7 @@ public class BookController {
      * @return
      */
     @GetMapping("homePage")
+    @ApiOperation(value = "主页：猜你喜欢/大家一起看")
     public Result homePage() {
         return Result.success(bookService.homePage());
     }
