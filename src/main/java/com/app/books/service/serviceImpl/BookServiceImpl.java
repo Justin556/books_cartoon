@@ -24,7 +24,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Result bookList(BookQuery bookQuery) {
-        PageHelper.startPage(bookQuery.getPageNumber(),bookQuery.getPageSize());//这行是重点，表示从pageNum页开始，每页pageSize条数据
+        PageHelper.startPage(bookQuery.getPageNumber(),bookQuery.getPageSize());
         List<Comic> list = bookMapper.findAll(bookQuery);
         PageInfo<Comic> pageInfo = new PageInfo<Comic>(list);
         return Result.success(pageInfo);
@@ -66,7 +66,6 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Map<String, Object>> categoryList() {
         List<Map<String, Object>> lists = new ArrayList<>();
-
         for (int i = 0; i <=6; i++) {
             Map<String, Object> map = new HashMap<>();
             map.put("category", i);
@@ -113,5 +112,37 @@ public class BookServiceImpl implements BookService {
     @Override
     public String episodesContent(Integer jiNo) {
         return bookMapper.episodesContent(jiNo);
+    }
+
+    @Override
+    public PageInfo<Book> maybeLikeAll(Integer pageNumber, Integer pageSize) {
+        PageHelper.startPage(pageNumber,pageSize);
+        List<Book> list = bookMapper.maybeLikeAll();
+        PageInfo<Book> pageInfo = new PageInfo<Book>(list);
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo<Book> watchTogetherAll(Integer pageNumber, Integer pageSize) {
+        PageHelper.startPage(pageNumber,pageSize);
+        List<Book> list = bookMapper.watchTogetherAll();
+        PageInfo<Book> pageInfo = new PageInfo<Book>(list);
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo<Book> girlLikeAll(Integer pageNumber, Integer pageSize) {
+        PageHelper.startPage(pageNumber,pageSize);
+        List<Book> list = bookMapper.girlLikeAll();
+        PageInfo<Book> pageInfo = new PageInfo<Book>(list);
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo<Book> boyLikeAll(Integer pageNumber, Integer pageSize) {
+        PageHelper.startPage(pageNumber,pageSize);
+        List<Book> list = bookMapper.boyLikeAll();
+        PageInfo<Book> pageInfo = new PageInfo<Book>(list);
+        return pageInfo;
     }
 }

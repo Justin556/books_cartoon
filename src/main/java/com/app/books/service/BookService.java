@@ -32,4 +32,12 @@ public interface BookService {
     List<Map<String, Object>> homePage();
 
     String episodesContent(Integer jiNo);
+
+    PageInfo<Book> maybeLikeAll(Integer pageNumber, Integer pageSize);
+
+    PageInfo<Book> watchTogetherAll(Integer pageNumber, Integer pageSize);
+
+    PageInfo<Book> girlLikeAll(Integer pageNumber, Integer pageSize);
+
+    PageInfo<Book> boyLikeAll(Integer pageNumber, Integer pageSize);
 }

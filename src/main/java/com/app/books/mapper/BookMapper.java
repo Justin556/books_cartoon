@@ -111,7 +111,7 @@ public interface BookMapper {
     List<Book> categoryPageList(Integer category);
 
     /**
-     * 猜你喜欢
+     * 猜你喜欢 前6项
      * @return
      */
     @Select("SELECT id, title, category, summary, cover_pic as coverPic, author, (SELECT sum(amount) FROM t_user_send_log WHERE out_id = t_book.id) as countSend\n" +
@@ -121,7 +121,16 @@ public interface BookMapper {
     List<Book> maybeLike();
 
     /**
-     * 大家一起看
+     * 猜你喜欢 全部
+     * @return
+     */
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author, (SELECT sum(amount) FROM t_user_send_log WHERE out_id = t_book.id) as countSend\n" +
+            "FROM t_book\n" +
+            "ORDER BY countSend DESC")
+    List<Book> maybeLikeAll();
+
+    /**
+     * 大家一起看 前6项
      * @return
      */
     @Select("SELECT id, title, category, summary, cover_pic as coverPic, author, (SELECT count(1) FROM t_book_likes WHERE bid = t_book.id) as countLike\n" +
@@ -131,7 +140,16 @@ public interface BookMapper {
     List<Book> watchTogether();
 
     /**
-     * 女生喜欢
+     * 大家一起看 全部
+     * @return
+     */
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author, (SELECT count(1) FROM t_book_likes WHERE bid = t_book.id) as countLike\n" +
+            "FROM t_book\n" +
+            "ORDER BY countLike DESC")
+    List<Book> watchTogetherAll();
+
+    /**
+     * 女生喜欢 前6项
      * @return
      */
     @Select("SELECT id, title, category, summary, cover_pic as coverPic, author\n" +
@@ -141,7 +159,16 @@ public interface BookMapper {
     List<Book> girlLike();
 
     /**
-     * 男生喜欢
+     * 女生喜欢 全部
+     * @return
+     */
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author\n" +
+            "FROM t_book\n" +
+            "WHERE category = 2")
+    List<Book> girlLikeAll();
+
+    /**
+     * 男生喜欢 前6项
      * @return
      */
     @Select("SELECT id, title, category, summary, cover_pic as coverPic, author\n" +
@@ -149,4 +176,13 @@ public interface BookMapper {
             "WHERE category = 1\n" +
             "LIMIT 0,6")
     List<Book> boyLike();
+
+    /**
+     * 男生喜欢 全部
+     * @return
+     */
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author\n" +
+            "FROM t_book\n" +
+            "WHERE category = 1")
+    List<Book> boyLikeAll();
 }

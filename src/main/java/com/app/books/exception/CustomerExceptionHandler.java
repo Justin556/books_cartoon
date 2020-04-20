@@ -28,32 +28,38 @@ public class CustomerExceptionHandler {
 
     @ExceptionHandler(DuplicateKeyException.class)
     public Result DuplicateKeyException(DuplicateKeyException e) {
+        e.printStackTrace();
         return Result.error("数据库中已存在该记录");
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public Result IllegalArgumentException(IllegalArgumentException e) {
+        e.printStackTrace();
         return Result.error("参数异常！" + e.getMessage());
     }
 
     @ExceptionHandler(NullPointerException.class)
     public Result NullPointerException(NullPointerException e) {
+        e.printStackTrace();
         return Result.error("空指针！" + e.getMessage());
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public Result DataIntegrityViolationException(DataIntegrityViolationException e) {
         Throwable mostSpecificCause = e.getMostSpecificCause();
+        e.printStackTrace();
         return Result.error("编辑数据异常:" + mostSpecificCause.getMessage());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public Result HttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        e.printStackTrace();
         return Result.error("参数类型不匹配！" + e.getLocalizedMessage());
     }
 
     @ExceptionHandler({MethodArgumentTypeMismatchException.class, NumberFormatException.class})
     public Result MethodArgumentTypeMismatchException(Exception e) {
+        e.printStackTrace();
         return Result.error("参数类型不匹配！" + e.getMessage());
     }
 }

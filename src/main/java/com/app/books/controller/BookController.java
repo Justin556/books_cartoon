@@ -32,9 +32,33 @@ public class BookController {
      * @return
      */
     @GetMapping("homePage")
-    @ApiOperation(value = "主页：猜你喜欢/大家一起看")
+    @ApiOperation(value = "主页：猜你喜欢/大家一起看/男生/女生")
     public Result homePage() {
         return Result.success(bookService.homePage());
+    }
+
+    @GetMapping("maybeLikeAll")
+    @ApiOperation(value = "猜你喜欢-分页接口")
+    public Result maybeLikeAll(Integer pageNumber, Integer pageSize) {
+        return Result.success(bookService.maybeLikeAll(pageNumber, pageSize));
+    }
+
+    @GetMapping("watchTogetherAll")
+    @ApiOperation(value = "大家一起看-分页接口")
+    public Result watchTogetherAll(Integer pageNumber, Integer pageSize) {
+        return Result.success(bookService.watchTogetherAll(pageNumber, pageSize));
+    }
+
+    @GetMapping("girlLikeAll")
+    @ApiOperation(value = "女生-分页接口")
+    public Result girlLikeAll(Integer pageNumber, Integer pageSize) {
+        return Result.success(bookService.girlLikeAll(pageNumber, pageSize));
+    }
+
+    @GetMapping("boyLikeAll")
+    @ApiOperation(value = "男生-分页接口")
+    public Result boyLikeAll(Integer pageNumber, Integer pageSize) {
+        return Result.success(bookService.boyLikeAll(pageNumber, pageSize));
     }
 
     /**
