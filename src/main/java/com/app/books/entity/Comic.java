@@ -32,6 +32,6 @@ public class Comic {
     //排序权值
     private Integer sort = 1;
     //状态:1连载 2完结
-    private Integer status = 1;
+    private String status;
 
 }

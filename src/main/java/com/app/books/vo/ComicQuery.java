@@ -18,5 +18,5 @@ public class ComicQuery {
 
     private int pageNumber;
 
-    private int status;
+    private String status;
 }

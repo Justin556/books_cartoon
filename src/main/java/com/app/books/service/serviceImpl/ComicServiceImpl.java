@@ -33,18 +33,21 @@ public class ComicServiceImpl implements ComicService {
 
     @Override
     public Result homePage(ComicQuery comicQuery) {
-        comicQuery.setStatus(1);
-        PageHelper.startPage(1,4);//这行是重点，表示从pageNum页开始，每页pageSize条数据
+        comicQuery.setStatus("热血");
+        PageHelper.startPage(1,6);//这行是重点，表示从pageNum页开始，每页pageSize条数据
         List<Comic> list = comicMapper.findAll(comicQuery);
 
-        comicQuery.setStatus(2);
-        PageHelper.startPage(1,4);//这行是重点，表示从pageNum页开始，每页pageSize条数据
+        comicQuery.setStatus("恋爱,古风");
+        PageHelper.startPage(1,6);//这行是重点，表示从pageNum页开始，每页pageSize条数据
         list.addAll(comicMapper.findAll(comicQuery));
 
-        comicQuery.setStatus(3);
-        PageHelper.startPage(1,4);//这行是重点，表示从pageNum页开始，每页pageSize条数据
+
+        PageHelper.startPage(1,6);//这行是重点，表示从pageNum页开始，每页pageSize条数据
         list.addAll(comicMapper.findAll(comicQuery));
 
+        comicQuery.setStatus("后宫");
+        PageHelper.startPage(1,6);//这行是重点，表示从pageNum页开始，每页pageSize条数据
+        list.addAll(comicMapper.findAll(comicQuery));
         PageInfo<Comic> pageInfo = new PageInfo<Comic>(list);
         return Result.success(pageInfo);
     }
