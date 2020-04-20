@@ -39,22 +39,22 @@ public class ComicServiceImpl implements ComicService {
         comicQuery.setCategory("");
         PageHelper.startPage(1,6);//这行是重点，表示从pageNum页开始，每页pageSize条数据
         List<Comic> list=comicMapper.findAll(comicQuery);
-        map.put("1",list);
+        map.put("今日推荐",list);
 
         comicQuery.setCategory("后宫");
         PageHelper.startPage(1,6);//这行是重点，表示从pageNum页开始，每页pageSize条数据
         list=comicMapper.findAll(comicQuery);
-        map.put("2",list);
+        map.put("猜你喜欢",list);
 
         comicQuery.setCategory("热血");
         PageHelper.startPage(1,6);//这行是重点，表示从pageNum页开始，每页pageSize条数据
         list = comicMapper.findAll(comicQuery);
-        map.put("3",list);
+        map.put("男生喜欢",list);
 
         comicQuery.setCategory("恋爱,古风");
         PageHelper.startPage(1,6);//这行是重点，表示从pageNum页开始，每页pageSize条数据
         list=comicMapper.findAll(comicQuery);
-        map.put("4",list);
+        map.put("女生喜欢",list);
 
 
 
