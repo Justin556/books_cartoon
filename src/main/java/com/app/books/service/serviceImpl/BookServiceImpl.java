@@ -85,12 +85,20 @@ public class BookServiceImpl implements BookService {
         List<Map<String, Object>> lists = new ArrayList<>();
         Map<String, Object> map1 = new HashMap<>();
         Map<String, Object> map2 = new HashMap<>();
+        Map<String, Object> map3 = new HashMap<>();
+        Map<String, Object> map4 = new HashMap<>();
         map1.put("title", "猜你喜欢");
         map1.put("list", bookMapper.maybeLike());
         map2.put("title", "大家都在看");
         map2.put("list", bookMapper.watchTogether());
+        map3.put("title", "女生");
+        map3.put("list", bookMapper.girlLike());
+        map4.put("title", "男生");
+        map4.put("list", bookMapper.boyLike());
         lists.add(map1);
         lists.add(map2);
+        lists.add(map3);
+        lists.add(map4);
         return lists;
     }
 }

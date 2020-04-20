@@ -49,6 +49,12 @@ public class BookController {
         return Result.success(bookService.details(bookId));
     }
 
+    @GetMapping("episodesContent")
+    @ApiOperation(value = "单个章节内容")
+    public Result episodesContent(Integer episodesId) {
+        return Result.success();
+    }
+
     /**
      * 用户打赏
      * @param userSendLog
@@ -95,5 +101,7 @@ public class BookController {
     public Result categoryPageList(Integer pageNumber, Integer pageSize, Integer category) {
         return Result.success(bookService.categoryPageList(pageNumber, pageSize, category));
     }
+
+
 }
 

@@ -90,6 +90,8 @@ public interface BookMapper {
             "ORDER BY jiNo")
     List<BookEpisodes> bookEpisodeList(Integer bookId);
 
+
+
     /**
      * 查询该分类下的小说 前5项
      * @param category
@@ -109,13 +111,35 @@ public interface BookMapper {
             "FROM t_book WHERE category = #{category}")
     List<Book> categoryPageList(Integer category);
 
+    /**
+     * 猜你喜欢
+     * @return
+     */
     @Select("SELECT id, title, category, summary, cover_pic as coverPic, author, (SELECT sum(amount) FROM t_user_send_log WHERE out_id = t_book.id) as countSend\n" +
             "FROM t_book\n" +
-            "ORDER BY countSend DESC")
+            "ORDER BY countSend DESC\n" +
+            "LIMIT 0,6")
     List<Book> maybeLike();
 
+    /**
+     * 大家一起看
+     * @return
+     */
     @Select("SELECT id, title, category, summary, cover_pic as coverPic, author, (SELECT count(1) FROM t_book_likes WHERE bid = t_book.id) as countLike\n" +
             "FROM t_book\n" +
-            "ORDER BY countLike DESC")
+            "ORDER BY countLike DESC\n" +
+            "LIMIT 0,6")
     List<Book> watchTogether();
+
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author\n" +
+            "FROM t_book\n" +
+            "WHERE category = 2\n" +
+            "LIMIT 0,6")
+    List<Book> girlLike();
+
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author\n" +
+            "FROM t_book\n" +
+            "WHERE category = 1\n" +
+            "LIMIT 0,6")
+    List<Book> boyLike();
 }
