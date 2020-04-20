@@ -35,26 +35,28 @@ public class ComicServiceImpl implements ComicService {
 
     @Override
     public Result homePage(ComicQuery comicQuery) {
-        Map<String, List<Comic>> map =new HashMap();
-        comicQuery.setCategory("热血");
-        PageHelper.startPage(1,6);//这行是重点，表示从pageNum页开始，每页pageSize条数据
-        List<Comic> list = comicMapper.findAll(comicQuery);
-        map.put("男生喜欢",list);
-
-        comicQuery.setCategory("恋爱,古风");
-        PageHelper.startPage(1,6);//这行是重点，表示从pageNum页开始，每页pageSize条数据
-        list=comicMapper.findAll(comicQuery);
-        map.put("女生喜欢",list);
-
+        Map<String, List<Comic>> map =new HashMap<>();
         comicQuery.setCategory("");
         PageHelper.startPage(1,6);//这行是重点，表示从pageNum页开始，每页pageSize条数据
-        list=comicMapper.findAll(comicQuery);
-        map.put("今日推荐",list);
+        List<Comic> list=comicMapper.findAll(comicQuery);
+        map.put("1",list);
 
         comicQuery.setCategory("后宫");
         PageHelper.startPage(1,6);//这行是重点，表示从pageNum页开始，每页pageSize条数据
         list=comicMapper.findAll(comicQuery);
-        map.put("猜你喜欢",list);
+        map.put("2",list);
+
+        comicQuery.setCategory("热血");
+        PageHelper.startPage(1,6);//这行是重点，表示从pageNum页开始，每页pageSize条数据
+        list = comicMapper.findAll(comicQuery);
+        map.put("3",list);
+
+        comicQuery.setCategory("恋爱,古风");
+        PageHelper.startPage(1,6);//这行是重点，表示从pageNum页开始，每页pageSize条数据
+        list=comicMapper.findAll(comicQuery);
+        map.put("4",list);
+
+
 
         return Result.success(map);
     }
