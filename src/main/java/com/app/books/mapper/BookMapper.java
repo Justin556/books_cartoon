@@ -44,7 +44,7 @@ public interface BookMapper {
             "(SELECT COUNT(1) FROM t_book_collect WHERE t_book_collect.bid = t_book.id) as collectSum,\n" +
             "(SELECT COUNT(1) FROM t_comment WHERE t_comment.out_id = t_book.id) as commentSum,\n" +
             "(SELECT COUNT(1) FROM t_book_episodes WHERE t_book_episodes.bid = t_book.id) as chapterSum\n" +
-            "FROM t_book INNER JOIN t_book_info ON t_book.id = t_book_info.bid WHERE t_book.id = 1")
+            "FROM t_book INNER JOIN t_book_info ON t_book.id = t_book_info.bid WHERE t_book.id = #{bookId}")
     BookDetailsPojo details(Integer bookId);
 
     @Insert("insert into t_user_send_log(create_time, out_id, user_id, amount) values(#{createTime}, #{outId}, #{userId}, #{amount})")
@@ -82,7 +82,7 @@ public interface BookMapper {
      * @param bookId
      * @return
      */
-    @Select("SELECT b.title, \n" +
+    @Select("SELECT b.title, b.id, \n" +
             "b.ji_no as jiNo,\n" +
             "b.money, \n" +
             "b.info  \n" +
@@ -90,11 +90,17 @@ public interface BookMapper {
             "ORDER BY jiNo")
     List<BookEpisodes> bookEpisodeList(Integer bookId);
 
-
+    /**
+     * 单个章节的内容
+     * @param jiNo 内容id
+     * @return
+     */
+    @Select("SELECT content FROM t_book_episodes_content WHERE id = #{jiNo}")
+    String episodesContent(Integer jiNo);
 
     /**
      * 查询该分类下的小说 前5项
-     * @param category
+     * @param category 分类标识
      * @return
      */
     @Select("SELECT id, title, category, summary, cover_pic as coverPic, author\n" +
@@ -131,12 +137,20 @@ public interface BookMapper {
             "LIMIT 0,6")
     List<Book> watchTogether();
 
+    /**
+     * 女生喜欢
+     * @return
+     */
     @Select("SELECT id, title, category, summary, cover_pic as coverPic, author\n" +
             "FROM t_book\n" +
             "WHERE category = 2\n" +
             "LIMIT 0,6")
     List<Book> girlLike();
 
+    /**
+     * 男生喜欢
+     * @return
+     */
     @Select("SELECT id, title, category, summary, cover_pic as coverPic, author\n" +
             "FROM t_book\n" +
             "WHERE category = 1\n" +
