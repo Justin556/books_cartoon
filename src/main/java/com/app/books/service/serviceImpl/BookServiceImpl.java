@@ -1,11 +1,8 @@
 package com.app.books.service.serviceImpl;
 
+import com.app.books.entity.*;
 import com.app.books.pojo.BookDetailsPojo;
 import com.app.books.vo.BookQuery;
-import com.app.books.entity.BookInfo;
-import com.app.books.entity.Comic;
-import com.app.books.entity.Comment;
-import com.app.books.entity.UserSendLog;
 import com.app.books.mapper.BookMapper;
 import com.app.books.result.Result;
 import com.app.books.service.BookService;
@@ -14,7 +11,10 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -45,9 +45,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Result userSendList(Integer bookId) {
+    public List<UserSendLog> userSendList(Integer bookId) {
 
-        return Result.success(bookMapper.userSendList(bookId));
+        return bookMapper.userSendList(bookId);
     }
 
     @Override
@@ -56,7 +56,22 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Result commentList(Integer bookId) {
-        return Result.success(bookMapper.commentList(bookId));
+    public List<Comment> commentList(Integer bookId) {
+        return bookMapper.commentList(bookId);
     }
+
+    @Override
+    public List<Map<String, Object>> categoryList() {
+        List<Map<String, Object>> lists = new ArrayList<>();
+
+        for (int i = 0; i <=6; i++) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("category", i);
+            map.put("list", bookMapper.getBookByCategory(i));
+            lists.add(map);
+        }
+        return lists;
+    }
+
+
 }

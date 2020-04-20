@@ -1,11 +1,8 @@
 package com.app.books.mapper;
 
-import com.app.books.entity.BookEpisodes;
+import com.app.books.entity.*;
 import com.app.books.pojo.BookDetailsPojo;
 import com.app.books.vo.BookQuery;
-import com.app.books.entity.Comic;
-import com.app.books.entity.Comment;
-import com.app.books.entity.UserSendLog;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -92,4 +89,14 @@ public interface BookMapper {
             "FROM t_book_episodes b WHERE b.bid = #{bookId}\n" +
             "ORDER BY jiNo")
     List<BookEpisodes> bookEpisodeList(Integer bookId);
+
+    /**
+     * 查询该分类下的小说
+     * @param category
+     * @return
+     */
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author\n" +
+            "FROM t_book WHERE category = #{category}\n" +
+            "LIMIT 0,5")
+    List<Book> getBookByCategory(Integer category);
 }

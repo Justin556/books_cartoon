@@ -62,7 +62,7 @@ public class BookController {
     @GetMapping("userSendList")
     @ApiOperation(value = "打赏列表")
     public Result userSendList(Integer bookId) {
-        return bookService.userSendList(bookId);
+        return Result.success(bookService.userSendList(bookId));
     }
 
     @PutMapping("comment")
@@ -75,9 +75,19 @@ public class BookController {
     @GetMapping("commentList")
     @ApiOperation(value = "评论列表")
     public Result commentList(Integer bookId) {
-        return bookService.commentList(bookId);
+        return Result.success(bookService.commentList(bookId));
     }
 
+    @GetMapping("categoryList")
+    @ApiOperation(value = "大分类列表")
+    public Result categoryList() {
+        return Result.success(bookService.categoryList());
+    }
 
+    @GetMapping("categoryPageList")
+    @ApiOperation(value = "分类小说分页列表")
+    public Result categoryPageList() {
+        return Result.success(bookService.categoryList());
+    }
 }
 
