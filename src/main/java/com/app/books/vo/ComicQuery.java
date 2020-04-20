@@ -19,4 +19,6 @@ public class ComicQuery {
     private int pageNumber;
 
     private String status;
+
+    private String category;
 }

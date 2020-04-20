@@ -10,7 +10,9 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ComicServiceImpl implements ComicService {
@@ -33,22 +35,27 @@ public class ComicServiceImpl implements ComicService {
 
     @Override
     public Result homePage(ComicQuery comicQuery) {
-        comicQuery.setStatus("热血");
+        Map<String, List<Comic>> map =new HashMap();
+        comicQuery.setCategory("热血");
         PageHelper.startPage(1,6);//这行是重点，表示从pageNum页开始，每页pageSize条数据
         List<Comic> list = comicMapper.findAll(comicQuery);
+        map.put("男生喜欢",list);
 
-        comicQuery.setStatus("恋爱,古风");
+        comicQuery.setCategory("恋爱,古风");
         PageHelper.startPage(1,6);//这行是重点，表示从pageNum页开始，每页pageSize条数据
-        list.addAll(comicMapper.findAll(comicQuery));
+        list=comicMapper.findAll(comicQuery);
+        map.put("女生喜欢",list);
 
-
+        comicQuery.setCategory("");
         PageHelper.startPage(1,6);//这行是重点，表示从pageNum页开始，每页pageSize条数据
-        list.addAll(comicMapper.findAll(comicQuery));
+        list=comicMapper.findAll(comicQuery);
+        map.put("今日推荐",list);
 
-        comicQuery.setStatus("后宫");
+        comicQuery.setCategory("后宫");
         PageHelper.startPage(1,6);//这行是重点，表示从pageNum页开始，每页pageSize条数据
-        list.addAll(comicMapper.findAll(comicQuery));
-        PageInfo<Comic> pageInfo = new PageInfo<Comic>(list);
-        return Result.success(pageInfo);
+        list=comicMapper.findAll(comicQuery);
+        map.put("猜你喜欢",list);
+
+        return Result.success(map);
     }
 }
