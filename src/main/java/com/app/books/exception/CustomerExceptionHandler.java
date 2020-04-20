@@ -36,6 +36,11 @@ public class CustomerExceptionHandler {
         return Result.error("参数异常！" + e.getMessage());
     }
 
+    @ExceptionHandler(NullPointerException.class)
+    public Result NullPointerException(NullPointerException e) {
+        return Result.error("空指针！" + e.getMessage());
+    }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
     public Result DataIntegrityViolationException(DataIntegrityViolationException e) {
         Throwable mostSpecificCause = e.getMostSpecificCause();

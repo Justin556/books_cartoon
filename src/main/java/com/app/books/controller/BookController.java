@@ -49,10 +49,15 @@ public class BookController {
         return Result.success(bookService.details(bookId));
     }
 
+    /**
+     * 单个章节内容
+     * @param jiNo
+     * @return
+     */
     @GetMapping("episodesContent")
     @ApiOperation(value = "单个章节内容")
-    public Result episodesContent(Integer episodesId) {
-        return Result.success();
+    public Result episodesContent(Integer jiNo) {
+        return Result.success(bookService.episodesContent(jiNo));
     }
 
     /**

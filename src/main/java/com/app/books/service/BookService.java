@@ -30,4 +30,6 @@ public interface BookService {
     PageInfo<Book> categoryPageList(Integer pageNumber, Integer pageSize, Integer category);
 
     List<Map<String, Object>> homePage();
+
+    String episodesContent(Integer jiNo);
 }

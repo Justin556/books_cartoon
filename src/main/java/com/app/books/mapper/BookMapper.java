@@ -32,19 +32,12 @@ public interface BookMapper {
             "t_book.cover_pic as coverPic, \n" +
             "t_book.detail_pic as detailPic, \n" +
             "t_book.sort, \n" +
-            "t_book_info.charge_money as chargeMoney, \n" +
-            "t_book_info.charge_num as chargeNum, \n" +
-            "t_book_info.episodes, \n" +
-            "t_book_info.is_new as isNew, \n" +
-            "t_book_info.is_recommend as isRecommend, \n" +
-            "t_book_info.read_num as readNum, \n" +
-            "t_book_info.reader,\n" +
             "(SELECT sum(amount) FROM t_user_send_log WHERE t_user_send_log.out_id = t_book.id) as sendSum,\n" +
             "(SELECT COUNT(1) FROM t_book_likes WHERE t_book_likes.bid = t_book.id) as likeSum,\n" +
             "(SELECT COUNT(1) FROM t_book_collect WHERE t_book_collect.bid = t_book.id) as collectSum,\n" +
             "(SELECT COUNT(1) FROM t_comment WHERE t_comment.out_id = t_book.id) as commentSum,\n" +
             "(SELECT COUNT(1) FROM t_book_episodes WHERE t_book_episodes.bid = t_book.id) as chapterSum\n" +
-            "FROM t_book INNER JOIN t_book_info ON t_book.id = t_book_info.bid WHERE t_book.id = #{bookId}")
+            "FROM t_book WHERE t_book.id = #{bookId}")
     BookDetailsPojo details(Integer bookId);
 
     @Insert("insert into t_user_send_log(create_time, out_id, user_id, amount) values(#{createTime}, #{outId}, #{userId}, #{amount})")

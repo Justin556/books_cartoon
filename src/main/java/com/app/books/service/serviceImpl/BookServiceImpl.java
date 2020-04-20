@@ -33,6 +33,9 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDetailsPojo details(Integer bookId) {
         BookDetailsPojo bookDetailsPojo = bookMapper.details(bookId);
+        if (bookDetailsPojo == null){
+            return null;
+        }
         bookDetailsPojo.setSendList(bookMapper.userSendList(bookId));
         bookDetailsPojo.setCommentList(bookMapper.commentList(bookId));
         bookDetailsPojo.setBookEpisodeList(bookMapper.bookEpisodeList(bookId));
@@ -100,5 +103,15 @@ public class BookServiceImpl implements BookService {
         lists.add(map3);
         lists.add(map4);
         return lists;
+    }
+
+    /**
+     * 单个章节内容
+     * @param jiNo
+     * @return
+     */
+    @Override
+    public String episodesContent(Integer jiNo) {
+        return bookMapper.episodesContent(jiNo);
     }
 }
