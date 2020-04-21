@@ -116,10 +116,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public PageInfo<Book> homePageList(Integer pageNumber, Integer pageSize, Integer Status) {
+    public PageInfo<Book> homePageList(Integer pageNumber, Integer pageSize, Integer status) {
         PageHelper.startPage(pageNumber,pageSize);
         List<Book> list;
-        switch(Status){
+        switch(status){
             case 1 ://猜你喜欢
                 list = bookMapper.maybeLikeAll();
                 break;

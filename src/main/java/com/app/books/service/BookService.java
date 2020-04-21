@@ -30,7 +30,7 @@ public interface BookService {
 
     String episodesContent(Integer jiNo);
 
-    PageInfo<Book> homePageList(Integer pageNumber, Integer pageSize, Integer Status);
+    PageInfo<Book> homePageList(Integer pageNumber, Integer pageSize, Integer status);
 
     /*void bookLike();*/
 }

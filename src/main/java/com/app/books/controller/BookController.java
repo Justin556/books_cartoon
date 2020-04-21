@@ -41,8 +41,8 @@ public class BookController {
 
     @GetMapping("homePageList")
     @ApiOperation(value = "猜你喜欢/大家一起看/女生/男生-分页接口")
-    public Result homePageList(Integer pageNumber, Integer pageSize, Integer Status) {
-        return Result.success(bookService.homePageList(pageNumber, pageSize, Status));
+    public Result homePageList(Integer pageNumber, Integer pageSize, Integer status) {
+        return Result.success(bookService.homePageList(pageNumber, pageSize, status));
     }
 
     /**
