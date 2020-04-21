@@ -71,12 +71,12 @@ public class ComicController {
 
     /**
      * 漫画某一集内容
-     * @param comicId
+     * @param chapterId
      */
     @GetMapping("getComicPicture")
     @ApiOperation(value = "漫画某一集内容")
-    public Result getComicPicture(String comicId) {
-        return comicService.bannerDetails(comicId);
+    public Result getComicPicture(String chapterId) {
+        return comicService.bannerDetails(chapterId);
     }
 
     /**
