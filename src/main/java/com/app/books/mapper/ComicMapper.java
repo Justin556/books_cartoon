@@ -22,7 +22,7 @@ public interface ComicMapper {
             "</script>")
     List<Comic> findAll(ComicQuery comicQuery);
 
-    @Select("<script> select * from t_comic where id = #{comicId} </script>")
+    @Select("<script> select *,cover_pic as coverPic from t_comic where id = #{comicId} </script>")
     ComicDetailsPojo details(String comicId);
 
     /**
