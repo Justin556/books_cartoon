@@ -30,12 +30,10 @@ public interface ComicMapper {
      * @param comicId
      * @return
      */
-    @Select("select sum(u.amount) as userAmount, \n" +
-            "u.user_id as userId,\n" +
-            "(select t_user.user_name from t_user where t_user.id = u.user_id) as userName \n" +
-            "from t_user_send_log u where out_id = #{comicId}\n" +
-            "GROUP BY userId\n" +
-            "ORDER BY userAmount desc")
+    @Select("select u.amount as userAmount,u.create_time as createTime,\n" +
+            "            (select t_user.user_name from t_user where t_user.id = u.user_id) as userName \n" +
+            "            from t_user_send_log u \n" +
+            "where out_id= #{comicId}")
     List<UserSendLog> userSendList(String comicId);
     /**
      * 打赏总金额
