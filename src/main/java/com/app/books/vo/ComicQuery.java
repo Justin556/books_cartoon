@@ -21,4 +21,6 @@ public class ComicQuery {
     private String status;
 
     private String category;
+
+    private String comicId;
 }

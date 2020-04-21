@@ -49,6 +49,25 @@ public class ComicController {
         return comicService.details(comicId);
     }
 
+    /**
+     * 漫画更多打赏
+     * @param comicQuery
+     */
+    @GetMapping("sendPage")
+    @ApiOperation(value = "漫画更多打赏")
+    public Result sendPage(ComicQuery comicQuery) {
+        return comicService.sendPage(comicQuery);
+    }
+
+    /**
+     * 漫画更多评论
+     * @param comicQuery
+     */
+    @GetMapping("commentPage")
+    @ApiOperation(value = "漫画更多评论")
+    public Result commentPage(ComicQuery comicQuery) {
+        return comicService.commentPage(comicQuery);
+    }
 
     /**
      * 漫画某一集内容

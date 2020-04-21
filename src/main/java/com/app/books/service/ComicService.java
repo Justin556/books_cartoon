@@ -14,4 +14,8 @@ public interface ComicService {
     Result bannerDetails(String comicId);
 
     Result addComicLikes(ComicLikes comicLikes);
+
+    Result sendPage(ComicQuery comicQuery);
+
+    Result commentPage(ComicQuery comicQuery);
 }

@@ -1,6 +1,8 @@
 package com.app.books.service.serviceImpl;
 
 import com.app.books.entity.ComicLikes;
+import com.app.books.entity.Comment;
+import com.app.books.entity.UserSendLog;
 import com.app.books.pojo.BookDetailsPojo;
 import com.app.books.pojo.ComicDetailsPojo;
 import com.app.books.vo.ComicQuery;
@@ -79,5 +81,21 @@ public class ComicServiceImpl implements ComicService {
     @Override
     public Result addComicLikes(ComicLikes comicLikes) {
         return  Result.success(comicMapper.addComicLikes(comicLikes));
+    }
+
+    @Override
+    public Result sendPage(ComicQuery comicQuery) {
+        PageHelper.startPage(comicQuery.getPageNumber(),comicQuery.getPageSize());//这行是重点，表示从pageNum页开始，每页pageSize条数据
+        List<UserSendLog> list = comicMapper.userSendList(comicQuery.getComicId());
+        PageInfo<UserSendLog> pageInfo = new PageInfo<UserSendLog>(list);
+        return Result.success(pageInfo);
+    }
+
+    @Override
+    public Result commentPage(ComicQuery comicQuery) {
+        PageHelper.startPage(comicQuery.getPageNumber(),comicQuery.getPageSize());//这行是重点，表示从pageNum页开始，每页pageSize条数据
+        List<Comment> list = comicMapper.commentList(comicQuery.getComicId());
+        PageInfo<Comment> pageInfo = new PageInfo<Comment>(list);
+        return Result.success(pageInfo);
     }
 }
