@@ -1,11 +1,8 @@
 package com.app.books.service;
 
-import com.app.books.entity.Book;
-import com.app.books.entity.Comic;
+import com.app.books.entity.*;
 import com.app.books.pojo.BookDetailsPojo;
 import com.app.books.vo.BookQuery;
-import com.app.books.entity.Comment;
-import com.app.books.entity.UserSendLog;
 import com.app.books.result.Result;
 import com.github.pagehelper.PageInfo;
 
@@ -33,11 +30,7 @@ public interface BookService {
 
     String episodesContent(Integer jiNo);
 
-    PageInfo<Book> maybeLikeAll(Integer pageNumber, Integer pageSize);
+    PageInfo<Book> homePageList(Integer pageNumber, Integer pageSize, Integer Status);
 
-    PageInfo<Book> watchTogetherAll(Integer pageNumber, Integer pageSize);
-
-    PageInfo<Book> girlLikeAll(Integer pageNumber, Integer pageSize);
-
-    PageInfo<Book> boyLikeAll(Integer pageNumber, Integer pageSize);
+    /*void bookLike();*/
 }

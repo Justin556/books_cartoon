@@ -1,5 +1,6 @@
 package com.app.books.service.serviceImpl;
 
+import com.alibaba.druid.sql.visitor.functions.Lcase;
 import com.app.books.entity.*;
 import com.app.books.pojo.BookDetailsPojo;
 import com.app.books.vo.BookQuery;
@@ -93,9 +94,9 @@ public class BookServiceImpl implements BookService {
         map1.put("list", bookMapper.maybeLike());
         map2.put("title", "大家都在看");
         map2.put("list", bookMapper.watchTogether());
-        map3.put("title", "女生");
+        map3.put("title", "女生喜欢");
         map3.put("list", bookMapper.girlLike());
-        map4.put("title", "男生");
+        map4.put("title", "男生喜欢");
         map4.put("list", bookMapper.boyLike());
         lists.add(map1);
         lists.add(map2);
@@ -115,34 +116,34 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public PageInfo<Book> maybeLikeAll(Integer pageNumber, Integer pageSize) {
+    public PageInfo<Book> homePageList(Integer pageNumber, Integer pageSize, Integer Status) {
         PageHelper.startPage(pageNumber,pageSize);
-        List<Book> list = bookMapper.maybeLikeAll();
+        List<Book> list;
+        switch(Status){
+            case 1 ://猜你喜欢
+                list = bookMapper.maybeLikeAll();
+                break;
+            case 2 ://大家都在看
+                list = bookMapper.watchTogetherAll();
+                break;
+            case 3 ://女生喜欢
+                list = bookMapper.girlLikeAll();
+                break;
+            case 4 ://男生喜欢
+                list = bookMapper.boyLikeAll();
+                break;
+            default :
+                list = null;
+        }
+
         PageInfo<Book> pageInfo = new PageInfo<Book>(list);
         return pageInfo;
     }
 
-    @Override
-    public PageInfo<Book> watchTogetherAll(Integer pageNumber, Integer pageSize) {
-        PageHelper.startPage(pageNumber,pageSize);
-        List<Book> list = bookMapper.watchTogetherAll();
-        PageInfo<Book> pageInfo = new PageInfo<Book>(list);
-        return pageInfo;
-    }
 
-    @Override
-    public PageInfo<Book> girlLikeAll(Integer pageNumber, Integer pageSize) {
-        PageHelper.startPage(pageNumber,pageSize);
-        List<Book> list = bookMapper.girlLikeAll();
-        PageInfo<Book> pageInfo = new PageInfo<Book>(list);
-        return pageInfo;
-    }
+    /*@Override
+    public void bookLike() {
 
-    @Override
-    public PageInfo<Book> boyLikeAll(Integer pageNumber, Integer pageSize) {
-        PageHelper.startPage(pageNumber,pageSize);
-        List<Book> list = bookMapper.boyLikeAll();
-        PageInfo<Book> pageInfo = new PageInfo<Book>(list);
-        return pageInfo;
-    }
+        bookMapper.insertBookLike(bookLikes);
+    }*/
 }

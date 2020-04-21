@@ -1,5 +1,7 @@
 package com.app.books.controller;
 
+import com.app.books.entity.BookCollect;
+import com.app.books.entity.BookLikes;
 import com.app.books.vo.BookQuery;
 import com.app.books.entity.Comment;
 import com.app.books.entity.UserSendLog;
@@ -32,33 +34,15 @@ public class BookController {
      * @return
      */
     @GetMapping("homePage")
-    @ApiOperation(value = "主页：猜你喜欢/大家一起看/男生/女生")
+    @ApiOperation(value = "主页：猜你喜欢/大家一起看/女生/男生")
     public Result homePage() {
         return Result.success(bookService.homePage());
     }
 
-    @GetMapping("maybeLikeAll")
-    @ApiOperation(value = "猜你喜欢-分页接口")
-    public Result maybeLikeAll(Integer pageNumber, Integer pageSize) {
-        return Result.success(bookService.maybeLikeAll(pageNumber, pageSize));
-    }
-
-    @GetMapping("watchTogetherAll")
-    @ApiOperation(value = "大家一起看-分页接口")
-    public Result watchTogetherAll(Integer pageNumber, Integer pageSize) {
-        return Result.success(bookService.watchTogetherAll(pageNumber, pageSize));
-    }
-
-    @GetMapping("girlLikeAll")
-    @ApiOperation(value = "女生-分页接口")
-    public Result girlLikeAll(Integer pageNumber, Integer pageSize) {
-        return Result.success(bookService.girlLikeAll(pageNumber, pageSize));
-    }
-
-    @GetMapping("boyLikeAll")
-    @ApiOperation(value = "男生-分页接口")
-    public Result boyLikeAll(Integer pageNumber, Integer pageSize) {
-        return Result.success(bookService.boyLikeAll(pageNumber, pageSize));
+    @GetMapping("homePageList")
+    @ApiOperation(value = "猜你喜欢/大家一起看/女生/男生-分页接口")
+    public Result homePageList(Integer pageNumber, Integer pageSize, Integer Status) {
+        return Result.success(bookService.homePageList(pageNumber, pageSize, Status));
     }
 
     /**
@@ -95,6 +79,20 @@ public class BookController {
         bookService.userSend(userSendLog);
         return Result.success();
     }
+
+    /*@PutMapping("bookLike")
+    @ApiOperation(value = "点赞")
+    public Result bookLike() {
+        bookService.bookLike();
+        return Result.success();
+    }
+
+    @PutMapping("bookCollect")
+    @ApiOperation(value = "收藏")
+    public Result bookCollect(BookCollect bookCollect) {
+        bookService.bookCollect(bookCollect);
+        return Result.success();
+    }*/
 
     /**
      * 小说打赏列表

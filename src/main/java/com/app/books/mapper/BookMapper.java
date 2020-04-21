@@ -3,6 +3,7 @@ package com.app.books.mapper;
 import com.app.books.entity.*;
 import com.app.books.pojo.BookDetailsPojo;
 import com.app.books.vo.BookQuery;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -40,8 +41,40 @@ public interface BookMapper {
             "FROM t_book WHERE t_book.id = #{bookId}")
     BookDetailsPojo details(Integer bookId);
 
+    /**
+     * 新增打赏
+     * @param userSendLog
+     */
     @Insert("insert into t_user_send_log(create_time, out_id, user_id, amount) values(#{createTime}, #{outId}, #{userId}, #{amount})")
     void userSend(UserSendLog userSendLog);
+
+    /**
+     * 新增点赞
+     * @param bookLikes
+     */
+    @Insert("insert into t_book_likes(create_time, user_id, bid) values(#{createTime}, #{userId}, #{bid})")
+    void insertBookLike(BookLikes bookLikes);
+
+    /**
+     * 取消点赞
+     * @param bookLikes
+     */
+    @Delete("delete from t_book_likes where user_id = user_id and bid = #{bid}")
+    void deleteBookLike(BookLikes bookLikes);
+
+    /**
+     * 新增收藏
+     * @param bookCollect
+     */
+    @Insert("insert into t_book_collect(create_time, user_id, bid) values(#{createTime}, #{userId}, #{bid})")
+    void insertBookCollect(BookCollect bookCollect);
+
+    /**
+     * 取消收藏
+     * @param bookCollect
+     */
+    @Insert("delete from t_book_collect where user_id = user_id and bid = #{bid}")
+    void deleteBookCollect(BookCollect bookCollect);
 
     /**
      * 打赏列表
