@@ -37,6 +37,13 @@ public interface ComicMapper {
             "GROUP BY userId\n" +
             "ORDER BY userAmount desc")
     List<UserSendLog> userSendList(String comicId);
+    /**
+     * 打赏总金额
+     * @param comicId
+     * @return
+     */
+    @Select("select sum(u.amount) from t_user_send_log u where out_id = #{comicId}")
+    Integer userSendMoneyList(String comicId);
 
     /**
      * 评论列表
