@@ -48,7 +48,7 @@ public interface ComicMapper {
      * @param comicId
      * @return
      */
-    @Select("select c.comment_info as commentInfo ,\n" +
+    @Select("select c.comment_info as commentInfo,c.create_time as createTime ,\n" +
             "(select t_user.user_name from t_user where t_user.id = c.user_id) as userName \n" +
             "from t_comment c where c.out_id = #{comicId}\n" +
             "ORDER BY c.create_time desc")
