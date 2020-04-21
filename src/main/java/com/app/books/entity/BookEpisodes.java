@@ -20,7 +20,7 @@ public class BookEpisodes {
     private Integer bid;
     //章节标题
     private String title;
-    //章节编号
+    //内容id
     private Integer jiNo;
     //上节编号
     private Integer beforeNo;

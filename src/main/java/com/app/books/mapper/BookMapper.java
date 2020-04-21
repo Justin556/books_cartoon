@@ -3,6 +3,7 @@ package com.app.books.mapper;
 import com.app.books.entity.*;
 import com.app.books.pojo.BookDetailsPojo;
 import com.app.books.vo.BookQuery;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -32,23 +33,48 @@ public interface BookMapper {
             "t_book.cover_pic as coverPic, \n" +
             "t_book.detail_pic as detailPic, \n" +
             "t_book.sort, \n" +
-            "t_book_info.charge_money as chargeMoney, \n" +
-            "t_book_info.charge_num as chargeNum, \n" +
-            "t_book_info.episodes, \n" +
-            "t_book_info.is_new as isNew, \n" +
-            "t_book_info.is_recommend as isRecommend, \n" +
-            "t_book_info.read_num as readNum, \n" +
-            "t_book_info.reader,\n" +
             "(SELECT sum(amount) FROM t_user_send_log WHERE t_user_send_log.out_id = t_book.id) as sendSum,\n" +
             "(SELECT COUNT(1) FROM t_book_likes WHERE t_book_likes.bid = t_book.id) as likeSum,\n" +
             "(SELECT COUNT(1) FROM t_book_collect WHERE t_book_collect.bid = t_book.id) as collectSum,\n" +
             "(SELECT COUNT(1) FROM t_comment WHERE t_comment.out_id = t_book.id) as commentSum,\n" +
             "(SELECT COUNT(1) FROM t_book_episodes WHERE t_book_episodes.bid = t_book.id) as chapterSum\n" +
-            "FROM t_book INNER JOIN t_book_info ON t_book.id = t_book_info.bid WHERE t_book.id = 1")
+            "FROM t_book WHERE t_book.id = #{bookId}")
     BookDetailsPojo details(Integer bookId);
 
+    /**
+     * 新增打赏
+     * @param userSendLog
+     */
     @Insert("insert into t_user_send_log(create_time, out_id, user_id, amount) values(#{createTime}, #{outId}, #{userId}, #{amount})")
     void userSend(UserSendLog userSendLog);
+
+    /**
+     * 新增点赞
+     * @param bookLikes
+     */
+    @Insert("insert into t_book_likes(create_time, user_id, bid) values(#{createTime}, #{userId}, #{bid})")
+    void insertBookLike(BookLikes bookLikes);
+
+    /**
+     * 取消点赞
+     * @param bookLikes
+     */
+    @Delete("delete from t_book_likes where user_id = user_id and bid = #{bid}")
+    void deleteBookLike(BookLikes bookLikes);
+
+    /**
+     * 新增收藏
+     * @param bookCollect
+     */
+    @Insert("insert into t_book_collect(create_time, user_id, bid) values(#{createTime}, #{userId}, #{bid})")
+    void insertBookCollect(BookCollect bookCollect);
+
+    /**
+     * 取消收藏
+     * @param bookCollect
+     */
+    @Insert("delete from t_book_collect where user_id = user_id and bid = #{bid}")
+    void deleteBookCollect(BookCollect bookCollect);
 
     /**
      * 打赏列表
@@ -71,7 +97,7 @@ public interface BookMapper {
      * @param bookId
      * @return
      */
-    @Select("select c.comment_info as commentInfo \n" +
+    @Select("select c.comment_info as commentInfo, \n" +
             "(select t_user.user_name from t_user where t_user.id = c.user_id) as userName \n" +
             "from t_comment c where c.out_id = #{bookId}\n" +
             "ORDER BY c.create_time desc")
@@ -82,7 +108,7 @@ public interface BookMapper {
      * @param bookId
      * @return
      */
-    @Select("SELECT b.title, \n" +
+    @Select("SELECT b.title, b.id, \n" +
             "b.ji_no as jiNo,\n" +
             "b.money, \n" +
             "b.info  \n" +
@@ -91,12 +117,105 @@ public interface BookMapper {
     List<BookEpisodes> bookEpisodeList(Integer bookId);
 
     /**
-     * 查询该分类下的小说
-     * @param category
+     * 单个章节的内容
+     * @param jiNo 内容id
+     * @return
+     */
+    @Select("SELECT content FROM t_book_episodes_content WHERE id = #{jiNo}")
+    String episodesContent(Integer jiNo);
+
+    /**
+     * 查询该分类下的小说 前5项
+     * @param category 分类标识
      * @return
      */
     @Select("SELECT id, title, category, summary, cover_pic as coverPic, author\n" +
             "FROM t_book WHERE category = #{category}\n" +
             "LIMIT 0,5")
     List<Book> getBookByCategory(Integer category);
+
+    /**
+     * 查询该分类下的小说
+     * @param category
+     * @return
+     */
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author\n" +
+            "FROM t_book WHERE category = #{category}")
+    List<Book> categoryPageList(Integer category);
+
+    /**
+     * 猜你喜欢 前6项
+     * @return
+     */
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author, (SELECT sum(amount) FROM t_user_send_log WHERE out_id = t_book.id) as countSend\n" +
+            "FROM t_book\n" +
+            "ORDER BY countSend DESC\n" +
+            "LIMIT 0,6")
+    List<Book> maybeLike();
+
+    /**
+     * 猜你喜欢 全部
+     * @return
+     */
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author, (SELECT sum(amount) FROM t_user_send_log WHERE out_id = t_book.id) as countSend\n" +
+            "FROM t_book\n" +
+            "ORDER BY countSend DESC")
+    List<Book> maybeLikeAll();
+
+    /**
+     * 大家一起看 前6项
+     * @return
+     */
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author, (SELECT count(1) FROM t_book_likes WHERE bid = t_book.id) as countLike\n" +
+            "FROM t_book\n" +
+            "ORDER BY countLike DESC\n" +
+            "LIMIT 0,6")
+    List<Book> watchTogether();
+
+    /**
+     * 大家一起看 全部
+     * @return
+     */
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author, (SELECT count(1) FROM t_book_likes WHERE bid = t_book.id) as countLike\n" +
+            "FROM t_book\n" +
+            "ORDER BY countLike DESC")
+    List<Book> watchTogetherAll();
+
+    /**
+     * 女生喜欢 前6项
+     * @return
+     */
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author\n" +
+            "FROM t_book\n" +
+            "WHERE category = 2\n" +
+            "LIMIT 0,6")
+    List<Book> girlLike();
+
+    /**
+     * 女生喜欢 全部
+     * @return
+     */
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author\n" +
+            "FROM t_book\n" +
+            "WHERE category = 2")
+    List<Book> girlLikeAll();
+
+    /**
+     * 男生喜欢 前6项
+     * @return
+     */
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author\n" +
+            "FROM t_book\n" +
+            "WHERE category = 1\n" +
+            "LIMIT 0,6")
+    List<Book> boyLike();
+
+    /**
+     * 男生喜欢 全部
+     * @return
+     */
+    @Select("SELECT id, title, category, summary, cover_pic as coverPic, author\n" +
+            "FROM t_book\n" +
+            "WHERE category = 1")
+    List<Book> boyLikeAll();
 }

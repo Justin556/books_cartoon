@@ -1,5 +1,7 @@
 package com.app.books.controller;
 
+import com.app.books.entity.BookCollect;
+import com.app.books.entity.BookLikes;
 import com.app.books.vo.BookQuery;
 import com.app.books.entity.Comment;
 import com.app.books.entity.UserSendLog;
@@ -26,10 +28,22 @@ public class BookController {
         return bookService.bookList(bookQuery);
     }
 
-    /*@GetMapping("homePage")
-    public Result homePage(BookQuery bookQuery) {
-        return bookService.homePage(bookQuery);
-    }*/
+    /**
+     * 主页：猜你喜欢/大家一起看
+     * @param
+     * @return
+     */
+    @GetMapping("homePage")
+    @ApiOperation(value = "主页：猜你喜欢/大家一起看/女生/男生")
+    public Result homePage() {
+        return Result.success(bookService.homePage());
+    }
+
+    @GetMapping("homePageList")
+    @ApiOperation(value = "猜你喜欢/大家一起看/女生/男生-分页接口")
+    public Result homePageList(Integer pageNumber, Integer pageSize, Integer status) {
+        return Result.success(bookService.homePageList(pageNumber, pageSize, status));
+    }
 
     /**
      * 单部小说详情
@@ -44,6 +58,17 @@ public class BookController {
     }
 
     /**
+     * 单个章节内容
+     * @param jiNo
+     * @return
+     */
+    @GetMapping("episodesContent")
+    @ApiOperation(value = "单个章节内容")
+    public Result episodesContent(Integer jiNo) {
+        return Result.success(bookService.episodesContent(jiNo));
+    }
+
+    /**
      * 用户打赏
      * @param userSendLog
      * @return
@@ -54,6 +79,20 @@ public class BookController {
         bookService.userSend(userSendLog);
         return Result.success();
     }
+
+    /*@PutMapping("bookLike")
+    @ApiOperation(value = "点赞")
+    public Result bookLike() {
+        bookService.bookLike();
+        return Result.success();
+    }
+
+    @PutMapping("bookCollect")
+    @ApiOperation(value = "收藏")
+    public Result bookCollect(BookCollect bookCollect) {
+        bookService.bookCollect(bookCollect);
+        return Result.success();
+    }*/
 
     /**
      * 小说打赏列表
@@ -86,8 +125,10 @@ public class BookController {
 
     @GetMapping("categoryPageList")
     @ApiOperation(value = "分类小说分页列表")
-    public Result categoryPageList() {
-        return Result.success(bookService.categoryList());
+    public Result categoryPageList(Integer pageNumber, Integer pageSize, Integer category) {
+        return Result.success(bookService.categoryPageList(pageNumber, pageSize, category));
     }
+
+
 }
 

@@ -1,5 +1,6 @@
 package com.app.books.service.serviceImpl;
 
+import com.alibaba.druid.sql.visitor.functions.Lcase;
 import com.app.books.entity.*;
 import com.app.books.pojo.BookDetailsPojo;
 import com.app.books.vo.BookQuery;
@@ -24,7 +25,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Result bookList(BookQuery bookQuery) {
-        PageHelper.startPage(bookQuery.getPageNumber(),bookQuery.getPageSize());//这行是重点，表示从pageNum页开始，每页pageSize条数据
+        PageHelper.startPage(bookQuery.getPageNumber(),bookQuery.getPageSize());
         List<Comic> list = bookMapper.findAll(bookQuery);
         PageInfo<Comic> pageInfo = new PageInfo<Comic>(list);
         return Result.success(pageInfo);
@@ -33,6 +34,9 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDetailsPojo details(Integer bookId) {
         BookDetailsPojo bookDetailsPojo = bookMapper.details(bookId);
+        if (bookDetailsPojo == null){
+            return null;
+        }
         bookDetailsPojo.setSendList(bookMapper.userSendList(bookId));
         bookDetailsPojo.setCommentList(bookMapper.commentList(bookId));
         bookDetailsPojo.setBookEpisodeList(bookMapper.bookEpisodeList(bookId));
@@ -63,7 +67,6 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Map<String, Object>> categoryList() {
         List<Map<String, Object>> lists = new ArrayList<>();
-
         for (int i = 0; i <=6; i++) {
             Map<String, Object> map = new HashMap<>();
             map.put("category", i);
@@ -73,5 +76,74 @@ public class BookServiceImpl implements BookService {
         return lists;
     }
 
+    @Override
+    public PageInfo<Book> categoryPageList(Integer pageNumber, Integer pageSize, Integer category) {
+        PageHelper.startPage(pageNumber,pageSize);
+        List<Book> list = bookMapper.categoryPageList(category);
+        PageInfo<Book> pageInfo = new PageInfo<Book>(list);
+        return pageInfo;
+    }
 
+    public List<Map<String, Object>> homePage() {
+        List<Map<String, Object>> lists = new ArrayList<>();
+        Map<String, Object> map1 = new HashMap<>();
+        Map<String, Object> map2 = new HashMap<>();
+        Map<String, Object> map3 = new HashMap<>();
+        Map<String, Object> map4 = new HashMap<>();
+        map1.put("title", "猜你喜欢");
+        map1.put("list", bookMapper.maybeLike());
+        map2.put("title", "大家都在看");
+        map2.put("list", bookMapper.watchTogether());
+        map3.put("title", "女生喜欢");
+        map3.put("list", bookMapper.girlLike());
+        map4.put("title", "男生喜欢");
+        map4.put("list", bookMapper.boyLike());
+        lists.add(map1);
+        lists.add(map2);
+        lists.add(map3);
+        lists.add(map4);
+        return lists;
+    }
+
+    /**
+     * 单个章节内容
+     * @param jiNo
+     * @return
+     */
+    @Override
+    public String episodesContent(Integer jiNo) {
+        return bookMapper.episodesContent(jiNo);
+    }
+
+    @Override
+    public PageInfo<Book> homePageList(Integer pageNumber, Integer pageSize, Integer status) {
+        PageHelper.startPage(pageNumber,pageSize);
+        List<Book> list;
+        switch(status){
+            case 1 ://猜你喜欢
+                list = bookMapper.maybeLikeAll();
+                break;
+            case 2 ://大家都在看
+                list = bookMapper.watchTogetherAll();
+                break;
+            case 3 ://女生喜欢
+                list = bookMapper.girlLikeAll();
+                break;
+            case 4 ://男生喜欢
+                list = bookMapper.boyLikeAll();
+                break;
+            default :
+                list = null;
+        }
+
+        PageInfo<Book> pageInfo = new PageInfo<Book>(list);
+        return pageInfo;
+    }
+
+
+    /*@Override
+    public void bookLike() {
+
+        bookMapper.insertBookLike(bookLikes);
+    }*/
 }
