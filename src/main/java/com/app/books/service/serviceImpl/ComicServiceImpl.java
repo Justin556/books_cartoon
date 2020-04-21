@@ -35,8 +35,11 @@ public class ComicServiceImpl implements ComicService {
     public Result details(String comicId) {
         ComicDetailsPojo bookDetailsPojo = comicMapper.details(comicId);
         bookDetailsPojo.setSendList(comicMapper.userSendList(comicId));
+        bookDetailsPojo.setSendSum(bookDetailsPojo.getSendList().size());
         bookDetailsPojo.setCommentList(comicMapper.commentList(comicId));
+        bookDetailsPojo.setCommentSum(bookDetailsPojo.getCommentList().size());
         bookDetailsPojo.setComicEpisodes(comicMapper.comicEpisodeList(comicId));
+        bookDetailsPojo.setChapterSum(bookDetailsPojo.getComicEpisodes().size());
         return Result.success(bookDetailsPojo);
     }
 
