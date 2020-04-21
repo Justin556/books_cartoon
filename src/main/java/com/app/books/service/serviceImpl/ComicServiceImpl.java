@@ -1,5 +1,8 @@
 package com.app.books.service.serviceImpl;
 
+import com.app.books.entity.ComicLikes;
+import com.app.books.pojo.BookDetailsPojo;
+import com.app.books.pojo.ComicDetailsPojo;
 import com.app.books.vo.ComicQuery;
 import com.app.books.entity.Comic;
 import com.app.books.mapper.ComicMapper;
@@ -29,8 +32,12 @@ public class ComicServiceImpl implements ComicService {
     }
 
     @Override
-    public Result details(ComicQuery comicQuery) {
-        return Result.success(comicMapper.details(comicQuery));
+    public Result details(String comicId) {
+        ComicDetailsPojo bookDetailsPojo = comicMapper.details(comicId);
+        bookDetailsPojo.setSendList(comicMapper.userSendList(comicId));
+        bookDetailsPojo.setCommentList(comicMapper.commentList(comicId));
+        bookDetailsPojo.setComicEpisodes(comicMapper.comicEpisodeList(comicId));
+        return Result.success(bookDetailsPojo);
     }
 
     @Override
@@ -59,5 +66,15 @@ public class ComicServiceImpl implements ComicService {
 
 
         return Result.success(map);
+    }
+
+    @Override
+    public Result bannerDetails(String comicId) {
+        return Result.success(comicMapper.bannerDetails(comicId));
+    }
+
+    @Override
+    public Result addComicLikes(ComicLikes comicLikes) {
+        return  Result.success(comicMapper.addComicLikes(comicLikes));
     }
 }

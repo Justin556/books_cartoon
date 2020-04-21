@@ -1,7 +1,9 @@
 package com.app.books.mapper;
 
+import com.app.books.entity.*;
+import com.app.books.pojo.ComicDetailsPojo;
 import com.app.books.vo.ComicQuery;
-import com.app.books.entity.Comic;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -20,6 +22,60 @@ public interface ComicMapper {
             "</script>")
     List<Comic> findAll(ComicQuery comicQuery);
 
-    @Select("<script> select * from t_comic where id = #{id} </script>")
-    Comic details(ComicQuery comicQuery);
+    @Select("<script> select * from t_comic where id = #{comicId} </script>")
+    ComicDetailsPojo details(String comicId);
+
+    /**
+     * 打赏列表
+     * @param comicId
+     * @return
+     */
+    @Select("select sum(u.amount) as userAmount, \n" +
+            "u.user_id as userId,\n" +
+            "(select t_user.user_name from t_user where t_user.id = u.user_id) as userName \n" +
+            "from t_user_send_log u where out_id = #{comicId}\n" +
+            "GROUP BY userId\n" +
+            "ORDER BY userAmount desc")
+    List<UserSendLog> userSendList(String comicId);
+
+    /**
+     * 评论列表
+     * @param comicId
+     * @return
+     */
+    @Select("select c.comment_info as commentInfo ,\n" +
+            "(select t_user.user_name from t_user where t_user.id = c.user_id) as userName \n" +
+            "from t_comment c where c.out_id = #{comicId}\n" +
+            "ORDER BY c.create_time desc")
+    List<Comment> commentList(String comicId);
+
+    /**
+     * 章节列表
+     * @param comicId
+     * @return
+     */
+    @Select("SELECT *  \n" +
+            "FROM t_comic_episodes b WHERE b.comic_id = #{comicId}\n" +
+            "ORDER BY ji_no")
+    List<ComicEpisodes> comicEpisodeList(String comicId);
+
+
+    /**
+     * 章节详情
+     * @param comicId
+     * @return
+     */
+    @Select("SELECT *  \n" +
+            "FROM t_comic_banner b WHERE b.comic_id = #{comicId}")
+    List<ComicBanner> bannerDetails(String comicId);
+
+    /**
+     * 漫画点赞
+     * @param comicLikes
+     * @return
+     */
+    @Insert("insert t_comic_likes(create_time,comic_id,user_id)\n" +
+            "VALUES(now(),#{comicId},#{userId})")
+    List<ComicLikes> addComicLikes(ComicLikes comicLikes);
+
 }

@@ -1,6 +1,7 @@
 package com.app.books.controller;
 
 
+import com.app.books.entity.ComicLikes;
 import com.app.books.vo.ComicQuery;
 import com.app.books.result.Result;
 import com.app.books.service.ComicService;
@@ -40,61 +41,42 @@ public class ComicController {
     }
     /**
      * 漫画详情
-     * @param comicQuery
+     * @param comicId
      */
     @GetMapping("details")
     @ApiOperation(value = "漫画详情")
-    public Result details(ComicQuery comicQuery) {
-        return comicService.details(comicQuery);
+    public Result details(String comicId) {
+        return comicService.details(comicId);
     }
 
-    /**
-     * 漫画打赏列表
-     * @param comicQuery
-     */
-    @GetMapping("exceptional")
-    @ApiOperation(value = "漫画打赏列表")
-    public Result exceptional(ComicQuery comicQuery) {
-        return comicService.comicList(comicQuery);
-    }
-
-    /**
-     * 漫画打赏列表
-     * @param comicQuery
-     */
-    @GetMapping("exceptionalList")
-    @ApiOperation(value = "漫画打赏列表")
-    public Result exceptionalList(ComicQuery comicQuery) {
-        return comicService.comicList(comicQuery);
-    }
-
-    /**
-     * 漫画评论列表
-     * @param comicQuery
-     */
-    @GetMapping("commentsList")
-    @ApiOperation(value = "漫画评论列表")
-    public Result commentsList(ComicQuery comicQuery) {
-        return comicService.comicList(comicQuery);
-    }
 
     /**
      * 漫画某一集内容
-     * @param comicQuery
+     * @param comicId
      */
     @GetMapping("getComicPicture")
     @ApiOperation(value = "漫画某一集内容")
-    public Result getComicPicture(ComicQuery comicQuery) {
-        return comicService.comicList(comicQuery);
+    public Result getComicPicture(String comicId) {
+        return comicService.bannerDetails(comicId);
     }
 
     /**
      * 漫画点赞
-     * @param comicQuery
+     * @param comicLikes
      */
     @GetMapping("likeComic")
     @ApiOperation(value = "漫画点赞")
-    public Result likeComic(ComicQuery comicQuery) {
+    public Result likeComic(ComicLikes comicLikes) {
+        return comicService.addComicLikes(comicLikes);
+    }
+
+    /**
+     * 漫画打赏
+     * @param comicQuery
+     */
+    @GetMapping("exceptionalComic")
+    @ApiOperation(value = "漫画打赏")
+    public Result exceptionalComic(ComicQuery comicQuery) {
         return comicService.comicList(comicQuery);
     }
 
