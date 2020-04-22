@@ -11,7 +11,7 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authenticationInterceptor())
                 .addPathPatterns("/**")// 拦截所有请求，通过判断是否有 @LoginRequired 注解 决定是否需要登录
-                .excludePathPatterns("/books/user/login","/books/user/register","/books/swagger-resources/**", "/books/swagger-ui.html/**");
+                .excludePathPatterns("/user/login","/user/register","/swagger-resources/**", "/swagger-ui.html/**");
         super.addInterceptors(registry);
     }
 
