@@ -4,7 +4,9 @@ import com.app.books.entity.User;
 import com.app.books.entity.UserRetailLevel;
 import com.app.books.mapper.UserMapper;
 import com.app.books.service.UserService;
+import com.app.books.utils.JWTUtil;
 import com.app.books.utils.Md5Utils;
+import com.app.books.utils.RedisUtil;
 import com.app.books.vo.RegisterParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,13 @@ import java.util.Date;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private RedisUtil redisUtil;
 
+    /**
+     * 注册
+     * @param registerParams
+     */
     @Override
     public void register(RegisterParams registerParams) {
         User user = new User();
@@ -34,5 +42,16 @@ public class UserServiceImpl implements UserService {
             //更新用户分销关系表
             userMapper.insertUserRetailLevel(new UserRetailLevel(new Date(), registerParams.getParentId(), userId));
         }
+    }
+
+    @Override
+    public String login(String userName, String password) {
+        User user = userMapper.findUserByUserNameAndPass(userName, Md5Utils.MD5(password));
+        if (user == null) {//用户名或密码错误
+            return "error";
+        }
+        String token = JWTUtil.sign(userName);
+        redisUtil.set(token, user);
+        return token;
     }
 }

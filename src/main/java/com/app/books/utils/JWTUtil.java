@@ -16,20 +16,20 @@ public class JWTUtil {
     //有效期12h
     private static final long EXPIRE_TIME= 12*60*60*1000;
     //密钥盐
-    private static final String TOKEN_SECRET="token123";
+    private static final String TOKEN_SECRET="books";
 
     /**
      * 签名生成
-     * @param user
+     * @param userName
      * @return
      */
-    public static String sign(User user){
+    public static String sign(String userName){
         String token = null;
         try {
             Date expiresAt = new Date(System.currentTimeMillis() + EXPIRE_TIME);
             token = JWT.create()
                     .withIssuer("auth0")
-                    .withClaim("username", user.getUserName())
+                    .withClaim("username", userName)
                     .withExpiresAt(expiresAt)
                     // 使用了HMAC256加密算法。
                     .sign(Algorithm.HMAC256(TOKEN_SECRET));

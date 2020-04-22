@@ -46,4 +46,12 @@ public interface UserMapper {
             "VALUES(#{createTime},#{parentId},#{userId})")
     void insertUserRetailLevel(UserRetailLevel userRetailLevel);
 
+    /**
+     * 根据用户名和密码查找用户id（校验用户名和密码是否正确）
+     * @param userName
+     * @return
+     */
+    @Select("select * from t_user where user_name = #{userName} and password = #{password}")
+    User findUserByUserNameAndPass(String userName, String password);
+
 }

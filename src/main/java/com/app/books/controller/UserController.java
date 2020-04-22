@@ -37,4 +37,14 @@ public class UserController {
         }
         return Result.success();
     }
+
+    @ApiOperation(value = "登录接口")
+    @PutMapping("login")
+    public Result login(String userName, String password){
+        String msg = userService.login(userName, password);
+        if ("error".equals(msg)) {//用户名或密码错误
+            return Result.error("用户名或密码错误");
+        }
+        return Result.success(msg);
+    }
 }
