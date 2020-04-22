@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "校验用户名是否已存在")
-    @PutMapping("verifyUserName")
+    @GetMapping("verifyUserName")
     public Result verifyUserName(String userName){
         Integer userId = userMapper.findUserIdByUserName(userName);
         if (userId != null){
@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "登录接口")
-    @PutMapping("login")
+    @GetMapping("login")
     public Result login(String userName, String password){
         String msg = userService.login(userName, password);
         if ("error".equals(msg)) {//用户名或密码错误
