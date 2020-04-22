@@ -10,10 +10,7 @@ import com.app.books.service.BookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Api(tags = "小说-业务接口")
@@ -75,7 +72,7 @@ public class BookController {
      */
     @PutMapping("userSend")
     @ApiOperation(value = "新增用户打赏")
-    public Result userSend(UserSendLog userSendLog) {
+    public Result userSend(@RequestBody UserSendLog userSendLog) {
         bookService.userSend(userSendLog);
         return Result.success();
     }
@@ -106,7 +103,7 @@ public class BookController {
 
     @PutMapping("comment")
     @ApiOperation(value = "新增用户评论")
-    public Result comment(Comment comment) {
+    public Result comment(@RequestBody Comment comment) {
         bookService.insertComment(comment);
         return Result.success();
     }

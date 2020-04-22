@@ -4,12 +4,14 @@ import com.app.books.entity.User;
 import com.app.books.mapper.UserMapper;
 import com.app.books.result.Result;
 import com.app.books.service.UserService;
+import com.app.books.utils.RedisUtil;
 import com.app.books.vo.RegisterParams;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -20,6 +22,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private RedisUtil redisUtil;
 
     @ApiOperation(value = "注册接口")
     @PutMapping("register")
@@ -46,5 +50,13 @@ public class UserController {
             return Result.error("用户名或密码错误");
         }
         return Result.success(msg);
+    }
+
+    @ApiOperation(value = "退出登录")
+    @GetMapping("quit")
+    public Result quit(HttpServletRequest request){
+        String token = request.getHeader("token");
+        redisUtil.del(token);
+        return Result.success();
     }
 }
