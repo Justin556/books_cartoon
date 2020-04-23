@@ -23,7 +23,7 @@ public class CustomerExceptionHandler {
             return Result.error(ex.getCode(), ex.getMsg());
         }
         e.printStackTrace();
-        return Result.error(-99, "未知异常" + e);
+        return Result.error(-99, e.getMessage());
     }
 
     @ExceptionHandler(DuplicateKeyException.class)
@@ -35,31 +35,31 @@ public class CustomerExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public Result IllegalArgumentException(IllegalArgumentException e) {
         e.printStackTrace();
-        return Result.error("参数异常！" + e.getMessage());
+        return Result.error("参数异常！");
     }
 
     @ExceptionHandler(NullPointerException.class)
     public Result NullPointerException(NullPointerException e) {
         e.printStackTrace();
-        return Result.error("空指针！" + e.getMessage());
+        return Result.error("空指针！");
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public Result DataIntegrityViolationException(DataIntegrityViolationException e) {
         Throwable mostSpecificCause = e.getMostSpecificCause();
         e.printStackTrace();
-        return Result.error("编辑数据异常:" + mostSpecificCause.getMessage());
+        return Result.error("编辑数据异常:");
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public Result HttpMessageNotReadableException(HttpMessageNotReadableException e) {
         e.printStackTrace();
-        return Result.error("参数类型不匹配！" + e.getLocalizedMessage());
+        return Result.error("参数类型不匹配！");
     }
 
     @ExceptionHandler({MethodArgumentTypeMismatchException.class, NumberFormatException.class})
     public Result MethodArgumentTypeMismatchException(Exception e) {
         e.printStackTrace();
-        return Result.error("参数类型不匹配！" + e.getMessage());
+        return Result.error("参数类型不匹配！");
     }
 }

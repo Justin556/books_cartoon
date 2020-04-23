@@ -1,6 +1,8 @@
 package com.app.books.controller;
 
 import com.app.books.entity.User;
+import com.app.books.entity.WebSite;
+import com.app.books.mapper.SettingMapper;
 import com.app.books.mapper.UserMapper;
 import com.app.books.result.Result;
 import com.app.books.service.UserService;
@@ -24,8 +26,10 @@ public class UserController {
     private UserMapper userMapper;
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private SettingMapper settingMapper;
 
-    @ApiOperation(value = "注册接口")
+    @ApiOperation(value = "注册")
     @PutMapping("register")
     public Result register(@RequestBody @Valid RegisterParams registerParams){
         userService.register(registerParams);
@@ -42,7 +46,7 @@ public class UserController {
         return Result.success();
     }
 
-    @ApiOperation(value = "登录接口")
+    @ApiOperation(value = "登录")
     @GetMapping("login")
     public Result login(String userName, String password){
         String msg = userService.login(userName, password);
@@ -57,6 +61,16 @@ public class UserController {
     public Result quit(HttpServletRequest request){
         String token = request.getHeader("token");
         redisUtil.del(token);
+        return Result.success();
+    }
+
+    @ApiOperation(value = "签到")
+    @GetMapping("signIn")
+    public Result signIn(HttpServletRequest request){
+        String token = request.getHeader("token");
+        User user = (User) redisUtil.get(token);
+        Integer signToGive = settingMapper.getWebSite().getSignToGive();
+        userService.signIn(signToGive, user);
         return Result.success();
     }
 }

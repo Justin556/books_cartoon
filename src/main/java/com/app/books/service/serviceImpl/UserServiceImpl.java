@@ -1,6 +1,7 @@
 package com.app.books.service.serviceImpl;
 
 import com.app.books.entity.User;
+import com.app.books.entity.UserCurrencyLog;
 import com.app.books.entity.UserRetailLevel;
 import com.app.books.mapper.UserMapper;
 import com.app.books.service.UserService;
@@ -53,5 +54,17 @@ public class UserServiceImpl implements UserService {
         String token = JWTUtil.sign(userName);
         redisUtil.set(token, user);
         return token;
+    }
+
+    @Override
+    public void signIn(Integer signToGive, User user) {
+        userMapper.addBookCurrency(signToGive, user.getId());//用户增加书币
+        UserCurrencyLog userCurrencyLog = new UserCurrencyLog();
+        userCurrencyLog.setCreateTime(new Date());
+        userCurrencyLog.setUserId(user.getId());
+        userCurrencyLog.setUserName(user.getUserName());
+        userCurrencyLog.setCurrencyType(1);
+        userCurrencyLog.setCurrency(signToGive);
+        userMapper.insertUserCurrencyLog(userCurrencyLog);//添加书币记录
     }
 }
