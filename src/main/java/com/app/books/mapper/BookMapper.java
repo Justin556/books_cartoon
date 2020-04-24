@@ -17,7 +17,7 @@ import java.util.List;
 public interface BookMapper {
 
     @Select("<script> select *,cover_pic as coverPic,detail_pic as detailPic from t_book where 1=1 " +
-            "<if test=\"name !=null and name !=''\"> AND title like \"%\"#{name}\"%\" </if>" +
+            "<if test=\"name !=null and name !=''\"> AND title like \"%\"#{name}\"%\" OR author like \"%\"#{name}\"%\" </if>" +
             "<if test=\"category !=null and category !=''\"> AND category = #{category} </if>" +
             "<if test=\"status !=null and status !=''\"> AND status =#{status} </if>" +
             "</script>")
