@@ -91,14 +91,18 @@ public class BookController {
 
     /*@PutMapping("bookLike")
     @ApiOperation(value = "点赞")
-    public Result bookLike() {
+    public Result bookLike(HttpServletRequest request, Integer bookId) {
+        Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
+        User user = userMapper.findUserById(userId);
         bookService.bookLike();
         return Result.success();
     }
 
     @PutMapping("bookCollect")
     @ApiOperation(value = "收藏")
-    public Result bookCollect(BookCollect bookCollect) {
+    public Result bookCollect(HttpServletRequest request, Integer bookId) {
+        Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
+        User user = userMapper.findUserById(userId);
         bookService.bookCollect(bookCollect);
         return Result.success();
     }*/

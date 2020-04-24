@@ -36,7 +36,10 @@ public class UserSendLog {
     private String userName;
 
     //打赏总金额
-    private Integer  userAmount;
+    private Integer userAmount;
+
+    public UserSendLog() {
+    }
 
     public UserSendLog(Date createTime, Integer userId, Integer outId, Integer amount) {
         this.createTime = createTime;

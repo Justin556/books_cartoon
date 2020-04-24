@@ -24,4 +24,6 @@ public class BookCollect {
     private String title;
     //封面图(列表)
     private String coverPic;
+    //状态：（0：已取消； 1：已收藏）
+    private Integer status;
 }

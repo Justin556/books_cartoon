@@ -18,4 +18,6 @@ public class BookLikes {
     private Integer userId;
     //小说id
     private Integer bid;
+    //状态：（0：已取消； 1：已点赞）
+    private Integer status;
 }
