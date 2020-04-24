@@ -5,13 +5,14 @@ import com.app.books.pojo.BookDetailsPojo;
 import com.app.books.vo.BookParams;
 import com.github.pagehelper.PageInfo;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
 public interface BookService {
     PageInfo<Book> bookList(BookParams bookParams);
 
-    BookDetailsPojo details(Integer bookId);
+    BookDetailsPojo details(HttpServletRequest request, Integer bookId);
 
     void userSend(User user, Integer bookId, Integer amount);
 
@@ -31,5 +32,7 @@ public interface BookService {
 
     PageInfo<Book> homePageList(Integer pageNumber, Integer pageSize, Integer status);
 
-    /*void bookLike();*/
+    void bookLike(Integer bookId, Integer userId);
+
+    void bookCollect(Integer bookId, Integer userId);
 }

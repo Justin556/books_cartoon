@@ -55,8 +55,8 @@ public class BookController {
      */
     @GetMapping("details")
     @ApiOperation(value = "单部小说详情")
-    public Result details(Integer bookId) {
-        return Result.success(bookService.details(bookId));
+    public Result details(HttpServletRequest request, Integer bookId) {
+        return Result.success(bookService.details(request, bookId));
     }
 
     /**
@@ -89,23 +89,21 @@ public class BookController {
         return Result.success();
     }
 
-    /*@PutMapping("bookLike")
-    @ApiOperation(value = "点赞")
+    @PutMapping("bookLike")
+    @ApiOperation(value = "点赞/取消点赞")
     public Result bookLike(HttpServletRequest request, Integer bookId) {
         Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
-        User user = userMapper.findUserById(userId);
-        bookService.bookLike();
+        bookService.bookLike(bookId, userId);
         return Result.success();
     }
 
     @PutMapping("bookCollect")
-    @ApiOperation(value = "收藏")
+    @ApiOperation(value = "收藏/取消收藏")
     public Result bookCollect(HttpServletRequest request, Integer bookId) {
         Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
-        User user = userMapper.findUserById(userId);
-        bookService.bookCollect(bookCollect);
+        bookService.bookCollect(bookId, userId);
         return Result.success();
-    }*/
+    }
 
     /**
      * 小说打赏列表

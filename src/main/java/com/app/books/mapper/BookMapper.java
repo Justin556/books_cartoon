@@ -50,6 +50,14 @@ public interface BookMapper {
     void userSend(UserSendLog userSendLog);
 
     /**
+     * 通过bookId和userId获取点赞记录的id
+     * @param bookId
+     * @return
+     */
+    @Select("SELECT id FROM t_book_likes WHERE bid = #{bookId} and user_id = #{userId}")
+    Integer getLikeIdByBookIdAndUserId(Integer bookId, Integer userId);
+
+    /**
      * 新增点赞
      * @param bookLikes
      */
@@ -58,10 +66,18 @@ public interface BookMapper {
 
     /**
      * 取消点赞
-     * @param bookLikes
+     * @param
      */
     @Delete("delete from t_book_likes where user_id = user_id and bid = #{bid}")
-    void deleteBookLike(BookLikes bookLikes);
+    void deleteBookLike(Integer bookId, Integer userId);
+
+    /**
+     * 通过bookId和userId获取收藏记录的id
+     * @param bookId
+     * @return
+     */
+    @Select("SELECT id FROM t_book_collect WHERE bid = #{bookId} and user_id = #{userId}")
+    Integer getCollectIdByBookIdAndUserId(Integer bookId, Integer userId);
 
     /**
      * 新增收藏
@@ -72,10 +88,10 @@ public interface BookMapper {
 
     /**
      * 取消收藏
-     * @param bookCollect
+     * @param
      */
     @Insert("delete from t_book_collect where user_id = user_id and bid = #{bid}")
-    void deleteBookCollect(BookCollect bookCollect);
+    void deleteBookCollect(Integer bookId, Integer userId);
 
     /**
      * 打赏列表
