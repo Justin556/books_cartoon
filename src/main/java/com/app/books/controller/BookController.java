@@ -111,8 +111,8 @@ public class BookController {
      */
     @GetMapping("userSendList")
     @ApiOperation(value = "打赏列表")
-    public Result userSendList(Integer bookId) {
-        return Result.success(bookService.userSendList(bookId));
+    public Result userSendList(Integer pageNumber, Integer pageSize, Integer bookId) {
+        return Result.success(bookService.userSendList(pageNumber, pageSize, bookId));
     }
 
     @PostMapping("comment")
@@ -126,8 +126,8 @@ public class BookController {
 
     @GetMapping("commentList")
     @ApiOperation(value = "评论列表")
-    public Result commentList(Integer bookId) {
-        return Result.success(bookService.commentList(bookId));
+    public Result commentList(Integer pageNumber, Integer pageSize, Integer bookId) {
+        return Result.success(bookService.commentList(pageNumber, pageSize, bookId));
     }
 
     @GetMapping("categoryList")

@@ -16,11 +16,11 @@ public interface BookService {
 
     void userSend(User user, Integer bookId, Integer amount);
 
-    List<UserSendLog> userSendList(Integer bookId);
+    PageInfo<UserSendLog> userSendList(Integer pageNumber, Integer pageSize, Integer bookId);
 
     void insertComment(User user, Integer bookId, String commentInfo);
 
-    List<Comment> commentList(Integer bookId);
+    PageInfo<Comment> commentList(Integer pageNumber, Integer pageSize, Integer bookId);
 
     List<Map<String, Object>>  categoryList();
 

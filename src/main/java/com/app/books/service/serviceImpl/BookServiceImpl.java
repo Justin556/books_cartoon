@@ -78,9 +78,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<UserSendLog> userSendList(Integer bookId) {
-
-        return bookMapper.userSendList(bookId);
+    public PageInfo<UserSendLog> userSendList(Integer pageNumber, Integer pageSize, Integer bookId) {
+        PageHelper.startPage(pageNumber,pageSize);
+        List<UserSendLog> list = bookMapper.userSendList(bookId);
+        PageInfo<UserSendLog> pageInfo = new PageInfo<UserSendLog>(list);
+        return pageInfo;
     }
 
     @Override
@@ -89,8 +91,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Comment> commentList(Integer bookId) {
-        return bookMapper.commentList(bookId);
+    public PageInfo<Comment> commentList(Integer pageNumber, Integer pageSize, Integer bookId) {
+        PageHelper.startPage(pageNumber,pageSize);
+        List<Comment> list = bookMapper.commentList(bookId);
+        PageInfo<Comment> pageInfo = new PageInfo<Comment>(list);
+        return pageInfo;
     }
 
     @Override
