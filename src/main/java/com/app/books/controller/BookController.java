@@ -3,7 +3,7 @@ package com.app.books.controller;
 import com.app.books.entity.*;
 import com.app.books.mapper.UserMapper;
 import com.app.books.utils.RedisUtil;
-import com.app.books.vo.BookQuery;
+import com.app.books.vo.BookParams;
 import com.app.books.result.Result;
 import com.app.books.service.BookService;
 import io.swagger.annotations.Api;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
 
 @RestController
 @Api(tags = "小说-业务接口")
@@ -26,9 +25,9 @@ public class BookController {
     private UserMapper userMapper;
 
     @GetMapping("page")
-    @ApiOperation(value = "分页数据")
-    public Result page(BookQuery bookQuery) {
-        return bookService.bookList(bookQuery);
+    @ApiOperation(value = "模糊/条件 搜索")
+    public Result page(BookParams bookParams) {
+        return Result.success(bookService.bookList(bookParams));
     }
 
     /**

@@ -2,15 +2,14 @@ package com.app.books.service;
 
 import com.app.books.entity.*;
 import com.app.books.pojo.BookDetailsPojo;
-import com.app.books.vo.BookQuery;
-import com.app.books.result.Result;
+import com.app.books.vo.BookParams;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 import java.util.Map;
 
 public interface BookService {
-    Result bookList(BookQuery bookQuery);
+    PageInfo<Book> bookList(BookParams bookParams);
 
     BookDetailsPojo details(Integer bookId);
 

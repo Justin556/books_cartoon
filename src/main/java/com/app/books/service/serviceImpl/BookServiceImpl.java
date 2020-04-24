@@ -1,12 +1,10 @@
 package com.app.books.service.serviceImpl;
 
-import com.alibaba.druid.sql.visitor.functions.Lcase;
 import com.app.books.entity.*;
 import com.app.books.mapper.UserMapper;
 import com.app.books.pojo.BookDetailsPojo;
-import com.app.books.vo.BookQuery;
+import com.app.books.vo.BookParams;
 import com.app.books.mapper.BookMapper;
-import com.app.books.result.Result;
 import com.app.books.service.BookService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -24,11 +22,11 @@ public class BookServiceImpl implements BookService {
     private UserMapper userMapper;
 
     @Override
-    public Result bookList(BookQuery bookQuery) {
-        PageHelper.startPage(bookQuery.getPageNumber(),bookQuery.getPageSize());
-        List<Comic> list = bookMapper.findAll(bookQuery);
-        PageInfo<Comic> pageInfo = new PageInfo<Comic>(list);
-        return Result.success(pageInfo);
+    public PageInfo<Book> bookList(BookParams bookParams) {
+        PageHelper.startPage(bookParams.getPageNumber(), bookParams.getPageSize());
+        List<Book> list = bookMapper.findAll(bookParams);
+        PageInfo<Book> pageInfo = new PageInfo<Book>(list);
+        return pageInfo;
     }
 
     @Override

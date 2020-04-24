@@ -8,15 +8,15 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class BookQuery {
+public class BookParams {
 
     private String name;
 
-    private String type;
+    private Integer category;
+
+    private Integer status;
 
     private int pageSize;
 
     private int pageNumber;
-
-    private int status;
 }

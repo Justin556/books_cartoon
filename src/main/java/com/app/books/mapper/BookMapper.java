@@ -2,7 +2,7 @@ package com.app.books.mapper;
 
 import com.app.books.entity.*;
 import com.app.books.pojo.BookDetailsPojo;
-import com.app.books.vo.BookQuery;
+import com.app.books.vo.BookParams;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -18,9 +18,10 @@ public interface BookMapper {
 
     @Select("<script> select *,cover_pic as coverPic,detail_pic as detailPic from t_book where 1=1 " +
             "<if test=\"name !=null and name !=''\"> AND title like \"%\"#{name}\"%\" </if>" +
+            "<if test=\"category !=null and category !=''\"> AND category = #{category} </if>" +
             "<if test=\"status !=null and status !=''\"> AND status =#{status} </if>" +
             "</script>")
-    List<Comic> findAll(BookQuery bookQuery);
+    List<Book> findAll(BookParams bookParams);
 
     @Select("SELECT t_book.id, \n" +
             "t_book.create_time as createTime, \n" +
