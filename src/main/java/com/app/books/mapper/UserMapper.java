@@ -41,6 +41,25 @@ public interface UserMapper {
     Integer findUserIdByUserName(String userName);
 
     /**
+     * 根据用户id查找用户对象
+     * @param userId
+     * @return
+     */
+    @Select("select id, \n" +
+            "create_time as createTime, \n" +
+            "ali_account as aliAccount, \n" +
+            "ali_name as aliName, \n" +
+            "balance, \n" +
+            "book_currency as bookCurrency, \n" +
+            "is_vip as isVip, \n" +
+            "proxy_id as proxyId, \n" +
+            "user_name as userName, \n" +
+            "user_source as userSource, \n" +
+            "password \n" +
+            "from t_user where id = #{userId}")
+    User findUserById(Integer userId);
+
+    /**
      * 新增用户分销关系表
      * @param userRetailLevel
      */
@@ -49,7 +68,7 @@ public interface UserMapper {
     void insertUserRetailLevel(UserRetailLevel userRetailLevel);
 
     /**
-     * 根据用户名和密码查找用户id（校验用户名和密码是否正确）
+     * 根据用户名和密码查找用户（校验用户名和密码是否正确）
      * @param userName
      * @return
      */
@@ -74,6 +93,14 @@ public interface UserMapper {
      */
     @Update("update t_user set book_currency = book_currency + #{signToGive} where id = #{userId}")
     void addBookCurrency(Integer signToGive, Integer userId);
+
+    /**
+     * 打赏减书币
+     * @param amount
+     * @param userId
+     */
+    @Update("update t_user set book_currency = book_currency - #{amount} where id = #{userId}")
+    void reduceBookCurrency(Integer amount, Integer userId);
 
     /**
      * 新增用户书币变动记录

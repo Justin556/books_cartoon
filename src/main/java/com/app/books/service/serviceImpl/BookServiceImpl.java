@@ -2,6 +2,7 @@ package com.app.books.service.serviceImpl;
 
 import com.alibaba.druid.sql.visitor.functions.Lcase;
 import com.app.books.entity.*;
+import com.app.books.mapper.UserMapper;
 import com.app.books.pojo.BookDetailsPojo;
 import com.app.books.vo.BookQuery;
 import com.app.books.mapper.BookMapper;
@@ -12,16 +13,15 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class BookServiceImpl implements BookService {
 
     @Autowired
     private BookMapper bookMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public Result bookList(BookQuery bookQuery) {
@@ -44,8 +44,19 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void userSend(UserSendLog userSendLog) {
-        bookMapper.userSend(userSendLog);
+    public void userSend(User user, Integer bookId, Integer amount) {
+        //新增打赏记录表
+        bookMapper.userSend(new UserSendLog(new Date(), user.getId(), bookId, amount));
+        //用户的书币减少
+        userMapper.reduceBookCurrency(amount, user.getId());
+        //新增书币变动表
+        UserCurrencyLog userCurrencyLog = new UserCurrencyLog();
+        userCurrencyLog.setCreateTime(new Date());
+        userCurrencyLog.setUserId(user.getId());
+        userCurrencyLog.setUserName(user.getUserName());
+        userCurrencyLog.setCurrencyType(3);
+        userCurrencyLog.setCurrency(amount);
+        userMapper.insertUserCurrencyLog(userCurrencyLog);//添加书币记录
     }
 
     @Override
@@ -55,8 +66,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void insertComment(Comment comment) {
-        bookMapper.insertComment(comment);
+    public void insertComment(User user, Integer bookId, String commentInfo) {
+        bookMapper.insertComment(new Comment(new Date(), bookId, commentInfo, user.getId()));
     }
 
     @Override

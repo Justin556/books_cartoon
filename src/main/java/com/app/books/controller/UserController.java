@@ -32,6 +32,10 @@ public class UserController {
     @ApiOperation(value = "注册")
     @PutMapping("register")
     public Result register(@RequestBody @Valid RegisterParams registerParams){
+        Integer userId = userMapper.findUserIdByUserName(registerParams.getUserName());
+        if (userId != null){
+            return Result.error("用户名已存在");
+        }
         userService.register(registerParams);
         return Result.success();
     }
@@ -67,8 +71,8 @@ public class UserController {
     @ApiOperation(value = "签到")
     @GetMapping("signIn")
     public Result signIn(HttpServletRequest request){
-        String token = request.getHeader("token");
-        User user = (User) redisUtil.get(token);
+        Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
+        User user = userMapper.findUserById(userId);
         Integer signToGive = settingMapper.getWebSite().getSignToGive();
         userService.signIn(signToGive, user);
         return Result.success();

@@ -37,4 +37,11 @@ public class UserSendLog {
 
     //打赏总金额
     private Integer  userAmount;
+
+    public UserSendLog(Date createTime, Integer userId, Integer outId, Integer amount) {
+        this.createTime = createTime;
+        this.userId = userId;
+        this.outId = outId;
+        this.amount = amount;
+    }
 }

@@ -1,10 +1,9 @@
 package com.app.books.controller;
 
-import com.app.books.entity.BookCollect;
-import com.app.books.entity.BookLikes;
+import com.app.books.entity.*;
+import com.app.books.mapper.UserMapper;
+import com.app.books.utils.RedisUtil;
 import com.app.books.vo.BookQuery;
-import com.app.books.entity.Comment;
-import com.app.books.entity.UserSendLog;
 import com.app.books.result.Result;
 import com.app.books.service.BookService;
 import io.swagger.annotations.Api;
@@ -12,12 +11,19 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+
 @RestController
 @Api(tags = "小说-业务接口")
 @RequestMapping("/book/")
 public class BookController {
     @Autowired
     private BookService bookService;
+    @Autowired
+    private RedisUtil redisUtil;
+    @Autowired
+    private UserMapper userMapper;
 
     @GetMapping("page")
     @ApiOperation(value = "分页数据")
@@ -66,14 +72,21 @@ public class BookController {
     }
 
     /**
-     * 用户打赏
-     * @param userSendLog
+     * 打赏
+     * @param request
+     * @param bookId 小说id
+     * @param amount 打赏书币金额
      * @return
      */
-    @PutMapping("userSend")
-    @ApiOperation(value = "新增用户打赏")
-    public Result userSend(@RequestBody UserSendLog userSendLog) {
-        bookService.userSend(userSendLog);
+    @PostMapping("userSend")
+    @ApiOperation(value = "打赏")
+    public Result userSend(HttpServletRequest request, Integer bookId, Integer amount) {
+        Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
+        User user = userMapper.findUserById(userId);
+        if (user.getBookCurrency() < amount) {
+            return Result.error("书币不足");
+        }
+        bookService.userSend(user, bookId, amount);
         return Result.success();
     }
 
@@ -101,10 +114,12 @@ public class BookController {
         return Result.success(bookService.userSendList(bookId));
     }
 
-    @PutMapping("comment")
-    @ApiOperation(value = "新增用户评论")
-    public Result comment(@RequestBody Comment comment) {
-        bookService.insertComment(comment);
+    @PostMapping("comment")
+    @ApiOperation(value = "评论")
+    public Result comment(HttpServletRequest request, Integer bookId, String commentInfo) {
+        Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
+        User user = userMapper.findUserById(userId);
+        bookService.insertComment(user, bookId, commentInfo);
         return Result.success();
     }
 

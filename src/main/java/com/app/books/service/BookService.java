@@ -14,11 +14,11 @@ public interface BookService {
 
     BookDetailsPojo details(Integer bookId);
 
-    void userSend(UserSendLog userSendLog);
+    void userSend(User user, Integer bookId, Integer amount);
 
     List<UserSendLog> userSendList(Integer bookId);
 
-    void insertComment(Comment comment);
+    void insertComment(User user, Integer bookId, String commentInfo);
 
     List<Comment> commentList(Integer bookId);
 

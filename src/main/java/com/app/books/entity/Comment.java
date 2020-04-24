@@ -28,4 +28,10 @@ public class Comment {
     //用户名
     private String userName;
 
+    public Comment(Date createTime, Integer outId, String commentInfo, Integer userId) {
+        this.createTime = createTime;
+        this.outId = outId;
+        this.commentInfo = commentInfo;
+        this.userId = userId;
+    }
 }

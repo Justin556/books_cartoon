@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
             return "error";
         }
         String token = JWTUtil.sign(userName);
-        redisUtil.set(token, user);
+        redisUtil.set(token, user.getId());
         return token;
     }
 
