@@ -5,7 +5,9 @@ import com.app.books.mapper.ChapterMapper;
 import com.app.books.service.ChapterService;
 import com.app.books.vo.ChapterQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ChapterServiceImpl implements ChapterService {
 
     @Autowired
