@@ -72,6 +72,14 @@ public interface ComicMapper {
             "ORDER BY ji_no")
     List<ComicEpisodes> comicEpisodeList(String comicId);
 
+    /**
+     * 根据id查章节
+     * @param id
+     * @return
+     */
+    @Select("SELECT *  \n" +
+            "FROM t_comic_episodes b WHERE id=#{id}")
+    ComicEpisodes getEpisodeById(String id);
 
     /**
      * 章节详情

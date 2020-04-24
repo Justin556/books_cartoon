@@ -5,6 +5,7 @@ import com.app.books.entity.*;
 import com.app.books.mapper.ChapterMapper;
 import com.app.books.pojo.BookDetailsPojo;
 import com.app.books.pojo.ComicDetailsPojo;
+import com.app.books.service.ChapterService;
 import com.app.books.utils.RedisUtil;
 import com.app.books.vo.ChapterQuery;
 import com.app.books.vo.ComicQuery;
@@ -30,7 +31,7 @@ public class ComicServiceImpl implements ComicService {
     private AuthenticationInterceptor authenticationInterceptor;
 
     @Autowired
-    private ChapterMapper chapterMapper;
+    private ChapterService chapterService;
 
     @Override
     public Result comicList(ComicQuery comicQuery) {
@@ -52,11 +53,8 @@ public class ComicServiceImpl implements ComicService {
 
         comicDetailsPojo.setLikeStatus(comicMapper.likeStatus(authenticationInterceptor.userId,comicId));
         comicDetailsPojo.setCollectStatus(comicMapper.collectStatus(authenticationInterceptor.userId,comicId));
-        ChapterQuery chapterQuery=new ChapterQuery();
-        chapterQuery.setOutId(Integer.parseInt(comicId));
-        chapterQuery.setType(2);
-        chapterQuery.setUserId(Integer.parseInt(authenticationInterceptor.userId));
-        comicDetailsPojo.setChapterQuery(chapterMapper.selectChapter(chapterQuery));
+
+        comicDetailsPojo.setChapterQuery(chapterService.selectChapter(comicId,2));
         return Result.success(comicDetailsPojo);
     }
 
@@ -91,15 +89,16 @@ public class ComicServiceImpl implements ComicService {
     @Override
     public Result bannerDetails(String comicId) {
         ChapterQuery chapterQuery=new ChapterQuery();
-        ComicDetailsPojo comic= comicMapper.details(comicId);
-        chapterQuery.setOutId(comic.getId());
-        chapterQuery.setType(2);
-        chapterQuery.setUserId(Integer.parseInt(authenticationInterceptor.userId));
+        ComicEpisodes comicEpisodes=comicMapper.getEpisodeById(comicId);
+        ComicDetailsPojo comic= comicMapper.details(comicEpisodes.getComicId()+"");
 
-        if(chapterMapper.selectChapter(chapterQuery)!=null){
-            chapterQuery.setChapter(comic.getTitle());
+        if(chapterService.selectChapter(comic.getId()+"",2)!=null){
+            chapterQuery.setOutId(comic.getId());
+            chapterQuery.setType(2);
+            chapterQuery.setUserId(Integer.parseInt(authenticationInterceptor.userId));
+            chapterQuery.setChapter(comicEpisodes.getTitle());
             chapterQuery.setChapterId(Integer.parseInt(comicId));
-            chapterMapper.addChapter(chapterQuery);
+            chapterService.addChapter(chapterQuery);
         }
 
         return Result.success(comicMapper.bannerDetails(comicId));
