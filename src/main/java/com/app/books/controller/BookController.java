@@ -89,7 +89,7 @@ public class BookController {
         return Result.success();
     }
 
-    @PutMapping("bookLike")
+    @GetMapping("bookLike")
     @ApiOperation(value = "点赞/取消点赞")
     public Result bookLike(HttpServletRequest request, Integer bookId) {
         Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
@@ -97,7 +97,7 @@ public class BookController {
         return Result.success();
     }
 
-    @PutMapping("bookCollect")
+    @GetMapping("bookCollect")
     @ApiOperation(value = "收藏/取消收藏")
     public Result bookCollect(HttpServletRequest request, Integer bookId) {
         Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
