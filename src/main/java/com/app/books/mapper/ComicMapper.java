@@ -44,6 +44,14 @@ public interface ComicMapper {
     Integer userSendMoneyList(String comicId);
 
     /**
+     * 打赏
+     * @param userSendLog
+     * @return
+     */
+    @Select("select sum(u.amount) from t_user_send_log u where out_id = #{comicId}")
+    UserSendLog userSend(UserSendLog userSendLog);
+
+    /**
      * 评论列表
      * @param comicId
      * @return
@@ -82,5 +90,26 @@ public interface ComicMapper {
     @Insert("insert t_comic_likes(create_time,comic_id,user_id)\n" +
             "VALUES(now(),#{comicId},#{userId})")
     List<ComicLikes> addComicLikes(ComicLikes comicLikes);
+
+
+    /**
+     * 漫画是否点赞
+     * @param userId
+     * @param comicId
+     * @return
+     */
+    @Insert("select COUNT(1) from t_comic_likes\n" +
+            "where comic_id=#{comicId} and user_id=#{userId})")
+    Integer likeStatus(String userId,String comicId);
+
+    /**
+     * 漫画是否收藏
+     * @param userId
+     * @param comicId
+     * @return
+     */
+    @Insert("select COUNT(1) from t_comic_collect\n" +
+            "where comic_id=#{comicId} and user_id=#{userId})")
+    Integer collectStatus(String userId,String comicId);
 
 }

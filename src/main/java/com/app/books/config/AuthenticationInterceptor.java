@@ -16,6 +16,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     @Autowired
     private RedisUtil redisUtil;
 
+    public String userId;
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
         // 如果不是映射到方法直接通过
@@ -33,6 +34,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         if (!redisUtil.hasKey(token)) {
             throw new RuntimeException("token无效，请重新登录");
         }
+        userId=String.valueOf(redisUtil.get(token));
         return true;
     }
 }

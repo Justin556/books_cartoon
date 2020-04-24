@@ -4,6 +4,7 @@ import com.app.books.entity.BookEpisodes;
 import com.app.books.entity.ComicEpisodes;
 import com.app.books.entity.Comment;
 import com.app.books.entity.UserSendLog;
+import com.app.books.vo.ChapterQuery;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
@@ -57,4 +58,12 @@ public class ComicDetailsPojo {
     private List<Comment> commentList;
     //章节列表
     private List<ComicEpisodes> comicEpisodes;
+
+    //是否收藏 0未收藏 1收藏
+    private Integer collectStatus;
+
+    //是否点赞 0未点赞 1点赞
+    private Integer likeStatus;
+
+    private ChapterQuery chapterQuery;
 }

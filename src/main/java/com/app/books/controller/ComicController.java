@@ -1,7 +1,9 @@
 package com.app.books.controller;
 
 
+import com.app.books.entity.ComicCollect;
 import com.app.books.entity.ComicLikes;
+import com.app.books.entity.UserSendLog;
 import com.app.books.vo.ComicQuery;
 import com.app.books.result.Result;
 import com.app.books.service.ComicService;
@@ -91,21 +93,51 @@ public class ComicController {
 
     /**
      * 漫画打赏
-     * @param comicQuery
+     * @param userSendLog
      */
     @GetMapping("exceptionalComic")
     @ApiOperation(value = "漫画打赏")
-    public Result exceptionalComic(ComicQuery comicQuery) {
-        return comicService.comicList(comicQuery);
+    public Result userSend(UserSendLog userSendLog) {
+        return comicService.userSend(userSendLog);
     }
 
     /**
      * 漫画收藏
-     * @param comicQuery
+     * @param comicCollect
      */
     @GetMapping("closedComic")
     @ApiOperation(value = "漫画收藏")
-    public Result closedComic(ComicQuery comicQuery) {
-        return comicService.comicList(comicQuery);
+    public Result closedComic(ComicCollect comicCollect) {
+        return comicService.closedComic(comicCollect);
     }
+    /**
+     * 收藏历史
+     * @param comicCollect
+     */
+    @GetMapping("closedHistory")
+    @ApiOperation(value = "收藏历史")
+    public Result closedHistory(ComicCollect comicCollect) {
+        return comicService.closedHistory(comicCollect);
+    }
+    /**
+     * 漫画阅读历史
+     * @param comicQuery
+     */
+    @GetMapping("readingHistory")
+    @ApiOperation(value = "漫画阅读历史")
+    public Result readingHistory(ComicQuery comicQuery) {
+        return comicService.readingHistory(comicQuery);
+    }
+
+    /**
+     * 续看
+     * @param comicQuery
+     */
+    @GetMapping("continueSee")
+    @ApiOperation(value = "续看")
+    public Result continueSee(ComicQuery comicQuery) {
+        return comicService.continueSee(comicQuery);
+    }
+
+
 }

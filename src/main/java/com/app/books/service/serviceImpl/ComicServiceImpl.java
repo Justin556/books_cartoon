@@ -1,12 +1,13 @@
 package com.app.books.service.serviceImpl;
 
-import com.app.books.entity.ComicLikes;
-import com.app.books.entity.Comment;
-import com.app.books.entity.UserSendLog;
+import com.app.books.config.AuthenticationInterceptor;
+import com.app.books.entity.*;
+import com.app.books.mapper.ChapterMapper;
 import com.app.books.pojo.BookDetailsPojo;
 import com.app.books.pojo.ComicDetailsPojo;
+import com.app.books.utils.RedisUtil;
+import com.app.books.vo.ChapterQuery;
 import com.app.books.vo.ComicQuery;
-import com.app.books.entity.Comic;
 import com.app.books.mapper.ComicMapper;
 import com.app.books.result.Result;
 import com.app.books.service.ComicService;
@@ -25,6 +26,12 @@ public class ComicServiceImpl implements ComicService {
     @Autowired
     private ComicMapper comicMapper;
 
+    @Autowired
+    private AuthenticationInterceptor authenticationInterceptor;
+
+    @Autowired
+    private ChapterMapper chapterMapper;
+
     @Override
     public Result comicList(ComicQuery comicQuery) {
         PageHelper.startPage(comicQuery.getPageNumber(),comicQuery.getPageSize());//这行是重点，表示从pageNum页开始，每页pageSize条数据
@@ -35,14 +42,22 @@ public class ComicServiceImpl implements ComicService {
 
     @Override
     public Result details(String comicId) {
-        ComicDetailsPojo bookDetailsPojo = comicMapper.details(comicId);
-        bookDetailsPojo.setSendList(comicMapper.userSendList(comicId));
-        bookDetailsPojo.setSendSum(comicMapper.userSendMoneyList(comicId));
-        bookDetailsPojo.setCommentList(comicMapper.commentList(comicId));
-        bookDetailsPojo.setCommentSum(bookDetailsPojo.getCommentList().size());
-        bookDetailsPojo.setComicEpisodes(comicMapper.comicEpisodeList(comicId));
-        bookDetailsPojo.setChapterSum(bookDetailsPojo.getComicEpisodes().size());
-        return Result.success(bookDetailsPojo);
+        ComicDetailsPojo comicDetailsPojo = comicMapper.details(comicId);
+        comicDetailsPojo.setSendList(comicMapper.userSendList(comicId));
+        comicDetailsPojo.setSendSum(comicMapper.userSendMoneyList(comicId));
+        comicDetailsPojo.setCommentList(comicMapper.commentList(comicId));
+        comicDetailsPojo.setCommentSum(comicDetailsPojo.getCommentList().size());
+        comicDetailsPojo.setComicEpisodes(comicMapper.comicEpisodeList(comicId));
+        comicDetailsPojo.setChapterSum(comicDetailsPojo.getComicEpisodes().size());
+
+        comicDetailsPojo.setLikeStatus(comicMapper.likeStatus(authenticationInterceptor.userId,comicId));
+        comicDetailsPojo.setCollectStatus(comicMapper.collectStatus(authenticationInterceptor.userId,comicId));
+        ChapterQuery chapterQuery=new ChapterQuery();
+        chapterQuery.setOutId(Integer.parseInt(comicId));
+        chapterQuery.setType(2);
+        chapterQuery.setUserId(Integer.parseInt(authenticationInterceptor.userId));
+        comicDetailsPojo.setChapterQuery(chapterMapper.selectChapter(chapterQuery));
+        return Result.success(comicDetailsPojo);
     }
 
     @Override
@@ -75,11 +90,24 @@ public class ComicServiceImpl implements ComicService {
 
     @Override
     public Result bannerDetails(String comicId) {
+        ChapterQuery chapterQuery=new ChapterQuery();
+        ComicDetailsPojo comic= comicMapper.details(comicId);
+        chapterQuery.setOutId(comic.getId());
+        chapterQuery.setType(2);
+        chapterQuery.setUserId(Integer.parseInt(authenticationInterceptor.userId));
+
+        if(chapterMapper.selectChapter(chapterQuery)!=null){
+            chapterQuery.setChapter(comic.getTitle());
+            chapterQuery.setChapterId(Integer.parseInt(comicId));
+            chapterMapper.addChapter(chapterQuery);
+        }
+
         return Result.success(comicMapper.bannerDetails(comicId));
     }
 
     @Override
     public Result addComicLikes(ComicLikes comicLikes) {
+        comicLikes.setUserId(Integer.parseInt(authenticationInterceptor.userId));
         return  Result.success(comicMapper.addComicLikes(comicLikes));
     }
 
@@ -97,5 +125,30 @@ public class ComicServiceImpl implements ComicService {
         List<Comment> list = comicMapper.commentList(comicQuery.getComicId());
         PageInfo<Comment> pageInfo = new PageInfo<Comment>(list);
         return Result.success(pageInfo);
+    }
+
+    @Override
+    public Result closedComic(ComicCollect comicCollect) {
+        return null;
+    }
+
+    @Override
+    public Result userSend(UserSendLog userSendLog) {
+        return Result.success(comicMapper.userSend(userSendLog));
+    }
+
+    @Override
+    public Result readingHistory(ComicQuery comicQuery) {
+        return null;
+    }
+
+    @Override
+    public Result continueSee(ComicQuery comicQuery) {
+        return null;
+    }
+
+    @Override
+    public Result closedHistory(ComicCollect comicCollect) {
+        return null;
     }
 }
