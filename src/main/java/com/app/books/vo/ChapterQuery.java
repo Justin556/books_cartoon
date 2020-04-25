@@ -22,6 +22,6 @@ public class ChapterQuery {
     private Integer outId;
     //1小说 2漫画
     private Integer type;
-
+    //创建时间
     private Date createTime;
 }
