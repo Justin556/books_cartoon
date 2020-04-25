@@ -52,4 +52,13 @@ public class BookDetailsPojo {
     private List<Comment> commentList;
     //章节列表
     private List<BookEpisodes> bookEpisodeList;
+
+    //---------------------冗余字段-----------------------
+    //是否已点赞（0：未点赞； 1：已点赞）
+    private Integer isLiked;
+    //是否已收藏（0：未收藏； 1：已收藏）
+    private Integer isCollected;
+
+    //该小说最后观看章节
+    private Integer newestJiNo;
 }

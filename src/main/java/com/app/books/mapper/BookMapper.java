@@ -50,6 +50,14 @@ public interface BookMapper {
     void userSend(UserSendLog userSendLog);
 
     /**
+     * 通过bookId和userId获取点赞记录的id
+     * @param bookId
+     * @return
+     */
+    @Select("SELECT id FROM t_book_likes WHERE bid = #{bookId} and user_id = #{userId}")
+    Integer getLikeIdByBookIdAndUserId(Integer bookId, Integer userId);
+
+    /**
      * 新增点赞
      * @param bookLikes
      */
@@ -58,10 +66,18 @@ public interface BookMapper {
 
     /**
      * 取消点赞
-     * @param bookLikes
+     * @param
      */
     @Delete("delete from t_book_likes where user_id = user_id and bid = #{bid}")
-    void deleteBookLike(BookLikes bookLikes);
+    void deleteBookLike(Integer bookId, Integer userId);
+
+    /**
+     * 通过bookId和userId获取收藏记录的id
+     * @param bookId
+     * @return
+     */
+    @Select("SELECT id FROM t_book_collect WHERE bid = #{bookId} and user_id = #{userId}")
+    Integer getCollectIdByBookIdAndUserId(Integer bookId, Integer userId);
 
     /**
      * 新增收藏
@@ -72,10 +88,10 @@ public interface BookMapper {
 
     /**
      * 取消收藏
-     * @param bookCollect
+     * @param
      */
     @Insert("delete from t_book_collect where user_id = user_id and bid = #{bid}")
-    void deleteBookCollect(BookCollect bookCollect);
+    void deleteBookCollect(Integer bookId, Integer userId);
 
     /**
      * 打赏列表
@@ -98,6 +114,7 @@ public interface BookMapper {
      * @return
      */
     @Select("select c.comment_info as commentInfo, \n" +
+            "c.create_time as createTime, \n" +
             "(select t_user.user_name from t_user where t_user.id = c.user_id) as userName \n" +
             "from t_comment c where c.out_id = #{bookId}\n" +
             "ORDER BY c.create_time desc")
@@ -218,4 +235,19 @@ public interface BookMapper {
             "FROM t_book\n" +
             "WHERE category = 1")
     List<Book> boyLikeAll();
+
+    /**
+     * 插入小说历史记录
+     * @param bookHistory
+     */
+    @Insert("INSERT INTO t_book_history(create_time, bid, user_id, ji_no)\n" +
+            "VALUES(#{createTime}, #{bid}, #{userId}, #{jiNo})")
+    void insertBookHistory(BookHistory bookHistory);
+
+    /**
+     * 获取该部小说最后观看章节
+     * @return
+     */
+    @Select("select ji_no as jiNo from t_book_history where pid = #{bookId} order by create_time desc limit 0,1")
+    Integer getJiNoFromBookHistory(Integer bookId);
 }

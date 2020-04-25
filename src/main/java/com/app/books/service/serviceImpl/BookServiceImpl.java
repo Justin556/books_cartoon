@@ -3,6 +3,7 @@ package com.app.books.service.serviceImpl;
 import com.app.books.entity.*;
 import com.app.books.mapper.UserMapper;
 import com.app.books.pojo.BookDetailsPojo;
+import com.app.books.utils.RedisUtil;
 import com.app.books.vo.BookParams;
 import com.app.books.mapper.BookMapper;
 import com.app.books.service.BookService;
@@ -11,6 +12,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
@@ -20,6 +22,8 @@ public class BookServiceImpl implements BookService {
     private BookMapper bookMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Override
     public PageInfo<Book> bookList(BookParams bookParams) {
@@ -30,7 +34,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDetailsPojo details(Integer bookId) {
+    public BookDetailsPojo details(HttpServletRequest request, Integer bookId) {
         BookDetailsPojo bookDetailsPojo = bookMapper.details(bookId);
         if (bookDetailsPojo == null){
             return null;
@@ -38,6 +42,25 @@ public class BookServiceImpl implements BookService {
         bookDetailsPojo.setSendList(bookMapper.userSendList(bookId));
         bookDetailsPojo.setCommentList(bookMapper.commentList(bookId));
         bookDetailsPojo.setBookEpisodeList(bookMapper.bookEpisodeList(bookId));
+
+        String token = request.getHeader("token");
+        if (token != null) {//已登录
+            Integer userId = (Integer) redisUtil.get(token);
+            if (bookMapper.getLikeIdByBookIdAndUserId(bookId, userId) == null) {//未点赞
+                bookDetailsPojo.setIsLiked(0);
+            }else {//已点赞
+                bookDetailsPojo.setIsLiked(1);
+            }
+
+            if (bookMapper.getCollectIdByBookIdAndUserId(bookId, userId) == null) {//未收藏
+                bookDetailsPojo.setIsCollected(0);
+            }else {//已收藏
+                bookDetailsPojo.setIsCollected(1);
+            }
+            //获取该小说最后观看章节
+            Integer newestJiNo = bookMapper.getJiNoFromBookHistory(bookId);
+            bookDetailsPojo.setNewestJiNo(newestJiNo);
+        }
         return bookDetailsPojo;
     }
 
@@ -58,9 +81,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<UserSendLog> userSendList(Integer bookId) {
-
-        return bookMapper.userSendList(bookId);
+    public PageInfo<UserSendLog> userSendList(Integer pageNumber, Integer pageSize, Integer bookId) {
+        PageHelper.startPage(pageNumber,pageSize);
+        List<UserSendLog> list = bookMapper.userSendList(bookId);
+        PageInfo<UserSendLog> pageInfo = new PageInfo<UserSendLog>(list);
+        return pageInfo;
     }
 
     @Override
@@ -69,8 +94,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Comment> commentList(Integer bookId) {
-        return bookMapper.commentList(bookId);
+    public PageInfo<Comment> commentList(Integer pageNumber, Integer pageSize, Integer bookId) {
+        PageHelper.startPage(pageNumber,pageSize);
+        List<Comment> list = bookMapper.commentList(bookId);
+        PageInfo<Comment> pageInfo = new PageInfo<Comment>(list);
+        return pageInfo;
     }
 
     @Override
@@ -149,10 +177,21 @@ public class BookServiceImpl implements BookService {
         return pageInfo;
     }
 
+    @Override
+    public void bookLike(Integer bookId, Integer userId) {
+        if (bookMapper.getLikeIdByBookIdAndUserId(bookId, userId) == null) {//未点赞
+            bookMapper.insertBookLike(new BookLikes(new Date(), userId, bookId));
+        }
+        //如果已点赞则取消点赞
+        bookMapper.deleteBookLike(bookId, userId);
+    }
 
-    /*@Override
-    public void bookLike() {
-
-        bookMapper.insertBookLike(bookLikes);
-    }*/
+    @Override
+    public void bookCollect(Integer bookId, Integer userId) {
+        if (bookMapper.getCollectIdByBookIdAndUserId(bookId, userId) == null) {//未收藏
+            bookMapper.insertBookCollect(new BookCollect(new Date(), userId, bookId));
+        }
+        //如果已收藏则取消收藏
+        bookMapper.deleteBookCollect(bookId, userId);
+    }
 }
