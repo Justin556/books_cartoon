@@ -1,6 +1,7 @@
 package com.app.books.service.serviceImpl;
 
 import com.app.books.entity.*;
+import com.app.books.mapper.ChapterMapper;
 import com.app.books.mapper.UserMapper;
 import com.app.books.pojo.BookDetailsPojo;
 import com.app.books.utils.RedisUtil;
@@ -24,6 +25,8 @@ public class BookServiceImpl implements BookService {
     private UserMapper userMapper;
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private ChapterMapper chapterMapper;
 
     @Override
     public PageInfo<Book> bookList(BookParams bookParams) {
@@ -57,9 +60,9 @@ public class BookServiceImpl implements BookService {
             }else {//已收藏
                 bookDetailsPojo.setIsCollected(1);
             }
-            //获取该小说最后观看章节
-            Integer newestJiNo = bookMapper.getJiNoFromBookHistory(bookId);
-            bookDetailsPojo.setNewestJiNo(newestJiNo);
+            //获取该小说最后观看章节id
+            Integer newestChapterId = chapterMapper.getNewestChapter(bookId, 1);
+            bookDetailsPojo.setNewestChapterId(newestChapterId);
         }
         return bookDetailsPojo;
     }
@@ -144,12 +147,12 @@ public class BookServiceImpl implements BookService {
 
     /**
      * 单个章节内容
-     * @param jiNo
+     * @param chapterId
      * @return
      */
     @Override
-    public String episodesContent(Integer jiNo) {
-        return bookMapper.episodesContent(jiNo);
+    public String episodesContent(Integer chapterId) {
+        return bookMapper.episodesContent(chapterId);
     }
 
     @Override

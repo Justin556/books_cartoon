@@ -2,11 +2,13 @@ package com.app.books.controller;
 
 import com.app.books.entity.*;
 import com.app.books.mapper.BookMapper;
+import com.app.books.mapper.ChapterMapper;
 import com.app.books.mapper.UserMapper;
 import com.app.books.utils.RedisUtil;
 import com.app.books.vo.BookParams;
 import com.app.books.result.Result;
 import com.app.books.service.BookService;
+import com.app.books.vo.ChapterQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class BookController {
     private UserMapper userMapper;
     @Autowired
     private BookMapper bookMapper;
+    @Autowired
+    private ChapterMapper chapterMapper;
 
     @GetMapping("page")
     @ApiOperation(value = "模糊/条件 搜索")
@@ -65,18 +69,23 @@ public class BookController {
 
     /**
      * 单个章节内容
-     * @param jiNo
+     * @param chapterId
      * @return
      */
     @GetMapping("episodesContent")
     @ApiOperation(value = "单个章节内容")
-    public Result episodesContent(HttpServletRequest request, Integer bid, Integer jiNo) {
+    public Result episodesContent(HttpServletRequest request, Integer bid, Integer chapterId) {
         String token = request.getHeader("token");
         Integer userId = (Integer)redisUtil.get(token);
         if (token != null) {//如果已登录，向小说历史记录表插入数据
-            bookMapper.insertBookHistory(new BookHistory(new Date(), bid, jiNo, userId));
+            ChapterQuery chapter = new ChapterQuery();
+            chapter.setUserId(userId);
+            chapter.setOutId(bid);
+            chapter.setChapterId(chapterId);
+            chapter.setType(1);
+            chapterMapper.addChapter(chapter);
         }
-        return Result.success(bookService.episodesContent(jiNo));
+        return Result.success(bookService.episodesContent(chapterId));
     }
 
     /**

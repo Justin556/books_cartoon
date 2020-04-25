@@ -135,11 +135,11 @@ public interface BookMapper {
 
     /**
      * 单个章节的内容
-     * @param jiNo 内容id
+     * @param chapterId 章节id
      * @return
      */
-    @Select("SELECT content FROM t_book_episodes_content WHERE id = #{jiNo}")
-    String episodesContent(Integer jiNo);
+    @Select("SELECT content FROM t_book_episodes_content WHERE id = #{chapterId}")
+    String episodesContent(Integer chapterId);
 
     /**
      * 查询该分类下的小说 前5项
@@ -236,18 +236,4 @@ public interface BookMapper {
             "WHERE category = 1")
     List<Book> boyLikeAll();
 
-    /**
-     * 插入小说历史记录
-     * @param bookHistory
-     */
-    @Insert("INSERT INTO t_book_history(create_time, bid, user_id, ji_no)\n" +
-            "VALUES(#{createTime}, #{bid}, #{userId}, #{jiNo})")
-    void insertBookHistory(BookHistory bookHistory);
-
-    /**
-     * 获取该部小说最后观看章节
-     * @return
-     */
-    @Select("select ji_no as jiNo from t_book_history where pid = #{bookId} order by create_time desc limit 0,1")
-    Integer getJiNoFromBookHistory(Integer bookId);
 }

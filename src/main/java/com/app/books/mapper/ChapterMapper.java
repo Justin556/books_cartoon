@@ -25,4 +25,14 @@ public interface ChapterMapper {
             " WHERE user_id=#{userId} and out_id=#{outId} and type=#{type}")
     ChapterQuery selectChapter(ChapterQuery chapterQuery);
 
+    /**
+     * 获取最近观看的章节id
+     * @param outId
+     * @param type
+     * @return
+     */
+    @Select("SELECT chapter_id as chapterId from chapter\n" +
+            " WHERE out_id=#{outId} and type=#{type} order by create_time desc limit 0,1")
+    Integer getNewestChapter(Integer outId, Integer type);
+
 }
