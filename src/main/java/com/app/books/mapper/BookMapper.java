@@ -235,4 +235,19 @@ public interface BookMapper {
             "FROM t_book\n" +
             "WHERE category = 1")
     List<Book> boyLikeAll();
+
+    /**
+     * 插入小说历史记录
+     * @param bookHistory
+     */
+    @Insert("INSERT INTO t_book_history(create_time, bid, user_id, ji_no)\n" +
+            "VALUES(#{createTime}, #{bid}, #{userId}, #{jiNo})")
+    void insertBookHistory(BookHistory bookHistory);
+
+    /**
+     * 获取该部小说最后观看章节
+     * @return
+     */
+    @Select("select ji_no as jiNo from t_book_history where pid = #{bookId} order by create_time desc limit 0,1")
+    Integer getJiNoFromBookHistory(Integer bookId);
 }

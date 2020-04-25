@@ -18,7 +18,5 @@ public class Notice {
     //标题
     private String title;
     //内容
-    @Lob
-    @Column(columnDefinition="text")
     private String content;
 }

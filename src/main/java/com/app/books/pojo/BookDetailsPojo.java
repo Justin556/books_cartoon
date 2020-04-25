@@ -58,4 +58,7 @@ public class BookDetailsPojo {
     private Integer isLiked;
     //是否已收藏（0：未收藏； 1：已收藏）
     private Integer isCollected;
+
+    //该小说最后观看章节
+    private Integer newestJiNo;
 }

@@ -57,6 +57,9 @@ public class BookServiceImpl implements BookService {
             }else {//已收藏
                 bookDetailsPojo.setIsCollected(1);
             }
+            //获取该小说最后观看章节
+            Integer newestJiNo = bookMapper.getJiNoFromBookHistory(bookId);
+            bookDetailsPojo.setNewestJiNo(newestJiNo);
         }
         return bookDetailsPojo;
     }

@@ -1,6 +1,7 @@
 package com.app.books.controller;
 
 import com.app.books.entity.*;
+import com.app.books.mapper.BookMapper;
 import com.app.books.mapper.UserMapper;
 import com.app.books.utils.RedisUtil;
 import com.app.books.vo.BookParams;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @RestController
 @Api(tags = "小说-业务接口")
@@ -23,6 +25,8 @@ public class BookController {
     private RedisUtil redisUtil;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private BookMapper bookMapper;
 
     @GetMapping("page")
     @ApiOperation(value = "模糊/条件 搜索")
@@ -66,7 +70,12 @@ public class BookController {
      */
     @GetMapping("episodesContent")
     @ApiOperation(value = "单个章节内容")
-    public Result episodesContent(Integer jiNo) {
+    public Result episodesContent(HttpServletRequest request, Integer bid, Integer jiNo) {
+        String token = request.getHeader("token");
+        Integer userId = (Integer)redisUtil.get(token);
+        if (token != null) {//如果已登录，向小说历史记录表插入数据
+            bookMapper.insertBookHistory(new BookHistory(new Date(), bid, jiNo, userId));
+        }
         return Result.success(bookService.episodesContent(jiNo));
     }
 
