@@ -50,7 +50,6 @@ public class ComicServiceImpl implements ComicService {
         comicDetailsPojo.setCommentSum(comicDetailsPojo.getCommentList().size());
         comicDetailsPojo.setComicEpisodes(comicMapper.comicEpisodeList(comicId));
         comicDetailsPojo.setChapterSum(comicDetailsPojo.getComicEpisodes().size());
-
         comicDetailsPojo.setLikeStatus(comicMapper.likeStatus(authenticationInterceptor.userId,comicId));
         comicDetailsPojo.setCollectStatus(comicMapper.collectStatus(authenticationInterceptor.userId,comicId));
 

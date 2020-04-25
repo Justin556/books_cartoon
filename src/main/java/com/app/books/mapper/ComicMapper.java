@@ -106,8 +106,8 @@ public interface ComicMapper {
      * @param comicId
      * @return
      */
-    @Insert("select COUNT(1) from t_comic_likes\n" +
-            "where comic_id=#{comicId} and user_id=#{userId})")
+    @Select("select COUNT(1) from t_comic_likes\n" +
+            "where comic_id=#{comicId} and user_id=#{userId}")
     Integer likeStatus(String userId,String comicId);
 
     /**
@@ -116,8 +116,8 @@ public interface ComicMapper {
      * @param comicId
      * @return
      */
-    @Insert("select COUNT(1) from t_comic_collect\n" +
-            "where comic_id=#{comicId} and user_id=#{userId})")
+    @Select("select COUNT(1) from t_comic_collect\n" +
+            "where user_id=#{userId} and comic_id=#{comicId}")
     Integer collectStatus(String userId,String comicId);
 
 }

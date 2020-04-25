@@ -51,7 +51,11 @@ public class ComicDetailsPojo {
     private Integer commentSum;
     //章节总数
     private Integer chapterSum;
+    //是否收藏 0未收藏 1收藏
+    private Integer collectStatus;
 
+    //是否点赞 0未点赞 1点赞
+    private Integer likeStatus;
     //打赏列表
     private List<UserSendLog> sendList;
     //评论列表
@@ -59,11 +63,7 @@ public class ComicDetailsPojo {
     //章节列表
     private List<ComicEpisodes> comicEpisodes;
 
-    //是否收藏 0未收藏 1收藏
-    private Integer collectStatus;
 
-    //是否点赞 0未点赞 1点赞
-    private Integer likeStatus;
 
     private ChapterQuery chapterQuery;
 }
