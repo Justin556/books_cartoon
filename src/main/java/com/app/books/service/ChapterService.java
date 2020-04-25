@@ -1,7 +1,6 @@
 package com.app.books.service;
 
 import com.app.books.vo.ChapterQuery;
-import org.apache.ibatis.annotations.Select;
 
 public interface ChapterService {
 
