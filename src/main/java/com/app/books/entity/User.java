@@ -31,7 +31,7 @@ public class User {
     //密码
     private String password;
 
-    //用户编号
+    //用户编号(弃用)
     private String userNo;
 
     //支付宝名称
@@ -45,4 +45,7 @@ public class User {
 
     //书币
     private Integer bookCurrency;
+
+    //今日是否已签到(0：未签到； 1：已签到) （冗余字段）
+    private Integer isSignIn;
 }

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @RestController
 @Api(tags = "用户-业务接口")
@@ -76,5 +78,21 @@ public class UserController {
         Integer signToGive = settingMapper.getWebSite().getSignToGive();
         userService.signIn(signToGive, user);
         return Result.success();
+    }
+
+    @ApiOperation(value = "个人中心")
+    @GetMapping("personalCenter")
+    public Result personalCenter(HttpServletRequest request){
+        Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
+        User user = userMapper.findUserById(userId);
+        //校验今天是否已签到
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date lastSignIn = userMapper.getLastDateOfSignIn(userId);
+        if (sdf.format(new Date()).equals(sdf.format(lastSignIn))) {//如果是同一天，说明今天已签到
+            user.setIsSignIn(1);
+            return Result.success(user);
+        }
+        user.setIsSignIn(0);//未签到
+        return Result.success(user);
     }
 }

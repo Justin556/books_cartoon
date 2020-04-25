@@ -9,6 +9,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+
 @Mapper
 @Repository
 public interface UserMapper {
@@ -109,4 +111,15 @@ public interface UserMapper {
     @Insert("insert into t_user_currency_log(create_time, currency, currency_type, other_user_id, user_id, user_name)\n" +
             "VALUES(#{createTime},#{currency},#{currencyType},#{otherUserId},#{userId},#{userName})")
     void insertUserCurrencyLog(UserCurrencyLog userCurrencyLog);
+
+    /**
+     * 获取当前用户最后一次签到的时间
+     * @param userId
+     * @return
+     */
+    @Select("SELECT create_time FROM t_user_currency_log\n" +
+            "WHERE user_id = #{userId} AND currency_type = 1\n" +
+            "ORDER BY create_time DESC\n" +
+            "LIMIT 0,1")
+    Date getLastDateOfSignIn(Integer userId);
 }

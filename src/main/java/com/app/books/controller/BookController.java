@@ -74,7 +74,7 @@ public class BookController {
      */
     @GetMapping("episodesContent")
     @ApiOperation(value = "单个章节内容")
-    public Result episodesContent(HttpServletRequest request, Integer bid, Integer chapterId) {
+    public Result episodesContent(HttpServletRequest request, Integer bid, Integer chapterId, Integer jiNo) {
         String token = request.getHeader("token");
         Integer userId = (Integer)redisUtil.get(token);
         if (token != null) {//如果已登录，向小说历史记录表插入数据
@@ -85,7 +85,7 @@ public class BookController {
             chapter.setType(1);
             chapterMapper.addChapter(chapter);
         }
-        return Result.success(bookService.episodesContent(chapterId));
+        return Result.success(bookService.episodesContent(jiNo));
     }
 
     /**

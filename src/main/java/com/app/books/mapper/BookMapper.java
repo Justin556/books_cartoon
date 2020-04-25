@@ -125,7 +125,7 @@ public interface BookMapper {
      * @param bookId
      * @return
      */
-    @Select("SELECT b.title, b.id, \n" +
+    @Select("SELECT b.title, b.id, b.bid,\n" +
             "b.ji_no as jiNo,\n" +
             "b.money, \n" +
             "b.info  \n" +
@@ -135,11 +135,11 @@ public interface BookMapper {
 
     /**
      * 单个章节的内容
-     * @param chapterId 章节id
+     * @param jiNo 章节内容id
      * @return
      */
-    @Select("SELECT content FROM t_book_episodes_content WHERE id = #{chapterId}")
-    String episodesContent(Integer chapterId);
+    @Select("SELECT content FROM t_book_episodes_content WHERE id = #{jiNo}")
+    String episodesContent(Integer jiNo);
 
     /**
      * 查询该分类下的小说 前5项

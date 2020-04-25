@@ -147,12 +147,12 @@ public class BookServiceImpl implements BookService {
 
     /**
      * 单个章节内容
-     * @param chapterId
+     * @param jiNo
      * @return
      */
     @Override
-    public String episodesContent(Integer chapterId) {
-        return bookMapper.episodesContent(chapterId);
+    public String episodesContent(Integer jiNo) {
+        return bookMapper.episodesContent(jiNo);
     }
 
     @Override

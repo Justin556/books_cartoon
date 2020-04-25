@@ -28,7 +28,7 @@ public interface BookService {
 
     List<Map<String, Object>> homePage();
 
-    String episodesContent(Integer chapterId);
+    String episodesContent(Integer jiNo);
 
     PageInfo<Book> homePageList(Integer pageNumber, Integer pageSize, Integer status);
 
