@@ -184,17 +184,19 @@ public class BookServiceImpl implements BookService {
     public void bookLike(Integer bookId, Integer userId) {
         if (bookMapper.getLikeIdByBookIdAndUserId(bookId, userId) == null) {//未点赞
             bookMapper.insertBookLike(new BookLikes(new Date(), userId, bookId));
+        }else {
+            //如果已点赞则取消点赞
+            bookMapper.deleteBookLike(bookId, userId);
         }
-        //如果已点赞则取消点赞
-        bookMapper.deleteBookLike(bookId, userId);
     }
 
     @Override
     public void bookCollect(Integer bookId, Integer userId) {
         if (bookMapper.getCollectIdByBookIdAndUserId(bookId, userId) == null) {//未收藏
             bookMapper.insertBookCollect(new BookCollect(new Date(), userId, bookId));
+        }else {
+            //如果已收藏则取消收藏
+            bookMapper.deleteBookCollect(bookId, userId);
         }
-        //如果已收藏则取消收藏
-        bookMapper.deleteBookCollect(bookId, userId);
     }
 }
