@@ -23,4 +23,8 @@ public class ComicCollect {
     private String title;
     //封面图(列表)
     private String coverPic;
+//一下为子查询所用
+    //简介
+    private String summary;
+
 }

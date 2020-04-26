@@ -130,11 +130,11 @@ public class ComicController {
         return comicService.closedComic(comicCollect);
     }
     /**
-     * 收藏历史
+     * 收藏列表
      * @param comicCollect
      */
     @GetMapping("closedHistory")
-    @ApiOperation(value = "收藏历史")
+    @ApiOperation(value = "收藏列表")
     public Result closedHistory(ComicCollect comicCollect) {
         return comicService.closedHistory(comicCollect);
     }
@@ -159,4 +159,13 @@ public class ComicController {
     }
 
 
+
+    /**
+     * 历史记录
+     */
+    @GetMapping("historicalRecord")
+    @ApiOperation(value = "历史记录")
+    public Result historicalRecord() {
+        return comicService.historicalRecord();
+    }
 }

@@ -2,6 +2,7 @@ package com.app.books.mapper;
 
 import com.app.books.entity.*;
 import com.app.books.pojo.ComicDetailsPojo;
+import com.app.books.vo.ChapterQuery;
 import com.app.books.vo.ComicQuery;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -161,8 +162,19 @@ public interface ComicMapper {
      * @param comicCollect
      * @return
      */
-    @Select("SELECT tc.cover_pic as coverPic,tcc.comic_id as comicId,tc.title FROM t_comic_collect tcc\n" +
+    @Select("SELECT tc.cover_pic as coverPic,tcc.comic_id as comicId,tcc.summary as summary,tc.title FROM t_comic_collect tcc\n" +
             "LEFT JOIN t_comic tc on tcc.comic_id=tc.id\n" +
             "WHERE user_id = #{userId}")
     List<ComicCollect> closedHistory(ComicCollect comicCollect);
+
+
+    /**
+     * 历史记录
+     * @param userId
+     * @return
+     */
+    @Select("SELECT tc.cover_pic as coverPic,tcc.comic_id as comicId,tc.title FROM t_comic_collect tcc\n" +
+            "LEFT JOIN t_comic tc on tcc.comic_id=tc.id\n" +
+            "WHERE user_id = #{userId}")
+    List<ChapterQuery> historicalRecord(String userId);
 }

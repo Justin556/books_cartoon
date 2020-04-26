@@ -183,4 +183,10 @@ public class ComicServiceImpl implements ComicService {
         comicCollect.setUserId(Integer.parseInt(authenticationInterceptor.userId));
         return Result.success(comicMapper.closedHistory(comicCollect));
     }
+
+    @Override
+    public Result historicalRecord() {
+
+        return Result.success(comicMapper.historicalRecord(authenticationInterceptor.userId));
+    }
 }

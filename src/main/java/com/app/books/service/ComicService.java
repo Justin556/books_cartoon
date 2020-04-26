@@ -30,4 +30,6 @@ public interface ComicService {
     Result continueSee(ComicQuery comicQuery);
 
     Result closedHistory(ComicCollect comicCollect);
+
+    Result historicalRecord( );
 }
