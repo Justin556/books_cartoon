@@ -16,7 +16,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     @Autowired
     private RedisUtil redisUtil;
 
-    public String userId;
+    public String userId="0";
 
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
