@@ -55,7 +55,7 @@ public class ComicServiceImpl implements ComicService {
         comicDetailsPojo.setComicEpisodes(comicMapper.comicEpisodeList(comicId));
         comicDetailsPojo.setChapterSum(comicDetailsPojo.getComicEpisodes().size());
         ChapterQuery chapterQuery=null;
-        if(authenticationInterceptor.userId!=null&&!authenticationInterceptor.userId.equals("")){
+        if(authenticationInterceptor.userId!="null"&&!authenticationInterceptor.userId.equals("null")){
             comicDetailsPojo.setLikeStatus(comicMapper.likeStatus(authenticationInterceptor.userId,comicId));
             comicDetailsPojo.setCollectStatus(comicMapper.collectStatus(authenticationInterceptor.userId,comicId));
             chapterQuery=chapterService.selectChapter(comicId,2);
