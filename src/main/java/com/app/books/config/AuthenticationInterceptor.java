@@ -1,5 +1,6 @@
 package com.app.books.config;
 
+import com.app.books.exception.CustomerException;
 import com.app.books.service.UserService;
 import com.app.books.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +34,10 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             // 执行认证
             String token = request.getHeader("token");  // 从 http 请求头中取出 token
             if (token == null) {
-                throw new RuntimeException("无token，请重新登录");
+                throw new CustomerException("无token，请重新登录", -1);
             }
             if (!redisUtil.hasKey(token)) {
-                throw new RuntimeException("token无效，请重新登录");
+                throw new CustomerException("token无效，请重新登录", -1);
             }
         }
         userId=String.valueOf(redisUtil.get(request.getHeader("token")));

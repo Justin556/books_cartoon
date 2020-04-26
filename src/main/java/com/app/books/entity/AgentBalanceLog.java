@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-//代理充值提现
+//代理下用户充值记录
 public class AgentBalanceLog {
     private Integer id;
 
@@ -19,10 +19,8 @@ public class AgentBalanceLog {
     private Integer proxyId;
     //单号
     private String orderNo;
-    //（1充值，0提现）
-    private Integer orderType;
-    //提现金额
+    //充值金额
     private BigDecimal money;
-    //状态 0已分成 1未分成 2已取消
+    //状态（0：成功； 1：失败）
     private Integer status;
 }
