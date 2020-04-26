@@ -3,6 +3,7 @@ package com.app.books.mapper;
 import com.app.books.entity.*;
 import com.app.books.pojo.ComicDetailsPojo;
 import com.app.books.vo.ComicQuery;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -90,15 +91,6 @@ public interface ComicMapper {
             "FROM t_comic_banner b WHERE b.comic_id = #{comicId}")
     List<ComicBanner> bannerDetails(String comicId);
 
-    /**
-     * 漫画点赞
-     * @param comicLikes
-     * @return
-     */
-    @Insert("insert t_comic_likes(create_time,comic_id,user_id)\n" +
-            "VALUES(now(),#{comicId},#{userId})")
-    List<ComicLikes> addComicLikes(ComicLikes comicLikes);
-
 
     /**
      * 漫画是否点赞
@@ -120,4 +112,47 @@ public interface ComicMapper {
             "where user_id=#{userId} and comic_id=#{comicId}")
     Integer collectStatus(String userId,String comicId);
 
+    /**
+     * 通过comicId和userId获取点赞记录的id
+     * @param comicId
+     * @return
+     */
+    @Select("SELECT id FROM t_comic_likes WHERE comic_id = #{comicId} and user_id = #{userId}")
+    Integer getLikeIdByComicIdIdAndUserId(Integer comicId, Integer userId);
+
+    /**
+     * 新增点赞
+     * @param comicLikes
+     */
+    @Insert("insert into t_comic_likes(create_time, user_id, comic_id) values(now(), #{userId}, #{comicId})")
+    void insertComicLike(ComicLikes comicLikes);
+
+    /**
+     * 取消点赞
+     * @param
+     */
+    @Delete("delete from t_comic_likes where user_id = user_id and comic_id = #{comicId}")
+    void deleteComicLike(Integer comicId, Integer userId);
+
+    /**
+     * 通过comicId和userId获取收藏记录的id
+     * @param comicId
+     * @return
+     */
+    @Select("SELECT id FROM t_comic_collect WHERE comic_id = #{comicId} and user_id = #{userId}")
+    Integer getCollectIdByComicIdIdAndUserId(Integer comicId, Integer userId);
+
+    /**
+     * 新增收藏
+     * @param comicCollect
+     */
+    @Insert("insert into t_comic_collect(create_time, user_id, comic_id) values(now(), #{userId}, #{comicId})")
+    void insertComicCollect(ComicCollect comicCollect);
+
+    /**
+     * 取消收藏
+     * @param
+     */
+    @Delete("delete from t_comic_collect where user_id = user_id and comic_id = #{comicId}")
+    void deleteComicCollect(Integer comicId, Integer userId);
 }

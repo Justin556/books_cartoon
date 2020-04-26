@@ -17,6 +17,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,8 +56,8 @@ public class ComicServiceImpl implements ComicService {
         comicDetailsPojo.setChapterSum(comicDetailsPojo.getComicEpisodes().size());
         comicDetailsPojo.setLikeStatus(comicMapper.likeStatus(authenticationInterceptor.userId,comicId));
         comicDetailsPojo.setCollectStatus(comicMapper.collectStatus(authenticationInterceptor.userId,comicId));
-
-        comicDetailsPojo.setChapterQuery(chapterService.selectChapter(comicId,2));
+        ChapterQuery chapterQuery=chapterService.selectChapter(comicId,2);
+        comicDetailsPojo.setChapterQuery(chapterQuery);
         return Result.success(comicDetailsPojo);
     }
 
@@ -114,8 +115,14 @@ public class ComicServiceImpl implements ComicService {
 
     @Override
     public Result addComicLikes(ComicLikes comicLikes) {
-        comicLikes.setUserId(Integer.parseInt(authenticationInterceptor.userId));
-        return  Result.success(comicMapper.addComicLikes(comicLikes));
+        if (comicMapper.getLikeIdByComicIdIdAndUserId(comicLikes.getComicId(), Integer.parseInt(authenticationInterceptor.userId)) == null) {//未点赞
+            comicLikes.setUserId(Integer.parseInt(authenticationInterceptor.userId));
+            comicMapper.insertComicLike(comicLikes);
+        }else{
+            //如果已点赞则取消点赞
+            comicMapper.deleteComicLike(comicLikes.getComicId(), Integer.parseInt(authenticationInterceptor.userId));
+        }
+        return  Result.success();
     }
 
     @Override
@@ -136,7 +143,14 @@ public class ComicServiceImpl implements ComicService {
 
     @Override
     public Result closedComic(ComicCollect comicCollect) {
-        return null;
+        comicCollect.setUserId(Integer.parseInt(authenticationInterceptor.userId));
+        if (comicMapper.getCollectIdByComicIdIdAndUserId(comicCollect.getComicId(), Integer.parseInt(authenticationInterceptor.userId)) == null) {//未收藏
+            comicMapper.insertComicCollect(comicCollect);
+        }else{
+            //如果已收藏则取消收藏
+            comicMapper.deleteComicCollect(comicCollect.getComicId(), comicCollect.getUserId());
+        }
+        return Result.success();
     }
 
     @Override
