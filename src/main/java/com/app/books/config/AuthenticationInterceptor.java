@@ -38,6 +38,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             if (!redisUtil.hasKey(token)) {
                 throw new RuntimeException("token无效，请重新登录");
             }
+            userId=String.valueOf(redisUtil.get(token));
         }
         return true;
     }
