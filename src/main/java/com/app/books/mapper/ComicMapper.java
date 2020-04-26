@@ -174,12 +174,12 @@ public interface ComicMapper {
      * @return
      */
     @Select("SELECT * from(\n" +
-            "SELECT tc.id,tc.cover_pic as coverPic,tc.title,2 as type,tce.title as chapter,c.create_time as createTime FROM chapter c\n" +
+            "SELECT tc.id as outId,tc.cover_pic as coverPic,tc.title,2 as type,tce.title as chapter,c.create_time as createTime FROM chapter c\n" +
             "LEFT JOIN t_comic tc on c.out_id=tc.id\n" +
             "LEFT JOIN t_comic_episodes tce on tce.id=c.chapter_id\n" +
             "WHERE user_id =  #{userId} and c.type=2\n" +
             "UNION all\n" +
-            "SELECT tc.id,tc.cover_pic as coverPic,tc.title,1 as type,tce.title as chapter,c.create_time as createTime FROM chapter c\n" +
+            "SELECT tc.id as outId,tc.cover_pic as coverPic,tc.title,1 as type,tce.title as chapter,c.create_time as createTime FROM chapter c\n" +
             "LEFT JOIN t_book tc on c.out_id=tc.id \n" +
             "LEFT JOIN t_book_episodes tce on tce.id=c.chapter_id\n" +
             "WHERE user_id =  #{userId} and c.type=1\n" +
