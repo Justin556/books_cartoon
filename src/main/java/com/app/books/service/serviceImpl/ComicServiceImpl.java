@@ -102,6 +102,7 @@ public class ComicServiceImpl implements ComicService {
         ChapterQuery chapterQuery=new ChapterQuery();
         ComicEpisodes comicEpisodes=comicMapper.getEpisodeById(comicId);
         ComicDetailsPojo comic= comicMapper.details(comicEpisodes.getComicId()+"");
+        
         if(authenticationInterceptor.userId!="null"&&!authenticationInterceptor.userId.equals("null")){
             if(chapterService.selectChapter(comic.getId()+"",2)==null){
                 chapterQuery.setOutId(comic.getId());
