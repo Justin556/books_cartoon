@@ -155,4 +155,14 @@ public interface ComicMapper {
      */
     @Delete("delete from t_comic_collect where user_id = user_id and comic_id = #{comicId}")
     void deleteComicCollect(Integer comicId, Integer userId);
+
+    /**
+     * 收藏历史
+     * @param comicCollect
+     * @return
+     */
+    @Select("SELECT tc.cover_pic as coverPic,tcc.comic_id as comicId,tc.title FROM t_comic_collect tcc\n" +
+            "LEFT JOIN t_comic tc on tcc.comic_id=tc.id\n" +
+            "WHERE user_id = #{userId}")
+    List<ComicCollect> closedHistory(ComicCollect comicCollect);
 }

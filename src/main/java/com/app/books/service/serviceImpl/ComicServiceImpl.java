@@ -180,6 +180,7 @@ public class ComicServiceImpl implements ComicService {
 
     @Override
     public Result closedHistory(ComicCollect comicCollect) {
-        return null;
+        comicCollect.setUserId(Integer.parseInt(authenticationInterceptor.userId));
+        return Result.success(comicMapper.closedHistory(comicCollect));
     }
 }
