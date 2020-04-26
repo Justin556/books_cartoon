@@ -193,10 +193,16 @@ public class BookServiceImpl implements BookService {
     @Override
     public void bookCollect(Integer bookId, Integer userId) {
         if (bookMapper.getCollectIdByBookIdAndUserId(bookId, userId) == null) {//未收藏
-            bookMapper.insertBookCollect(new BookCollect(new Date(), userId, bookId));
+            Book book = bookMapper.getBookById(bookId);
+            bookMapper.insertBookCollect(new BookCollect(new Date(), userId, bookId, book.getTitle(), book.getCoverPic()));
         }else {
             //如果已收藏则取消收藏
             bookMapper.deleteBookCollect(bookId, userId);
         }
+    }
+
+    @Override
+    public List<BookCollect> bookCollectList(Integer userId) {
+        return bookMapper.getBookCollectList(userId);
     }
 }

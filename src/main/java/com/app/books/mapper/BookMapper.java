@@ -83,15 +83,28 @@ public interface BookMapper {
      * 新增收藏
      * @param bookCollect
      */
-    @Insert("insert into t_book_collect(create_time, user_id, bid) values(#{createTime}, #{userId}, #{bid})")
+    @Insert("insert into t_book_collect(create_time, user_id, bid, title, cover_pic) values(#{createTime}, #{userId}, #{bid}), #{title}, #{coverPic}")
     void insertBookCollect(BookCollect bookCollect);
 
     /**
      * 取消收藏
      * @param
      */
-    @Insert("delete from t_book_collect where user_id = user_id and bid = #{bookId}")
+    @Insert("delete from t_book_collect where user_id = #{userId} and bid = #{bookId}")
     void deleteBookCollect(Integer bookId, Integer userId);
+
+    /**
+     * 获取用户的小说收藏列表
+     * @param userId
+     * @return
+     */
+    @Select("SELECT create_time as createTime,\n" +
+            "bid,\n" +
+            "title,\n" +
+            "cover_pic as coverPic\n" +
+            "FROM t_book_collect\n" +
+            "where user_id = #{userId}")
+    List<BookCollect> getBookCollectList(Integer userId);
 
     /**
      * 打赏列表
@@ -236,4 +249,17 @@ public interface BookMapper {
             "WHERE category = 1")
     List<Book> boyLikeAll();
 
+    @Select("SELECT t_book.id, \n" +
+            "t_book.create_time as createTime, \n" +
+            "t_book.title, \n" +
+            "t_book.author, \n" +
+            "t_book.category, \n" +
+            "t_book.status, \n" +
+            "t_book.number, \n" +
+            "t_book.summary, \n" +
+            "t_book.cover_pic as coverPic, \n" +
+            "t_book.detail_pic as detailPic, \n" +
+            "t_book.sort \n" +
+            "FROM t_book WHERE t_book.id = #{bookId}")
+    Book getBookById(Integer bookId);
 }

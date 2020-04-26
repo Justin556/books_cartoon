@@ -28,9 +28,11 @@ public class BookCollect {
     public BookCollect() {
     }
 
-    public BookCollect(Date createTime, Integer userId, Integer bid) {
+    public BookCollect(Date createTime, Integer userId, Integer bid, String title, String coverPic) {
         this.createTime = createTime;
         this.bid = bid;
         this.userId = userId;
+        this.title = title;
+        this.coverPic = coverPic;
     }
 }

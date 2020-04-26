@@ -127,6 +127,14 @@ public class BookController {
         return Result.success();
     }
 
+    @GetMapping("bookCollectList")
+    @ApiOperation(value = "收藏列表")
+    @LoginRequired
+    public Result bookCollectList(HttpServletRequest request) {
+        Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
+        return Result.success(bookService.bookCollectList(userId));
+    }
+
     /**
      * 小说打赏列表
      * @param bookId
