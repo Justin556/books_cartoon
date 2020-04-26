@@ -1,5 +1,6 @@
 package com.app.books.controller;
 
+import com.app.books.config.LoginRequired;
 import com.app.books.entity.User;
 import com.app.books.entity.WebSite;
 import com.app.books.mapper.SettingMapper;
@@ -64,6 +65,7 @@ public class UserController {
 
     @ApiOperation(value = "退出登录")
     @GetMapping("quit")
+    @LoginRequired
     public Result quit(HttpServletRequest request){
         String token = request.getHeader("token");
         redisUtil.del(token);
@@ -72,6 +74,7 @@ public class UserController {
 
     @ApiOperation(value = "签到")
     @GetMapping("signIn")
+    @LoginRequired
     public Result signIn(HttpServletRequest request){
         Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
         User user = userMapper.findUserById(userId);
@@ -82,6 +85,7 @@ public class UserController {
 
     @ApiOperation(value = "个人中心")
     @GetMapping("personalCenter")
+    @LoginRequired
     public Result personalCenter(HttpServletRequest request){
         Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
         User user = userMapper.findUserById(userId);
