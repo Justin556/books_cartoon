@@ -2,6 +2,7 @@ package com.app.books.entity;;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import java.util.Date;
 
 
@@ -24,15 +25,18 @@ public class BookCollect {
     private String title;
     //封面图(列表)
     private String coverPic;
+    //作品简介
+    private String summary;
 
     public BookCollect() {
     }
 
-    public BookCollect(Date createTime, Integer userId, Integer bid, String title, String coverPic) {
+    public BookCollect(Date createTime, Integer userId, Integer bid, String title, String coverPic, String summary) {
         this.createTime = createTime;
         this.bid = bid;
         this.userId = userId;
         this.title = title;
         this.coverPic = coverPic;
+        this.summary = summary;
     }
 }

@@ -101,6 +101,7 @@ public interface BookMapper {
     @Select("SELECT create_time as createTime,\n" +
             "bid,\n" +
             "title,\n" +
+            "summary,\n" +
             "cover_pic as coverPic\n" +
             "FROM t_book_collect\n" +
             "where user_id = #{userId}")

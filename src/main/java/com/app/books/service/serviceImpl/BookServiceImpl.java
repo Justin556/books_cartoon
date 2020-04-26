@@ -194,7 +194,7 @@ public class BookServiceImpl implements BookService {
     public void bookCollect(Integer bookId, Integer userId) {
         if (bookMapper.getCollectIdByBookIdAndUserId(bookId, userId) == null) {//未收藏
             Book book = bookMapper.getBookById(bookId);
-            bookMapper.insertBookCollect(new BookCollect(new Date(), userId, bookId, book.getTitle(), book.getCoverPic()));
+            bookMapper.insertBookCollect(new BookCollect(new Date(), userId, bookId, book.getTitle(), book.getCoverPic(), book.getSummary()));
         }else {
             //如果已收藏则取消收藏
             bookMapper.deleteBookCollect(bookId, userId);
