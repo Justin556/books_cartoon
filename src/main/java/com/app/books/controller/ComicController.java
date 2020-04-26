@@ -3,7 +3,11 @@ package com.app.books.controller;
 
 import com.app.books.entity.ComicCollect;
 import com.app.books.entity.ComicLikes;
+import com.app.books.entity.User;
 import com.app.books.entity.UserSendLog;
+import com.app.books.mapper.UserMapper;
+import com.app.books.service.BookService;
+import com.app.books.utils.RedisUtil;
 import com.app.books.vo.ComicQuery;
 import com.app.books.result.Result;
 import com.app.books.service.ComicService;
@@ -15,14 +19,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @Api(tags = "漫画-业务接口")
 @RequestMapping("/comic/")
 @Controller
 public class ComicController {
-
+    @Autowired
+    private BookService bookService;
     @Autowired
     private ComicService comicService;
+
+    @Autowired
+    private RedisUtil redisUtil;
+    @Autowired
+    private UserMapper userMapper;
     /**
      * 漫画列表
      * @param comicQuery
@@ -97,8 +109,15 @@ public class ComicController {
      */
     @GetMapping("exceptionalComic")
     @ApiOperation(value = "漫画打赏")
-    public Result userSend(UserSendLog userSendLog) {
-        return comicService.userSend(userSendLog);
+    public Result userSend(HttpServletRequest request, UserSendLog userSendLog)
+    {
+        Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
+        User user = userMapper.findUserById(userId);
+        if (user.getBookCurrency() < userSendLog.getAmount()) {
+            return Result.error("书币不足");
+        }
+        bookService.userSend(user, userSendLog.getOutId(), userSendLog.getAmount(),2);
+        return Result.success();
     }
 
     /**

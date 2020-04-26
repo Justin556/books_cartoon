@@ -68,9 +68,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void userSend(User user, Integer bookId, Integer amount) {
+    public void userSend(User user, Integer bookId, Integer amount,Integer type) {
         //新增打赏记录表
-        bookMapper.userSend(new UserSendLog(new Date(), user.getId(), bookId, amount));
+        bookMapper.userSend(new UserSendLog(new Date(), user.getId(), bookId, amount,type));
         //用户的书币减少
         userMapper.reduceBookCurrency(amount, user.getId());
         //新增书币变动表

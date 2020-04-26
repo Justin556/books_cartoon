@@ -46,7 +46,7 @@ public interface BookMapper {
      * 新增打赏
      * @param userSendLog
      */
-    @Insert("insert into t_user_send_log(create_time, out_id, user_id, amount) values(#{createTime}, #{outId}, #{userId}, #{amount})")
+    @Insert("insert into t_user_send_log(create_time, out_id, user_id, amount,type) values(#{createTime}, #{outId}, #{userId}, #{amount}, #{type})")
     void userSend(UserSendLog userSendLog);
 
     /**
@@ -101,7 +101,7 @@ public interface BookMapper {
     @Select("select sum(u.amount) as userAmount, \n" +
             "u.user_id as userId,\n" +
             "(select t_user.user_name from t_user where t_user.id = u.user_id) as userName \n" +
-            "from t_user_send_log u where out_id = #{bookId} \n" +
+            "from t_user_send_log u where out_id = #{bookId} and type=1\n" +
             "GROUP BY userId ")
     List<UserSendLog> userSendList(Integer bookId);
 

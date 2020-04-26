@@ -14,7 +14,7 @@ public interface BookService {
 
     BookDetailsPojo details(HttpServletRequest request, Integer bookId);
 
-    void userSend(User user, Integer bookId, Integer amount);
+    void userSend(User user, Integer bookId, Integer amount,Integer type);
 
     PageInfo<UserSendLog> userSendList(Integer pageNumber, Integer pageSize, Integer bookId);
 

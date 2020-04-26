@@ -21,6 +21,9 @@ public class UserSendLog {
     //打赏书币（金额）类型（0书币，1金额）
     private Integer sendType;
 
+    //1小说2漫画
+    private Integer type;
+
     //打赏小说或漫画id
     private Integer outId;
 
@@ -41,10 +44,11 @@ public class UserSendLog {
     public UserSendLog() {
     }
 
-    public UserSendLog(Date createTime, Integer userId, Integer outId, Integer amount) {
+    public UserSendLog(Date createTime, Integer userId, Integer outId, Integer amount,Integer type) {
         this.createTime = createTime;
         this.userId = userId;
         this.outId = outId;
         this.amount = amount;
+        this.type = type;
     }
 }

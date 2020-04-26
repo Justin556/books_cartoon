@@ -23,6 +23,9 @@ public class ChapterServiceImpl implements ChapterService {
 
     @Override
     public ChapterQuery selectChapter(String id,int type) {
+        if(authenticationInterceptor.userId=="null"&&authenticationInterceptor.userId.equals("null")){
+            return null;
+        }
         ChapterQuery chapterQuery=new ChapterQuery();
         chapterQuery.setOutId(Integer.parseInt(id));
         chapterQuery.setType(type);

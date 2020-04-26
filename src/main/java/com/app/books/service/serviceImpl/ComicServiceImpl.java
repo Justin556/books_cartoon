@@ -102,22 +102,23 @@ public class ComicServiceImpl implements ComicService {
         ChapterQuery chapterQuery=new ChapterQuery();
         ComicEpisodes comicEpisodes=comicMapper.getEpisodeById(comicId);
         ComicDetailsPojo comic= comicMapper.details(comicEpisodes.getComicId()+"");
-        if(chapterService.selectChapter(comic.getId()+"",2)==null){
-            chapterQuery.setOutId(comic.getId());
-            chapterQuery.setType(2);
-            chapterQuery.setUserId(Integer.parseInt(authenticationInterceptor.userId));
-            chapterQuery.setChapter(comicEpisodes.getTitle());
-            chapterQuery.setChapterId(Integer.parseInt(comicId));
-            chapterService.addChapter(chapterQuery);
-        }else{
-            chapterQuery.setOutId(comic.getId());
-            chapterQuery.setType(2);
-            chapterQuery.setUserId(Integer.parseInt(authenticationInterceptor.userId));
-            chapterQuery.setChapter(comicEpisodes.getTitle());
-            chapterQuery.setChapterId(Integer.parseInt(comicId));
-            chapterMapper.update(chapterQuery);
+        if(authenticationInterceptor.userId=="null"&&authenticationInterceptor.userId.equals("null")){
+            if(chapterService.selectChapter(comic.getId()+"",2)==null){
+                chapterQuery.setOutId(comic.getId());
+                chapterQuery.setType(2);
+                chapterQuery.setUserId(Integer.parseInt(authenticationInterceptor.userId));
+                chapterQuery.setChapter(comicEpisodes.getTitle());
+                chapterQuery.setChapterId(Integer.parseInt(comicId));
+                chapterService.addChapter(chapterQuery);
+            }else{
+                chapterQuery.setOutId(comic.getId());
+                chapterQuery.setType(2);
+                chapterQuery.setUserId(Integer.parseInt(authenticationInterceptor.userId));
+                chapterQuery.setChapter(comicEpisodes.getTitle());
+                chapterQuery.setChapterId(Integer.parseInt(comicId));
+                chapterMapper.update(chapterQuery);
+            }
         }
-
         return Result.success(comicMapper.bannerDetails(comicId));
     }
 

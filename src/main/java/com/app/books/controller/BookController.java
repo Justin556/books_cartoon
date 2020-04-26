@@ -103,7 +103,7 @@ public class BookController {
         if (user.getBookCurrency() < amount) {
             return Result.error("书币不足");
         }
-        bookService.userSend(user, bookId, amount);
+        bookService.userSend(user, bookId, amount,1);
         return Result.success();
     }
 
