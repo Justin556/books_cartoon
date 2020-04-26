@@ -24,4 +24,7 @@ public class ChapterQuery {
     private Integer type;
     //创建时间
     private Date createTime;
+    //以下为子查询所用
+    private String title;
+    private String coverPic;
 }

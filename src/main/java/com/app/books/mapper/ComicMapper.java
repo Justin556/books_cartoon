@@ -173,8 +173,17 @@ public interface ComicMapper {
      * @param userId
      * @return
      */
-    @Select("SELECT tc.cover_pic as coverPic,tcc.comic_id as comicId,tc.title FROM t_comic_collect tcc\n" +
-            "LEFT JOIN t_comic tc on tcc.comic_id=tc.id\n" +
-            "WHERE user_id = #{userId}")
+    @Select("SELECT * from(\n" +
+            "SELECT tc.id,tc.cover_pic as coverPic,tc.title,2 as type,tce.title as chapter,c.create_time as createTime FROM chapter c\n" +
+            "LEFT JOIN t_comic tc on c.out_id=tc.id\n" +
+            "LEFT JOIN t_comic_episodes tce on tce.id=c.chapter_id\n" +
+            "WHERE user_id =  #{userId} and c.type=2\n" +
+            "UNION all\n" +
+            "SELECT tc.id,tc.cover_pic as coverPic,tc.title,1 as type,tce.title as chapter,c.create_time as createTime FROM chapter c\n" +
+            "LEFT JOIN t_book tc on c.out_id=tc.id \n" +
+            "LEFT JOIN t_book_episodes tce on tce.id=c.chapter_id\n" +
+            "WHERE user_id =  #{userId} and c.type=1\n" +
+            ") a\n" +
+            "ORDER BY createTime DESC ")
     List<ChapterQuery> historicalRecord(String userId);
 }
