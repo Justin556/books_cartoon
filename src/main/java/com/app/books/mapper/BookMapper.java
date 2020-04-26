@@ -68,7 +68,7 @@ public interface BookMapper {
      * 取消点赞
      * @param
      */
-    @Delete("delete from t_book_likes where user_id = user_id and bid = #{bid}")
+    @Delete("delete from t_book_likes where user_id = user_id and bid = #{bookId}")
     void deleteBookLike(Integer bookId, Integer userId);
 
     /**
