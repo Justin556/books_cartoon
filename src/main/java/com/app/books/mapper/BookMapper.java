@@ -83,7 +83,7 @@ public interface BookMapper {
      * 新增收藏
      * @param bookCollect
      */
-    @Insert("insert into t_book_collect(create_time, user_id, bid, title, cover_pic) values(#{createTime}, #{userId}, #{bid}, #{title}, #{coverPic})")
+    @Insert("insert into t_book_collect(create_time, user_id, bid, title, cover_pic, summary) values(#{createTime}, #{userId}, #{bid}, #{title}, #{coverPic}, #{summary})")
     void insertBookCollect(BookCollect bookCollect);
 
     /**
