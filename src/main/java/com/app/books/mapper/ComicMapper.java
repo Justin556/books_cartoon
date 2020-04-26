@@ -162,7 +162,7 @@ public interface ComicMapper {
      * @param comicCollect
      * @return
      */
-    @Select("SELECT tc.cover_pic as coverPic,tcc.comic_id as comicId,tcc.summary as summary,tc.title FROM t_comic_collect tcc\n" +
+    @Select("SELECT tc.cover_pic as coverPic,tcc.comic_id as comicId,tc.summary as summary,tc.title FROM t_comic_collect tcc\n" +
             "LEFT JOIN t_comic tc on tcc.comic_id=tc.id\n" +
             "WHERE user_id = #{userId}")
     List<ComicCollect> closedHistory(ComicCollect comicCollect);
