@@ -57,6 +57,9 @@ public class ComicServiceImpl implements ComicService {
         comicDetailsPojo.setLikeStatus(comicMapper.likeStatus(authenticationInterceptor.userId,comicId));
         comicDetailsPojo.setCollectStatus(comicMapper.collectStatus(authenticationInterceptor.userId,comicId));
         ChapterQuery chapterQuery=chapterService.selectChapter(comicId,2);
+        if(chapterQuery==null){
+            chapterQuery=new ChapterQuery();
+        }
         comicDetailsPojo.setChapterQuery(chapterQuery);
         return Result.success(comicDetailsPojo);
     }
