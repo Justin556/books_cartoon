@@ -90,7 +90,7 @@ public interface BookMapper {
      * 取消收藏
      * @param
      */
-    @Insert("delete from t_book_collect where user_id = user_id and bid = #{bid}")
+    @Insert("delete from t_book_collect where user_id = user_id and bid = #{bookId}")
     void deleteBookCollect(Integer bookId, Integer userId);
 
     /**
