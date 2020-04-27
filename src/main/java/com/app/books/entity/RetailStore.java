@@ -19,7 +19,7 @@ public class RetailStore {
     //分销名称
     private String retailStoreName;
 
-    //分成模式（0按订单，1按金额）
+    //分成模式（0按订单，1按金额）(目前作废，后续待定)
     private Integer divided;
 
     //一级分销

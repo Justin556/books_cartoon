@@ -263,4 +263,7 @@ public interface BookMapper {
             "t_book.sort \n" +
             "FROM t_book WHERE t_book.id = #{bookId}")
     Book getBookById(Integer bookId);
+
+    @Select("SELECT title FROM t_book_episodes WHERE id = #{id}")
+    String getEpisodesTitleById(Integer id);
 }
