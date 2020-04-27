@@ -37,6 +37,9 @@ public class UserCentLog {
     //单金额
     private BigDecimal orderFee;
 
+    //分佣金额
+    private BigDecimal commission;
+
     //0 未分成  1  已分成  2已取消
     private Integer status;
 }

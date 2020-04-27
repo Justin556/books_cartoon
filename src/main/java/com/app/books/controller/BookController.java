@@ -77,14 +77,19 @@ public class BookController {
     @ApiOperation(value = "单个章节内容")
     public Result episodesContent(HttpServletRequest request, Integer bid, Integer chapterId, Integer jiNo) {
         String token = request.getHeader("token");
-        Integer userId = (Integer)redisUtil.get(token);
-        if (token != null) {//如果已登录，向小说历史记录表插入数据
+        if (token != null) {//如果已登录，向小说历史记录表插入或更新数据
+            Integer userId = (Integer)redisUtil.get(request.getHeader("token"));
             ChapterQuery chapter = new ChapterQuery();
             chapter.setUserId(userId);
             chapter.setOutId(bid);
             chapter.setChapterId(chapterId);
             chapter.setType(1);
-            chapterMapper.addChapter(chapter);
+            chapter.setChapter(bookMapper.getEpisodesTitleById(chapterId));
+            if (chapterMapper.selectChapter(chapter) != null) {
+                chapterMapper.update(chapter);
+            }else {
+                chapterMapper.addChapter(chapter);
+            }
         }
         return Result.success(bookService.episodesContent(jiNo));
     }
@@ -141,12 +146,14 @@ public class BookController {
      */
     @GetMapping("userSendList")
     @ApiOperation(value = "打赏列表")
+    @LoginRequired
     public Result userSendList(Integer pageNumber, Integer pageSize, Integer bookId) {
         return Result.success(bookService.userSendList(pageNumber, pageSize, bookId));
     }
 
     @PostMapping("comment")
     @ApiOperation(value = "评论")
+    @LoginRequired
     public Result comment(HttpServletRequest request, Integer bookId, String commentInfo) {
         Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
         User user = userMapper.findUserById(userId);

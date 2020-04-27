@@ -18,7 +18,7 @@ public interface ChapterMapper {
     Integer addChapter(ChapterQuery chapterQuery);
 
     @Update("update chapter \n" +
-            "set chapter=#{chapter},chapter_id=#{chapterId},chapter=#{chapter},create_time=now() where user_id=#{userId} and out_id=#{outId} and type= #{type}")
+            "set chapter_id=#{chapterId},chapter=#{chapter},create_time=now() where user_id=#{userId} and out_id=#{outId} and type= #{type}")
     Integer update(ChapterQuery chapterQuery);
 
     @Select("SELECT *,chapter_id as chapterId from chapter\n" +
