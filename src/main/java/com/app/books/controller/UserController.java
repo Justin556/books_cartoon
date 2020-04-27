@@ -1,6 +1,7 @@
 package com.app.books.controller;
 
 import com.app.books.config.LoginRequired;
+import com.app.books.entity.Suggest;
 import com.app.books.entity.User;
 import com.app.books.mapper.SettingMapper;
 import com.app.books.mapper.UserMapper;
@@ -12,14 +13,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -108,4 +105,28 @@ public class UserController {
         return Result.success(user);
     }
 
+
+    @ApiOperation(value = "上传图片")
+    @PostMapping("upload")
+    @LoginRequired
+    public Result upload(HttpServletRequest request,String portrait) throws IOException {
+        userMapper.upload(portrait, (Integer) redisUtil.get(request.getHeader("token")));
+        return Result.success();
+    }
+
+    @ApiOperation(value = "建议反馈")
+    @PostMapping("suggest")
+    @LoginRequired
+    public Result suggest(HttpServletRequest request, String msg, String tel) throws IOException {
+        Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
+        String userName = userMapper.findUserById(userId).getUserName();
+        Suggest suggest = new Suggest();
+        suggest.setCreateTime(new Date());
+        suggest.setMsg(msg);
+        suggest.setTel(tel);
+        suggest.setUserId(userId);
+        suggest.setUserName(userName);
+        userMapper.addSuggest(suggest);
+        return Result.success();
+    }
 }
