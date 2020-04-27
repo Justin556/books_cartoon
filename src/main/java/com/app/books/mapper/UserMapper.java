@@ -122,4 +122,12 @@ public interface UserMapper {
             "ORDER BY create_time DESC\n" +
             "LIMIT 0,1")
     Date getLastDateOfSignIn(Integer userId);
+
+    /**
+     * 上传头像
+     * @param portrait
+     * @param userId
+     */
+    @Update("update t_user set portrait = #{portrait} where id = #{userId}")
+    void upload(String portrait, Integer userId);
 }

@@ -48,4 +48,7 @@ public class User {
 
     //今日是否已签到(0：未签到； 1：已签到) （冗余字段）
     private Integer isSignIn;
+
+    //头像
+    private String portrait;
 }

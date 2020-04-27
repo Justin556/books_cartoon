@@ -2,7 +2,6 @@ package com.app.books.controller;
 
 import com.app.books.config.LoginRequired;
 import com.app.books.entity.User;
-import com.app.books.entity.WebSite;
 import com.app.books.mapper.SettingMapper;
 import com.app.books.mapper.UserMapper;
 import com.app.books.result.Result;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -98,5 +98,14 @@ public class UserController {
         }
         user.setIsSignIn(0);//未签到
         return Result.success(user);
+    }
+
+
+    @ApiOperation(value = "上传图片")
+    @PostMapping("upload")
+    @LoginRequired
+    public Result upload(HttpServletRequest request,String portrait) throws IOException {
+        userMapper.upload(portrait, (Integer) redisUtil.get(request.getHeader("token")));
+        return Result.success();
     }
 }
