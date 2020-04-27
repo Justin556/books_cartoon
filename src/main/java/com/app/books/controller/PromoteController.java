@@ -1,6 +1,7 @@
 package com.app.books.controller;
 
 
+import com.app.books.config.AuthenticationInterceptor;
 import com.app.books.vo.UserQuery;
 import com.app.books.entity.UserRetailLevel;
 import com.app.books.result.Result;
@@ -24,6 +25,9 @@ public class PromoteController {
     @Autowired
     private PromoteService promoteService;
 
+    @Autowired
+    private AuthenticationInterceptor authenticationInterceptor;
+
     //本人推广用户列表
     @GetMapping("page")
     public Result promoteList(UserQuery userQuery) {
@@ -33,7 +37,7 @@ public class PromoteController {
     //本人推广二维码生成
     @GetMapping("yards")
     public Result yards(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String text = "https://www.baidu.com/";
+        String text = "http://47.56.19.236/books/#/pages/register/register?type=2&userId="+authenticationInterceptor.userId;
         //不含Logo
        String fileName = QrCodeUtils2.encode(text, null, "/home/project/picture/qrCode", true);
        return Result.success("/books/qrCode/"+fileName);
