@@ -57,7 +57,8 @@ public interface UserMapper {
             "proxy_id as proxyId, \n" +
             "user_name as userName, \n" +
             "user_source as userSource, \n" +
-            "password \n" +
+            "password," +
+            "portrait \n" +
             "from t_user where id = #{userId}")
     User findUserById(Integer userId);
 
