@@ -35,4 +35,6 @@ public interface BookService {
     void bookLike(Integer bookId, Integer userId);
 
     void bookCollect(Integer bookId, Integer userId);
+
+    List<BookCollect> bookCollectList(Integer userId);
 }

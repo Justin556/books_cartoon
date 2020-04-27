@@ -1,5 +1,6 @@
 package com.app.books.controller;
 
+import com.app.books.config.LoginRequired;
 import com.app.books.entity.*;
 import com.app.books.mapper.BookMapper;
 import com.app.books.mapper.ChapterMapper;
@@ -97,6 +98,7 @@ public class BookController {
      */
     @PostMapping("userSend")
     @ApiOperation(value = "打赏")
+    @LoginRequired
     public Result userSend(HttpServletRequest request, Integer bookId, Integer amount) {
         Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
         User user = userMapper.findUserById(userId);
@@ -109,6 +111,7 @@ public class BookController {
 
     @GetMapping("bookLike")
     @ApiOperation(value = "点赞/取消点赞")
+    @LoginRequired
     public Result bookLike(HttpServletRequest request, Integer bookId) {
         Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
         bookService.bookLike(bookId, userId);
@@ -117,10 +120,19 @@ public class BookController {
 
     @GetMapping("bookCollect")
     @ApiOperation(value = "收藏/取消收藏")
+    @LoginRequired
     public Result bookCollect(HttpServletRequest request, Integer bookId) {
         Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
         bookService.bookCollect(bookId, userId);
         return Result.success();
+    }
+
+    @GetMapping("bookCollectList")
+    @ApiOperation(value = "收藏列表")
+    @LoginRequired
+    public Result bookCollectList(HttpServletRequest request) {
+        Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
+        return Result.success(bookService.bookCollectList(userId));
     }
 
     /**
