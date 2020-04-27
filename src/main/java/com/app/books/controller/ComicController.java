@@ -1,6 +1,7 @@
 package com.app.books.controller;
 
 
+import com.app.books.config.LoginRequired;
 import com.app.books.entity.ComicCollect;
 import com.app.books.entity.ComicLikes;
 import com.app.books.entity.User;
@@ -99,6 +100,7 @@ public class ComicController {
      */
     @GetMapping("likeComic")
     @ApiOperation(value = "漫画点赞")
+    @LoginRequired
     public Result likeComic(ComicLikes comicLikes) {
         return comicService.addComicLikes(comicLikes);
     }
@@ -109,6 +111,7 @@ public class ComicController {
      */
     @GetMapping("exceptionalComic")
     @ApiOperation(value = "漫画打赏")
+    @LoginRequired
     public Result userSend(HttpServletRequest request, UserSendLog userSendLog)
     {
         Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
@@ -126,6 +129,7 @@ public class ComicController {
      */
     @GetMapping("closedComic")
     @ApiOperation(value = "漫画收藏")
+    @LoginRequired
     public Result closedComic(ComicCollect comicCollect) {
         return comicService.closedComic(comicCollect);
     }
@@ -135,6 +139,7 @@ public class ComicController {
      */
     @GetMapping("closedHistory")
     @ApiOperation(value = "收藏列表")
+    @LoginRequired
     public Result closedHistory(ComicCollect comicCollect) {
         return comicService.closedHistory(comicCollect);
     }
@@ -144,6 +149,7 @@ public class ComicController {
      */
     @GetMapping("readingHistory")
     @ApiOperation(value = "漫画阅读历史")
+    @LoginRequired
     public Result readingHistory(ComicQuery comicQuery) {
         return comicService.readingHistory(comicQuery);
     }
@@ -154,6 +160,7 @@ public class ComicController {
      */
     @GetMapping("continueSee")
     @ApiOperation(value = "续看")
+    @LoginRequired
     public Result continueSee(ComicQuery comicQuery) {
         return comicService.continueSee(comicQuery);
     }
@@ -165,6 +172,7 @@ public class ComicController {
      */
     @GetMapping("historicalRecord")
     @ApiOperation(value = "历史记录")
+    @LoginRequired
     public Result historicalRecord() {
         return comicService.historicalRecord();
     }
