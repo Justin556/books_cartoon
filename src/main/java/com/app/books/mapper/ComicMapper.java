@@ -186,4 +186,11 @@ public interface ComicMapper {
             ") a\n" +
             "ORDER BY createTime DESC ")
     List<ChapterQuery> historicalRecord(String userId);
+
+    /**
+     * 历史记录
+     * @return
+     */
+    @Select("select * from t_comic_type")
+    List<ComicType> comictype();
 }

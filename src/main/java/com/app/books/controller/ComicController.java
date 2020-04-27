@@ -168,4 +168,13 @@ public class ComicController {
     public Result historicalRecord() {
         return comicService.historicalRecord();
     }
+
+    /**
+     * 漫画类型
+     */
+    @GetMapping("comictype")
+    @ApiOperation(value = "漫画类型")
+    public Result comictype() {
+        return comicService.comictype();
+    }
 }

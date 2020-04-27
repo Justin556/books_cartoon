@@ -32,4 +32,7 @@ public interface ComicService {
     Result closedHistory(ComicCollect comicCollect);
 
     Result historicalRecord( );
+
+    Result comictype( );
+
 }

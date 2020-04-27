@@ -189,4 +189,9 @@ public class ComicServiceImpl implements ComicService {
 
         return Result.success(comicMapper.historicalRecord(authenticationInterceptor.userId));
     }
+
+    @Override
+    public Result comictype() {
+        return Result.success(comicMapper.comictype());
+    }
 }
