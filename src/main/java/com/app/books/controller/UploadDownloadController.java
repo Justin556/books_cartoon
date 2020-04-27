@@ -3,6 +3,7 @@ package com.app.books.controller;
 
 import com.app.books.config.AuthenticationInterceptor;
 import com.app.books.mapper.UserMapper;
+import com.app.books.result.Result;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,10 +32,10 @@ public class UploadDownloadController {
 
     private static final Logger logger = LoggerFactory.getLogger(UploadDownloadController.class);
 
-    private String uploadDir="/home/project/picture/touxiang";
+    private String uploadDir="/home/project/picture/touxiang/";
 
     @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
-    public JSONObject uploadImage(@RequestParam(value = "file") MultipartFile file) throws RuntimeException {
+    public Result uploadImage(@RequestParam(value = "file") MultipartFile file) throws RuntimeException {
 
         // 获取文件名
         String fileName = file.getOriginalFilename();
@@ -61,7 +62,7 @@ public class UploadDownloadController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return Result.success();
     }
 
 
