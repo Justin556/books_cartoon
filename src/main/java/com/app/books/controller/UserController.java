@@ -92,11 +92,15 @@ public class UserController {
         //校验今天是否已签到
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date lastSignIn = userMapper.getLastDateOfSignIn(userId);
-        if (sdf.format(new Date()).equals(sdf.format(lastSignIn))) {//如果是同一天，说明今天已签到
-            user.setIsSignIn(1);
-            return Result.success(user);
+        if (lastSignIn == null) {
+            user.setIsSignIn(0);//未签到
+        }else {
+            if (sdf.format(new Date()).equals(sdf.format(lastSignIn))) {//如果是同一天，说明今天已签到
+                user.setIsSignIn(1);
+            }else {
+                user.setIsSignIn(0);
+            }
         }
-        user.setIsSignIn(0);//未签到
         return Result.success(user);
     }
 
