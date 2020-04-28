@@ -132,7 +132,7 @@ public interface ComicMapper {
      * 取消点赞
      * @param
      */
-    @Delete("delete from t_comic_likes where user_id = user_id and comic_id = #{comicId}")
+    @Delete("delete from t_comic_likes where user_id = #{userId} and comic_id = #{comicId}")
     void deleteComicLike(Integer comicId, Integer userId);
 
     /**
@@ -154,7 +154,7 @@ public interface ComicMapper {
      * 取消收藏
      * @param
      */
-    @Delete("delete from t_comic_collect where user_id = user_id and comic_id = #{comicId}")
+    @Delete("delete from t_comic_collect where user_id = #{userId} and comic_id = #{comicId}")
     void deleteComicCollect(Integer comicId, Integer userId);
 
     /**
@@ -193,4 +193,5 @@ public interface ComicMapper {
      */
     @Select("select * from t_comic_type")
     List<ComicType> comictype();
+
 }

@@ -6,6 +6,7 @@ import com.app.books.entity.ComicCollect;
 import com.app.books.entity.ComicLikes;
 import com.app.books.entity.User;
 import com.app.books.entity.UserSendLog;
+import com.app.books.mapper.ChapterMapper;
 import com.app.books.mapper.UserMapper;
 import com.app.books.service.BookService;
 import com.app.books.utils.RedisUtil;
@@ -36,6 +37,9 @@ public class ComicController {
     private RedisUtil redisUtil;
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private ChapterMapper chapterMapper;
     /**
      * 漫画列表
      * @param comicQuery
@@ -184,5 +188,30 @@ public class ComicController {
     @ApiOperation(value = "漫画类型")
     public Result comictype() {
         return comicService.comictype();
+    }
+
+
+    /**
+     * 删除历史记录
+     */
+    @GetMapping("deleteHistorical")
+    @ApiOperation(value = "删除历史记录")
+    @LoginRequired
+    public Result deleteHistorical(HttpServletRequest request,Integer outId,Integer type) {
+        Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
+        chapterMapper.deleteHistorical(outId,type,userId);
+        return Result.success();
+    }
+
+    /**
+     * 删除所有历史记录
+     */
+    @GetMapping("deleteAllHistorical")
+    @ApiOperation(value = "删除所有历史记录")
+    @LoginRequired
+    public Result deleteAllHistorical(HttpServletRequest request) {
+        Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
+        chapterMapper.deleteAllHistorical(userId);
+        return Result.success();
     }
 }
