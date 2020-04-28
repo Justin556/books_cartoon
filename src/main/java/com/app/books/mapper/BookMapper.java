@@ -119,7 +119,7 @@ public interface BookMapper {
             "GROUP BY userId ")
     List<UserSendLog> userSendList(Integer bookId);
 
-    @Insert("insert into t_comment(create_time, out_id, user_id, comment_info) values(#{createTime}, #{outId}, #{userId}, #{commentInfo})")
+    @Insert("insert into t_comment(create_time, out_id, user_id, comment_info,type) values(#{createTime}, #{outId}, #{userId}, #{commentInfo},1)")
     void insertComment(Comment comment);
 
     /**
@@ -130,7 +130,7 @@ public interface BookMapper {
     @Select("select c.comment_info as commentInfo, \n" +
             "c.create_time as createTime, \n" +
             "(select t_user.user_name from t_user where t_user.id = c.user_id) as userName \n" +
-            "from t_comment c where c.out_id = #{bookId}\n" +
+            "from t_comment c where c.out_id = #{bookId} and c.type=1\n" +
             "ORDER BY c.create_time desc")
     List<Comment> commentList(Integer bookId);
 

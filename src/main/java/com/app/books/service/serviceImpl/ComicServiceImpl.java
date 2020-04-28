@@ -17,7 +17,6 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -153,6 +152,8 @@ public class ComicServiceImpl implements ComicService {
         PageInfo<Comment> pageInfo = new PageInfo<Comment>(list);
         return Result.success(pageInfo);
     }
+
+
 
     @Override
     public Result closedComic(ComicCollect comicCollect) {

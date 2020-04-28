@@ -7,6 +7,7 @@ import com.app.books.entity.ComicLikes;
 import com.app.books.entity.User;
 import com.app.books.entity.UserSendLog;
 import com.app.books.mapper.ChapterMapper;
+import com.app.books.mapper.ComicMapper;
 import com.app.books.mapper.UserMapper;
 import com.app.books.service.BookService;
 import com.app.books.utils.RedisUtil;
@@ -18,6 +19,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,7 +34,8 @@ public class ComicController {
     private BookService bookService;
     @Autowired
     private ComicService comicService;
-
+    @Autowired
+    private ComicMapper comicMapper;
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
@@ -86,6 +89,16 @@ public class ComicController {
     @ApiOperation(value = "漫画更多评论")
     public Result commentPage(ComicQuery comicQuery) {
         return comicService.commentPage(comicQuery);
+    }
+
+    @PostMapping("comment")
+    @ApiOperation(value = "评论")
+    @LoginRequired
+    public Result comment(HttpServletRequest request, Integer comicId, String commentInfo) {
+        Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
+        User user = userMapper.findUserById(userId);
+        comicMapper.insertComment(comicId,user.getId(), commentInfo);
+        return Result.success();
     }
 
     /**

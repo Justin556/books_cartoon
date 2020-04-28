@@ -60,9 +60,12 @@ public interface ComicMapper {
      */
     @Select("select c.comment_info as commentInfo,c.create_time as createTime ,\n" +
             "(select t_user.user_name from t_user where t_user.id = c.user_id) as userName \n" +
-            "from t_comment c where c.out_id = #{comicId}\n" +
+            "from t_comment c where c.out_id = #{comicId} and c.type=2\n" +
             "ORDER BY c.create_time desc")
     List<Comment> commentList(String comicId);
+
+    @Insert("insert into t_comment(create_time, out_id, user_id, comment_info,type) values(now(), #{outId}, #{userId}, #{commentInfo},2)")
+    void insertComment(Integer outId,Integer userId,String commentInfo);
 
     /**
      * 章节列表

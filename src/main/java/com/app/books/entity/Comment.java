@@ -24,6 +24,8 @@ public class Comment {
     //书（漫画）章节id
     private Integer zjId;
 
+    //1小说2漫画
+    private Integer type;
     //----------------子查询字段--------------------
     //用户名
     private String userName;
