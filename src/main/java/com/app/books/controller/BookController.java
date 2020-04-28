@@ -151,7 +151,7 @@ public class BookController {
         return Result.success(bookService.userSendList(pageNumber, pageSize, bookId));
     }
 
-    @PostMapping("comment")
+    @GetMapping("comment")
     @ApiOperation(value = "评论")
     @LoginRequired
     public Result comment(HttpServletRequest request, Integer bookId, String commentInfo) {

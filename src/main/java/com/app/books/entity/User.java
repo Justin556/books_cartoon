@@ -61,6 +61,6 @@ public class User {
     //签到将赠送的书币(冗余字段)
     private Integer signCurrency;
 
-    //用户的分销总佣金
+    //用户的分销总佣金(冗余字段)
     private BigDecimal commission;
 }
