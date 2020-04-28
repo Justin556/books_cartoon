@@ -1,12 +1,10 @@
 package com.app.books.mapper;
 
+import com.app.books.entity.Suggest;
 import com.app.books.entity.User;
 import com.app.books.entity.UserCurrencyLog;
 import com.app.books.entity.UserRetailLevel;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -18,6 +16,7 @@ public interface UserMapper {
      * 新增用户
      * @param user
      */
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     @Insert("INSERT INTO t_user(\n" +
             "create_time,\n" +
             "user_name,\n" +
@@ -67,7 +66,7 @@ public interface UserMapper {
      * @param userRetailLevel
      */
     @Insert("INSERT INTO t_user_retail_level(create_time, parent_id, user_id)\n" +
-            "VALUES(#{createTime},#{parentId},#{userId})")
+            "VALUES(#{createTime},#{id},#{userId})")
     void insertUserRetailLevel(UserRetailLevel userRetailLevel);
 
     /**
@@ -131,4 +130,12 @@ public interface UserMapper {
      */
     @Update("update t_user set portrait = #{portrait} where id = #{userId}")
     void upload(String portrait, Integer userId);
+
+    /**
+     * 添加反馈建议
+     * @param suggest
+     */
+    @Insert("INSERT INTO t_suggest(create_time, msg, path, tel, user_id, user_name)\n" +
+            "VALUES(#{createTime},#{msg},#{path},#{tel},#{userId},#{userName})")
+    void addSuggest(Suggest suggest);
 }

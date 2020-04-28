@@ -22,6 +22,9 @@ public class UserRetailLevel {
     //用户编号
     private Integer userId;
 
+    public UserRetailLevel() {
+    }
+
     public UserRetailLevel(Date createTime, Integer parentId, Integer userId) {
         this.createTime = createTime;
         this.parentId = parentId;
