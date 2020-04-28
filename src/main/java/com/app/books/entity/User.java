@@ -20,10 +20,16 @@ public class User {
     private Integer userSource;
 
     //如果来源代理则有值，默认不来源
-    private Integer proxyId = 0;
+    private Integer proxyId;
 
-    //是否是vip
+    //是否是vip (0:否  1：是)
     private Integer isVip = 0;
+
+    //vip开始时间
+    private Date vipStartTime;
+
+    //vip到期时间
+    private Date vipEndTime;
 
     //用户名称
     private String userName;

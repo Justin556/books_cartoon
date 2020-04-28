@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 @Mapper
 @Repository
@@ -53,6 +54,8 @@ public interface UserMapper {
             "balance, \n" +
             "book_currency as bookCurrency, \n" +
             "is_vip as isVip, \n" +
+            "vip_start_time as vipStartTime, \n" +
+            "vip_end_time as vipEndTime, \n" +
             "proxy_id as proxyId, \n" +
             "user_name as userName, \n" +
             "user_source as userSource, \n" +
@@ -60,6 +63,33 @@ public interface UserMapper {
             "portrait \n" +
             "from t_user where id = #{userId}")
     User findUserById(Integer userId);
+
+    /**
+     * 查询当前vip到期用户列表
+     * @return
+     */
+    @Select("select id, \n" +
+            "create_time as createTime, \n" +
+            "ali_account as aliAccount, \n" +
+            "ali_name as aliName, \n" +
+            "balance, \n" +
+            "book_currency as bookCurrency, \n" +
+            "is_vip as isVip, \n" +
+            "vip_start_time as vipStartTime, \n" +
+            "vip_end_time as vipEndTime, \n" +
+            "proxy_id as proxyId, \n" +
+            "user_name as userName, \n" +
+            "user_source as userSource, \n" +
+            "password," +
+            "portrait \n" +
+            "from t_user where is_vip = 1 and Date (vip_end_time) < now()")
+    List<User> getVipMaturityList();
+
+    /**
+     * 设置vip失效
+     */
+    @Update("update t_user set is_vip = 0 where id = #{userId}")
+    void setVipFail(Integer userId);
 
     /**
      * 新增用户分销关系表
