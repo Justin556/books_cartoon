@@ -91,7 +91,7 @@ public class ComicController {
         return comicService.commentPage(comicQuery);
     }
 
-    @PostMapping("comment")
+    @GetMapping("comment")
     @ApiOperation(value = "评论")
     @LoginRequired
     public Result comment(HttpServletRequest request, Integer comicId, String commentInfo) {
