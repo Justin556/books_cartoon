@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -21,18 +20,17 @@ import java.util.List;
 public class ScheduledTasks {
     @Autowired
     private UserMapper userMapper;
-
     //每30秒执行一次
     /*@Scheduled(fixedRate = 1000 * 30)
     public void reportCurrentTime(){
-        System.out.println ("Scheduling Tasks Examples: The time is now " + dateFormat ().format (new Date()));
+        System.out.println ("Scheduling Tasks Examples: The time is now " + dateFormat ().format (new Date ()));
     }*/
 
-    //每天凌晨0点执行
-    @Scheduled(cron ="0 0 24 * * ?")
+    //在固定时间执行
+    @Scheduled(cron = "0 0 1 * * ?")
     public void reportCurrentByCron(){
+        //System.out.println ("Scheduling Tasks Examples By Cron: The time is now " + dateFormat ().format (new Date()));
         try {
-            //System.out.println ("Scheduling Tasks Examples By Cron: The time is now " + dateFormat ().format (new Date()));
             List<User> list = userMapper.getVipMaturityList();
             for (User user: list
             ) {
@@ -43,7 +41,6 @@ public class ScheduledTasks {
             e.printStackTrace();
             throw new CustomerException("定时任务执行失效", 500);
         }
-
     }
 
     private SimpleDateFormat dateFormat(){
