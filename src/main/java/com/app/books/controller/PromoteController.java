@@ -37,7 +37,7 @@ public class PromoteController {
     //本人推广二维码生成
     @GetMapping("yards")
     public Result yards(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String text = "http://47.56.19.236/books/#/pages/register/register?type=2&userId="+authenticationInterceptor.userId;
+        String text = "http://47.56.19.236/books/#/pages/register/register?type=2&id="+authenticationInterceptor.userId;
         //不含Logo
        String fileName = QrCodeUtils2.encode(text, null, "/home/project/picture/qrCode", true);
        return Result.success("/books/qrCode/"+fileName);
