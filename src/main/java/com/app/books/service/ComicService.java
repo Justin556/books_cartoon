@@ -9,6 +9,8 @@ import com.app.books.result.Result;
 public interface ComicService {
     Result comicList(ComicQuery comicQuery);
 
+    Result ranking(ComicQuery comicQuery);
+
     Result details(String comicId);
 
     Result homePage(ComicQuery comicQuery);

@@ -61,6 +61,16 @@ public class ComicController {
     public Result homePage(ComicQuery comicQuery) {
         return comicService.homePage(comicQuery);
     }
+
+    /**
+     * 漫画排行
+     * @param comicQuery
+     */
+    @GetMapping("ranking")
+    @ApiOperation(value = "漫画排行")
+    public Result ranking(ComicQuery comicQuery) {
+        return comicService.ranking(comicQuery);
+    }
     /**
      * 漫画详情
      * @param comicId

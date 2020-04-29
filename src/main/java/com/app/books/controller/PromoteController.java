@@ -7,6 +7,7 @@ import com.app.books.entity.UserRetailLevel;
 import com.app.books.result.Result;
 import com.app.books.service.PromoteService;
 import com.app.books.utils.QrCodeUtils2;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,5 +48,12 @@ public class PromoteController {
     @PostMapping("addPromote")
     public Result addPromote(UserRetailLevel userRetailLevel) {
         return promoteService.addPromote(userRetailLevel);
+    }
+
+    @GetMapping("download")
+    @ApiOperation(value = "漫画图片下载")
+    public void download() {
+
+
     }
 }

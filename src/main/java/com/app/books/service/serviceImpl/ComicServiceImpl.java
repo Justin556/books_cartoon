@@ -38,11 +38,18 @@ public class ComicServiceImpl implements ComicService {
 
     @Override
     public Result comicList(ComicQuery comicQuery) {
-        if(comicQuery.getCategory().equals("全部")){
+        if(comicQuery.getCategory()!=null&&comicQuery.getCategory()!=""&&comicQuery.getCategory().equals("全部")){
             comicQuery.setCategory(null);
         }
         PageHelper.startPage(comicQuery.getPageNumber(),comicQuery.getPageSize());//这行是重点，表示从pageNum页开始，每页pageSize条数据
         List<Comic> list = comicMapper.findAll(comicQuery);
+        PageInfo<Comic> pageInfo = new PageInfo<Comic>(list);
+        return Result.success(pageInfo);
+    }
+    @Override
+    public Result ranking(ComicQuery comicQuery) {
+        PageHelper.startPage(comicQuery.getPageNumber(),comicQuery.getPageSize());//这行是重点，表示从pageNum页开始，每页pageSize条数据
+        List<Comic> list = comicMapper.ranking(comicQuery);
         PageInfo<Comic> pageInfo = new PageInfo<Comic>(list);
         return Result.success(pageInfo);
     }
