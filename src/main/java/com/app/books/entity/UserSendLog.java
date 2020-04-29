@@ -2,6 +2,7 @@ package com.app.books.entity;;
 
 import lombok.Data;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
 public class UserSendLog {
     private Integer id;
 
-    private Date createTime;
+    private String createTime;
 
     private Date updateTime;
 
@@ -45,7 +46,8 @@ public class UserSendLog {
     }
 
     public UserSendLog(Date createTime, Integer userId, Integer outId, Integer amount,Integer type) {
-        this.createTime = createTime;
+        SimpleDateFormat sdf =   new SimpleDateFormat( " yyyy-MM-dd HH:mm:ss " );
+        this.createTime = sdf.format(createTime);
         this.userId = userId;
         this.outId = outId;
         this.amount = amount;

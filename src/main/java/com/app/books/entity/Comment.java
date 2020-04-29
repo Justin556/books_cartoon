@@ -3,6 +3,7 @@ package com.app.books.entity;;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -10,9 +11,11 @@ import java.util.Date;
 @Setter
 //书或漫画评论
 public class Comment {
+
+
     private Integer id;
 
-    private Date createTime;
+    private String createTime;
 
     private Date updateTime;
     //书（漫画）id
@@ -31,7 +34,8 @@ public class Comment {
     private String userName;
 
     public Comment(Date createTime, Integer outId, String commentInfo, Integer userId) {
-        this.createTime = createTime;
+        SimpleDateFormat sdf =   new SimpleDateFormat( " yyyy-MM-dd HH:mm:ss " );
+        this.createTime = sdf.format(createTime);
         this.outId = outId;
         this.commentInfo = commentInfo;
         this.userId = userId;

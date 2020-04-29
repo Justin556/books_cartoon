@@ -23,7 +23,7 @@ public class ChapterQuery {
     //1小说 2漫画
     private Integer type;
     //创建时间
-    private Date createTime;
+    private String createTime;
     //以下为子查询所用
     private String title;
     private String coverPic;
