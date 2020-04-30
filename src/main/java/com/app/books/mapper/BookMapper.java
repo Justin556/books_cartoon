@@ -16,10 +16,10 @@ import java.util.List;
 @Repository
 public interface BookMapper {
 
-    @Select("<script> SELECT COUNT(zong.coverPic) as sum,zong.coverPic,zong.bookId,category,title,status,author from \n" +
-            "(select `status`,title,author,category,cover_pic as coverPic,detail_pic as detailPic,tcl.bid as bookId from t_book tc\n" +
+    @Select("<script> SELECT COUNT(zong.coverPic) as sum,summary,zong.coverPic,zong.bookId,category,title,status,author from \n" +
+            "(select `status`,title,author,category,cover_pic as coverPic,detail_pic as detailPic,summary,tcl.bid as bookId from t_book tc\n" +
             "            left JOIN t_book_likes tcl on tcl.bid=tc.id)as zong\n" +
-            "            group by zong.coverPic,zong.bookId,category,title,status,author\n" +
+            "            group by zong.coverPic,zong.bookId,category,title,status,author,summary\n" +
             "            order by sum desc </script>")
     List<Book> ranking();
 

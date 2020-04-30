@@ -24,9 +24,9 @@ public interface ComicMapper {
             "</script>")
     List<Comic> findAll(ComicQuery comicQuery);
 
-    @Select("<script>SELECT COUNT(zong.coverPic) as sum,zong.coverPic,zong.comicId,category,title,status,author from (select `status`,title,author,category,cover_pic as coverPic,detail_pic as detailPic,tcl.comic_id as comicId from t_comic tc\n" +
+    @Select("<script>SELECT COUNT(zong.coverPic) as sum,zong.coverPic,summary,zong.comicId,category,title,status,author from (select `status`,title,author,category,summary,cover_pic as coverPic,detail_pic as detailPic,tcl.comic_id as comicId from t_comic tc\n" +
             "left JOIN t_comic_likes tcl on tcl.comic_id=tc.id)as zong\n" +
-            "group by zong.coverPic,zong.comicId,category,title,status,author\n" +
+            "group by zong.coverPic,zong.comicId,category,title,status,author,summary\n" +
             "order by sum desc </script>")
     List<Comic> ranking();
 
