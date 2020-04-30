@@ -78,9 +78,9 @@ public interface ComicMapper {
      * @param comicId
      * @return
      */
-    @Select("SELECT *  \n" +
-            "FROM t_comic_episodes b WHERE b.comic_id = #{comicId}\n" +
-            "ORDER BY ji_no")
+    @Select("SELECT * \n" +
+            "FROM t_comic_episodes b WHERE b.comic_id = #{comicId}\n"
+            )
     List<ComicEpisodes> comicEpisodeList(String comicId);
 
     /**
