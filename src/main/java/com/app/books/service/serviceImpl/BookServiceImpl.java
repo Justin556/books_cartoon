@@ -4,6 +4,7 @@ import com.app.books.entity.*;
 import com.app.books.mapper.ChapterMapper;
 import com.app.books.mapper.UserMapper;
 import com.app.books.pojo.BookDetailsPojo;
+import com.app.books.result.Result;
 import com.app.books.utils.RedisUtil;
 import com.app.books.vo.BookParams;
 import com.app.books.mapper.BookMapper;
@@ -204,5 +205,13 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookCollect> bookCollectList(Integer userId) {
         return bookMapper.getBookCollectList(userId);
+    }
+
+    @Override
+    public Result ranking(BookParams bookParams) {
+        PageHelper.startPage(bookParams.getPageNumber(),bookParams.getPageSize());//这行是重点，表示从pageNum页开始，每页pageSize条数据
+        List<Book> list = bookMapper.ranking();
+        PageInfo<Book> pageInfo = new PageInfo<Book>(list);
+        return Result.success(pageInfo);
     }
 }

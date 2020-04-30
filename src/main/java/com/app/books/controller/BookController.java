@@ -179,6 +179,15 @@ public class BookController {
         return Result.success(bookService.categoryPageList(pageNumber, pageSize, category));
     }
 
+    /**
+     * 漫画排行
+     * @param bookParams
+     */
+    @GetMapping("ranking")
+    @ApiOperation(value = "漫画排行")
+    public Result ranking(BookParams bookParams) {
+        return bookService.ranking(bookParams);
+    }
 
 }
 

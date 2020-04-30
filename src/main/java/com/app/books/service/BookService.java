@@ -2,6 +2,7 @@ package com.app.books.service;
 
 import com.app.books.entity.*;
 import com.app.books.pojo.BookDetailsPojo;
+import com.app.books.result.Result;
 import com.app.books.vo.BookParams;
 import com.github.pagehelper.PageInfo;
 
@@ -37,4 +38,6 @@ public interface BookService {
     void bookCollect(Integer bookId, Integer userId);
 
     List<BookCollect> bookCollectList(Integer userId);
+
+    Result ranking(BookParams bookParams);
 }
