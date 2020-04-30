@@ -96,7 +96,7 @@ public interface UserMapper {
      * @param userRetailLevel
      */
     @Insert("INSERT INTO t_user_retail_level(create_time, parent_id, user_id)\n" +
-            "VALUES(#{createTime},#{id},#{userId})")
+            "VALUES(#{createTime},#{parentId},#{userId})")
     void insertUserRetailLevel(UserRetailLevel userRetailLevel);
 
     /**
