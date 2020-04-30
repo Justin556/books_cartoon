@@ -184,7 +184,7 @@ public class BookController {
      * @param bookParams
      */
     @GetMapping("ranking")
-    @ApiOperation(value = "漫画排行")
+    @ApiOperation(value = "小说排行")
     public Result ranking(BookParams bookParams) {
         return bookService.ranking(bookParams);
     }
