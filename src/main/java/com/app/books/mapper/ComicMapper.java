@@ -30,7 +30,8 @@ public interface ComicMapper {
             "order by sum desc </script>")
     List<Comic> ranking();
 
-    @Select("<script> select *,cover_pic as coverPic from t_comic where id = #{comicId} </script>")
+    @Select("<script> select *,cover_pic as coverPic,(SELECT COUNT(1) FROM t_comic_likes WHERE t_comic_likes.comic_id = t_comic.id) as likeSum" +
+            " from t_comic where id = #{comicId} </script>")
     ComicDetailsPojo details(String comicId);
 
     /**
