@@ -106,7 +106,7 @@ public class BookController {
             if (user.getIsVip() == 0){//如果不是vip
                 if (bookMapper.getIsPay(user.getId(), chapterId) == 0){//如果本章节没付过费
                     if (user.getBookCurrency() < money){//如果用户的书币不足以支付该章节费用
-                        return Result.error(-1, "书币不足！");
+                        return Result.error(-2, "书币不足！");
                     }else {
                         userMapper.reduceBookCurrency(money, user.getId());//扣除用户书币
                         //新增书币变动表
