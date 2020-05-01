@@ -121,7 +121,8 @@ public interface BookMapper {
      */
     @Select("select sum(u.amount) as userAmount, \n" +
             "u.user_id as userId,\n" +
-            "(select t_user.user_name from t_user where t_user.id = u.user_id) as userName \n" +
+            "(select t_user.user_name from t_user where t_user.id = u.user_id) as userName, \n" +
+            "(select t_user.portrait from t_user where t_user.id = c.user_id) as portrait \n" +
             "from t_user_send_log u where out_id = #{bookId} and type=1\n" +
             "GROUP BY userId ")
     List<UserSendLog> userSendList(Integer bookId);
