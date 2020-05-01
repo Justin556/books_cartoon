@@ -10,6 +10,7 @@ import com.app.books.service.BalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 @Service
@@ -24,10 +25,18 @@ public class BalanceServiceImpl implements BalanceService {
     private SettingMapper settingMapper;
 
     @Override
+    @Transactional
     public void recharge(Integer userId, BigDecimal amount) {
         balanceMapper.updateUserBalance(userId, amount);//用户余额增加
-        User user = userMapper.findUserById(userId);
         String orderNo = "NO" + System.currentTimeMillis();
+        User user = userMapper.findUserById(userId);
+        UserBalanceLog userBalanceLog = new UserBalanceLog();
+        userBalanceLog.setOrderFee(amount);
+        userBalanceLog.setOrderNo(orderNo);
+        userBalanceLog.setOrderType("1");
+        userBalanceLog.setUserId(userId);
+        userBalanceLog.setUserName(user.getUserName());
+        balanceMapper.addUseBalanceLog(userBalanceLog);
         if (user.getUserSource() != null && user.getUserSource() == 0){//如果上级是代理
             Agent agent = agentMapper.getAgentById(user.getProxyId());
             BigDecimal ratio = new BigDecimal(Float.toString(agent.getRatio()));//扣除比例

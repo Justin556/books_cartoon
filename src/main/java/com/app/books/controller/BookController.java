@@ -12,10 +12,12 @@ import com.app.books.service.BookService;
 import com.app.books.vo.ChapterQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @RestController
@@ -77,6 +79,7 @@ public class BookController {
     @ApiOperation(value = "单个章节内容")
     public Result episodesContent(HttpServletRequest request, Integer bid, Integer chapterId, Integer jiNo) {
         String token = request.getHeader("token");
+        User user = userMapper.findUserById((Integer) redisUtil.get(token));
         if (token != null) {//如果已登录，向小说历史记录表插入或更新数据
             Integer userId = (Integer)redisUtil.get(request.getHeader("token"));
             ChapterQuery chapter = new ChapterQuery();
@@ -89,6 +92,31 @@ public class BookController {
                 chapterMapper.update(chapter);
             }else {
                 chapterMapper.addChapter(chapter);
+            }
+        }
+
+        Integer money = bookMapper.getMoneyByChapterId(chapterId).intValue();//阅读该章节需要的费用
+        if (money != null || money != 0){//收费小说
+            if (token == null){
+                return Result.error(-1, "请登录！");
+            }else if (!redisUtil.hasKey(token)) {
+                return Result.error(-1, "token无效，请重新登录！");
+            }
+
+            if (user.getIsVip() == 0){//如果不是vip
+                if (user.getBookCurrency() < money){//如果用户的书币不足以支付该章节费用
+                    return Result.error(-1, "书币不足！");
+                }else {
+                    userMapper.reduceBookCurrency(money, user.getId());//扣除用户书币
+                    //新增书币变动表
+                    UserCurrencyLog userCurrencyLog = new UserCurrencyLog();
+                    userCurrencyLog.setCreateTime(new Date());
+                    userCurrencyLog.setUserId(user.getId());
+                    userCurrencyLog.setUserName(user.getUserName());
+                    userCurrencyLog.setCurrencyType(5);
+                    userCurrencyLog.setCurrency(money);
+                    userMapper.insertUserCurrencyLog(userCurrencyLog);//添加书币记录
+                }
             }
         }
         return Result.success(bookService.episodesContent(jiNo));

@@ -26,7 +26,7 @@ public class BookEpisodes {
     private Integer beforeNo;
     //下节编号
     private Integer nextNo;
-    //阅读需要的费用
+    //阅读需要的书币
     private BigDecimal money;
     //章节内容
     @Lob

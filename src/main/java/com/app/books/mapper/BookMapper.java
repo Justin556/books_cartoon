@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -275,4 +276,7 @@ public interface BookMapper {
 
     @Select("SELECT title FROM t_book_episodes WHERE id = #{id}")
     String getEpisodesTitleById(Integer id);
+
+    @Select("select money from t_book_episodes where id = #{chapterId}")
+    BigDecimal getMoneyByChapterId(Integer chapterId);
 }

@@ -1,6 +1,8 @@
 package com.app.books.mapper;
 
+import com.app.books.entity.UserBalanceLog;
 import com.app.books.entity.UserCentLog;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -48,4 +50,8 @@ public interface BalanceMapper {
             "SET balance = balance + #{amount}, update_time = NOW()\n" +
             "WHERE id = #{userId}")
     void updateUserBalance(Integer userId, BigDecimal amount);
+
+    @Insert("insert into t_user_balance_log(create_time,order_fee,order_no,order_type,status,user_id,user_name)\n" +
+            "values(NOW(),#{orderFee},#{orderNo},#{orderType},#{status},#{user_id},#{user_name})")
+    void addUseBalanceLog(UserBalanceLog userBalanceLog);
 }

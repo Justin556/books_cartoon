@@ -13,7 +13,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class InputParamsAspect {
 
-
+    /**
+     * 执行方法前统一执行参数校验
+     */
     //@Pointcut("execution(* com.app.books.controller..*.*(..))")
     @Before("execution(* com.app.books.controller..*.*(..))")
     public void cutRequestParams(JoinPoint point) {
@@ -22,12 +24,4 @@ public class InputParamsAspect {
             ValidationUtils.validate(object);
         }
     }
-
-   /* *//**
-     * 执行方法前统一执行参数校验
-     *//*
-    @Before("cutRequestParams()")
-    public void checkRequestParams(JoinPoint point) {
-    }
-*/
 }
