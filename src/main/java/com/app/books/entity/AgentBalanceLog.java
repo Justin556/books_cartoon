@@ -23,4 +23,6 @@ public class AgentBalanceLog {
     private BigDecimal money;
     //状态（0：成功； 1：失败）
     private Integer status;
+    //用户id
+    private Integer userId;
 }

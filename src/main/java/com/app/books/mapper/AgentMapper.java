@@ -58,8 +58,8 @@ public interface AgentMapper {
      * 新增：代理下面用户充值记录
      * @param agentBalanceLog
      */
-    @Insert("INSERT INTO t_agent_balance_log(create_time, money, order_no, proxy_id, status)\n" +
-            "VALUES(NOW(),#{money},#{orderNo},#{proxyId},#{status})")
+    @Insert("INSERT INTO t_agent_balance_log(create_time, money, order_no, proxy_id, status,user_id)\n" +
+            "VALUES(NOW(),#{money},#{orderNo},#{proxyId},#{status},#{userId})")
     void addAgentBalanceLog(AgentBalanceLog agentBalanceLog);
 
     /**
