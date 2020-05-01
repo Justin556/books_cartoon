@@ -99,8 +99,10 @@ public class UserController {
         user.setSignCurrency(settingMapper.getWebSite().getSignToGive());//签到将赠送的书币
         user.setCommission(balanceMapper.getCommissionSum(userId));
         SimpleDateFormat myFmt=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        user.setStartTime(myFmt.format(user.getVipStartTime()));
-        user.setEndTime(myFmt.format(user.getVipEndTime()));
+        if(user.getIsVip()==1){
+            user.setStartTime(myFmt.format(user.getVipStartTime()));
+            user.setEndTime(myFmt.format(user.getVipEndTime()));
+        }
         //校验今天是否已签到
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date lastSignIn = userMapper.getLastDateOfSignIn(userId);
