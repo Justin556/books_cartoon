@@ -42,7 +42,7 @@ public interface ComicMapper {
      */
     @Select("select u.amount as userAmount,u.create_time as createTime,\n" +
             "            (select t_user.user_name from t_user where t_user.id = u.user_id) as userName, \n" +
-            "(select t_user.portrait from t_user where t_user.id = c.user_id) as portrait \n" +
+            "(select t_user.portrait from t_user where t_user.id = u.user_id) as portrait \n" +
             "            from t_user_send_log u \n" +
             "where out_id= #{comicId} and type=2")
     List<UserSendLog> userSendList(String comicId);
