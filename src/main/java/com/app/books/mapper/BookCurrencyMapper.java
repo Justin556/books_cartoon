@@ -45,4 +45,11 @@ public interface BookCurrencyMapper {
             "            where id=#{userId}")
     void updateUserVIP(Integer balance,Integer userId);
 
+    /**
+     * @return
+     */
+    @Update("UPDATE t_user\n" +
+            "            set balance=balance-#{balance},is_vip=1,vip_end_time=DATE_ADD(vip_end_time, INTERVAL 1 YEAR)\n" +
+            "            where id=#{userId}")
+    void xuUserVIP(Integer balance,Integer userId);
 }

@@ -166,11 +166,16 @@ public class UserController {
     public Result chongVIP(HttpServletRequest request, Integer amount)
     {
         Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
-        if(userMapper.findUserById(userId).getBalance().intValue()<amount){
+        User user=userMapper.findUserById(userId);
+        if(user.getBalance().intValue()<amount){
             return Result.error("余额不足");
         }
+        if(user.getIsVip()==1&&user.getIsVip().equals(1)){
+            bookCurrencyMapper.xuUserVIP(amount,userId);
+        }else{
+            bookCurrencyMapper.updateUserVIP(amount,userId);
+        }
 
-        bookCurrencyMapper.updateUserVIP(amount,userId);
 
         return Result.success();
     }
