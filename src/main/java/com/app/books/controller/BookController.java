@@ -98,15 +98,15 @@ public class BookController {
         Integer money = bookMapper.getMoneyByChapterId(chapterId).intValue();//阅读该章节需要的费用
         if (money != null || money != 0){//收费小说
             if (token == null){
-                return Result.error(-1, "请登录！");
+                return Result.error(200, "请登录！");
             }else if (!redisUtil.hasKey(token)) {
-                return Result.error(-1, "token无效，请重新登录！");
+                return Result.error(200, "token无效，请重新登录！");
             }
 
             if (user.getIsVip() == 0){//如果不是vip
                 if (bookMapper.getIsPay(user.getId(), chapterId) == 0){//如果本章节没付过费
                     if (user.getBookCurrency() < money){//如果用户的书币不足以支付该章节费用
-                        return Result.error(-2, "书币不足！");
+                        return Result.error(200, "书币不足！");
                     }else {
                         userMapper.reduceBookCurrency(money, user.getId());//扣除用户书币
                         //新增书币变动表
