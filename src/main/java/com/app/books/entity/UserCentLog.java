@@ -29,7 +29,7 @@ public class UserCentLog {
     private String outUserLevel;
 
     //分佣比例
-    private Integer outUserLevelScale;
+    private Float outUserLevelScale;
 
     //提供佣金用户名
     private String outUserName;

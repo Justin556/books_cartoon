@@ -26,13 +26,13 @@ public class RetailStore {
     private String levelOne;
 
     //一级比例
-    private Integer levelOneScale;
+    private Float levelOneScale;
 
     private String levelTwo;
 
-    private Integer levelTwoScale;
+    private Float levelTwoScale;
 
     private String levelThree;
 
-    private Integer levelThreeScale;
+    private Float levelThreeScale;
 }
