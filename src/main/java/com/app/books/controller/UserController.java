@@ -142,11 +142,40 @@ public class UserController {
      */
     @GetMapping("chongBookCurrencyList")
     @ApiOperation(value = "充值书币列表")
-    @LoginRequired
     public Result chongBookCurrencyList()
     {
         return Result.success(bookCurrencyMapper.findRechargeConfig());
     }
+
+    /**
+     * 充值VIP列表
+     */
+    @GetMapping("chongVIPList")
+    @ApiOperation(value = "充值VIP列表")
+    public Result chongVIPList()
+    {
+        return Result.success(bookCurrencyMapper.findVIPConfig());
+    }
+
+    /**
+     * 充值VIP
+     */
+    @GetMapping("chongVIP")
+    @ApiOperation(value = "充值VIP")
+    @LoginRequired
+    public Result chongVIP(HttpServletRequest request, Integer amount)
+    {
+        Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
+        if(userMapper.findUserById(userId).getBalance().intValue()<amount){
+            return Result.error("余额不足");
+        }
+
+        bookCurrencyMapper.updateUserVIP(amount,userId);
+
+        return Result.success();
+    }
+
+
     /**
      * 充值书币
      */
