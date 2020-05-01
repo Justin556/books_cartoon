@@ -282,7 +282,7 @@ public interface BookMapper {
 
     @Insert("INSERT INTO t_book_ispay(create_time, user_id, chapter_id, is_pay)\n" +
             "VALUE(NOW(), #{userId}, #{chapterId}, #{isPay})")
-    void addBookIsPay();
+    void addBookIsPay(BookIsPay bookIsPay);
 
     @Select("SELECT is_pay FROM t_book_ispay\n" +
             "WHERE user_id = #{userId} AND chapter_id = #{chapterId}")

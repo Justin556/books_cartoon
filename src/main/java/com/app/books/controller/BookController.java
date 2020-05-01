@@ -119,7 +119,7 @@ public class BookController {
                         userMapper.insertUserCurrencyLog(userCurrencyLog);//添加书币记录
 
                         BookIsPay bookIsPay = new BookIsPay(user.getId(), chapterId, 1);
-                        bookMapper.addBookIsPay();//标记该章节为已付费
+                        bookMapper.addBookIsPay(bookIsPay);//标记该章节为已付费
                     }
                 }
             }
