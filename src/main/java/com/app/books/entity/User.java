@@ -27,11 +27,9 @@ public class User {
     private Integer isVip = 0;
 
     //vip开始时间
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date vipStartTime;
 
     //vip到期时间
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date vipEndTime;
 
     //用户名称
@@ -66,4 +64,10 @@ public class User {
 
     //用户的分销总佣金(冗余字段)
     private BigDecimal commission;
+
+    //vip开始时间
+    private String startTime;
+
+    //vip到期时间
+    private String endTime;
 }
