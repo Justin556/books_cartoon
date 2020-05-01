@@ -133,9 +133,13 @@ public class ComicServiceImpl implements ComicService {
                 chapterMapper.update(chapterQuery);
             }
         }
+        Integer money =null;//阅读该章节需要的费用
+        ComicEpisodes comicEpisodes2=comicMapper.getEpisodeBy(comicId);
+        if(comicEpisodes2.getMoney()!=null){
+            money= comicEpisodes2.getMoney().intValue();
+        }
 
-        Integer money = comicMapper.getEpisodeBy(comicId).getMoney().intValue();//阅读该章节需要的费用
-        if (money != null || money != 0){//收费小说
+        if (money != null && money != 0){//收费小说
             if (authenticationInterceptor.userId=="null"&&authenticationInterceptor.userId.equals("null")){
                 return Result.error(200, "请登录！");
             }
