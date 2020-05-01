@@ -43,7 +43,7 @@ public class UserController {
 
     @ApiOperation(value = "注册")
     @PutMapping("register")
-    public Result register(@RequestBody @Valid RegisterParams registerParams){
+    public Result register(@RequestBody RegisterParams registerParams){
         Integer userId = userMapper.findUserIdByUserName(registerParams.getUserName());
         if (userId != null){
             return Result.error("用户名已存在");
