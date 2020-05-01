@@ -63,7 +63,7 @@ public class BalanceServiceImpl implements BalanceService {
         if (parentId != null){
             RetailStore retailStore = userMapper.getRetailStore();
             String level = "";//用户分佣级别
-            Integer levelScale = null;//分成比例
+            Float levelScale = null;//分成比例
             if (i==1){
                 level = retailStore.getLevelOne();
                 levelScale = retailStore.getLevelOneScale();
@@ -86,7 +86,7 @@ public class BalanceServiceImpl implements BalanceService {
             userCentLog.setOutUserLevelScale(levelScale);
             userCentLog.setOrderNo(orderNo);
             userCentLog.setOrderFee(amount);
-            BigDecimal separate = new BigDecimal(Integer.toString(levelScale));//分成比例
+            BigDecimal separate = new BigDecimal(Float.toString(levelScale));//分成比例
             BigDecimal commission = amount.multiply(separate);//分佣
             userCentLog.setCommission(commission);
             userMapper.addUserCentLog(userCentLog);
