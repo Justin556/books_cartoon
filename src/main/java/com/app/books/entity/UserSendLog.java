@@ -42,6 +42,9 @@ public class UserSendLog {
     //打赏总金额
     private Integer userAmount;
 
+    //头像
+    private String portrait;
+
     public UserSendLog() {
     }
 
