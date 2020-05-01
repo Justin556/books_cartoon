@@ -102,7 +102,7 @@ public interface ComicMapper {
 
     @Select("SELECT is_pay FROM t_comic_ispay\n" +
             "WHERE user_id = #{userId} AND chapter_id = #{chapterId}")
-    Integer getIsPay(Integer userId, String chapterId);
+    String getIsPay(Integer userId, String chapterId);
     /**
      * 根据id查章节
      * @param id
