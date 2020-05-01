@@ -96,7 +96,7 @@ public class BookController {
         }
 
         Integer money = bookMapper.getMoneyByChapterId(chapterId).intValue();//阅读该章节需要的费用
-        if (money != null || money != 0){//收费小说
+        if (money != null && money != 0){//收费小说
             if (token == null){
                 return Result.error(200, "请登录！");
             }else if (!redisUtil.hasKey(token)) {
