@@ -52,6 +52,6 @@ public interface BalanceMapper {
     void updateUserBalance(Integer userId, BigDecimal amount);
 
     @Insert("insert into t_user_balance_log(create_time,order_fee,order_no,order_type,status,user_id,user_name)\n" +
-            "values(NOW(),#{orderFee},#{orderNo},#{orderType},#{status},#{user_id},#{user_name})")
+            "values(NOW(),#{orderFee},#{orderNo},#{orderType},#{status},#{userId},#{userName})")
     void addUseBalanceLog(UserBalanceLog userBalanceLog);
 }

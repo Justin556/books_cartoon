@@ -21,8 +21,6 @@ public class BalanceServiceImpl implements BalanceService {
     private UserMapper userMapper;
     @Autowired
     private AgentMapper agentMapper;
-    @Autowired
-    private SettingMapper settingMapper;
 
     @Override
     @Transactional
@@ -42,7 +40,7 @@ public class BalanceServiceImpl implements BalanceService {
             BigDecimal ratio = new BigDecimal(Float.toString(agent.getRatio()));//扣除比例
             BigDecimal separate = new BigDecimal(Float.toString(agent.getSeparate()));//分成比例
             BigDecimal ratioAmount = amount.multiply(ratio);//扣量
-            BigDecimal separateAmount = amount.multiply(amount.subtract(ratioAmount));//分佣
+            BigDecimal separateAmount = separate.multiply(amount.subtract(ratioAmount));//分佣
             agentMapper.addBalance(user.getProxyId(), separateAmount);
             AgentBuckleLog agentBuckleLog = new AgentBuckleLog();
             agentBuckleLog.setProxyId(user.getProxyId());
@@ -59,7 +57,8 @@ public class BalanceServiceImpl implements BalanceService {
             AgentShareLog agentShareLog = new AgentShareLog();
             agentShareLog.setProxyId(user.getProxyId());
             agentShareLog.setOrderNo(orderNo);
-            agentShareLog.setMoney(separateAmount);
+            agentShareLog.setCMoney(amount);
+            agentShareLog.setFMoney(separateAmount);
             agentShareLog.setUserId(userId);
             agentMapper.addAgentShareLog(agentShareLog);
         }else if (user.getUserSource() != null && user.getUserSource() == 1){//上级是分销
