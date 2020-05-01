@@ -137,6 +137,7 @@ public interface BookMapper {
     @Select("select c.comment_info as commentInfo, \n" +
             "c.create_time as createTime, \n" +
             "(select t_user.user_name from t_user where t_user.id = c.user_id) as userName \n" +
+            "(select t_user.portrait from t_user where t_user.id = c.user_id) as portrait \n" +
             "from t_comment c where c.out_id = #{bookId} and c.type=1\n" +
             "ORDER BY c.create_time desc")
     List<Comment> commentList(Integer bookId);

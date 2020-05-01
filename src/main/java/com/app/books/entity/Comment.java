@@ -33,6 +33,9 @@ public class Comment {
     //用户名
     private String userName;
 
+    //头像
+    private String portrait;
+
     public Comment(Date createTime, Integer outId, String commentInfo, Integer userId) {
         SimpleDateFormat sdf =   new SimpleDateFormat( " yyyy-MM-dd HH:mm:ss " );
         this.createTime = sdf.format(createTime);
