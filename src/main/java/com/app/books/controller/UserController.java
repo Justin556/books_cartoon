@@ -3,7 +3,9 @@ package com.app.books.controller;
 import com.app.books.config.LoginRequired;
 import com.app.books.entity.Suggest;
 import com.app.books.entity.User;
+import com.app.books.entity.UserSendLog;
 import com.app.books.mapper.BalanceMapper;
+import com.app.books.mapper.BookCurrencyMapper;
 import com.app.books.mapper.SettingMapper;
 import com.app.books.mapper.UserMapper;
 import com.app.books.result.Result;
@@ -29,6 +31,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private BookCurrencyMapper bookCurrencyMapper;
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
@@ -132,6 +136,28 @@ public class UserController {
         suggest.setUserId(userId);
         suggest.setUserName(userName);
         userMapper.addSuggest(suggest);
+        return Result.success();
+    }
+    /**
+     * 充值书币列表
+     */
+    @GetMapping("chongBookCurrencyList")
+    @ApiOperation(value = "充值书币列表")
+    @LoginRequired
+    public Result chongBookCurrencyList()
+    {
+        return Result.success(bookCurrencyMapper.findRechargeConfig());
+    }
+    /**
+     * 充值书币
+     * @param userSendLog
+     */
+    @GetMapping("chongBookCurrency")
+    @ApiOperation(value = "充值书币")
+    @LoginRequired
+    public Result chongBookCurrency(HttpServletRequest request, UserSendLog userSendLog)
+    {
+
         return Result.success();
     }
 }
