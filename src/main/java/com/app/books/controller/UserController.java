@@ -160,11 +160,11 @@ public class UserController {
             return Result.error("余额不足");
         }
         Integer givingNum = bookCurrencyMapper.findRechargeConfig(amount);
-        bookCurrencyMapper.updateUser(amount,givingNum,userId);
+        bookCurrencyMapper.updateUser(amount,amount*100+givingNum,userId);
         UserCurrencyLog userCurrencyLog = new UserCurrencyLog();
         userCurrencyLog.setCurrencyType(2);
         userCurrencyLog.setUserId(userId);
-        userCurrencyLog.setCurrency(givingNum);
+        userCurrencyLog.setCurrency(amount*100+givingNum);
         String userName = userMapper.findUserById(userId).getUserName();
         userCurrencyLog.setUserName(userName);
         userMapper.insertUserCurrencyLog(userCurrencyLog);
