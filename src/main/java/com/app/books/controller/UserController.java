@@ -4,7 +4,6 @@ import com.app.books.config.LoginRequired;
 import com.app.books.entity.Suggest;
 import com.app.books.entity.User;
 import com.app.books.entity.UserCurrencyLog;
-import com.app.books.entity.UserSendLog;
 import com.app.books.mapper.BalanceMapper;
 import com.app.books.mapper.BookCurrencyMapper;
 import com.app.books.mapper.SettingMapper;
@@ -19,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
