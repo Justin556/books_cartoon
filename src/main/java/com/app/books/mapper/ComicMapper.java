@@ -86,7 +86,23 @@ public interface ComicMapper {
             "FROM t_comic_episodes b WHERE b.comic_id = #{comicId}\n"
             )
     List<ComicEpisodes> comicEpisodeList(String comicId);
+    /**
+     * 章节详情
+     * @param id
+     * @return
+     */
+    @Select("SELECT * \n" +
+            "FROM t_comic_episodes b WHERE b.id = #{id}\n"
+    )
+    ComicEpisodes getEpisodeBy(String id);
 
+    @Insert("INSERT INTO t_comic_ispay(create_time, user_id, chapter_id, is_pay)\n" +
+            "VALUE(NOW(), #{userId}, #{chapterId}, #{isPay})")
+    void addComicIsPay(ComicIsPay ComicIsPay);
+
+    @Select("SELECT is_pay FROM t_comic_ispay\n" +
+            "WHERE user_id = #{userId} AND chapter_id = #{chapterId}")
+    Integer getIsPay(Integer userId, String chapterId);
     /**
      * 根据id查章节
      * @param id

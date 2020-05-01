@@ -3,6 +3,7 @@ package com.app.books.service.serviceImpl;
 import com.app.books.config.AuthenticationInterceptor;
 import com.app.books.entity.*;
 import com.app.books.mapper.ChapterMapper;
+import com.app.books.mapper.UserMapper;
 import com.app.books.pojo.BookDetailsPojo;
 import com.app.books.pojo.ComicDetailsPojo;
 import com.app.books.service.ChapterService;
@@ -17,6 +18,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +38,8 @@ public class ComicServiceImpl implements ComicService {
     @Autowired
     private ChapterMapper chapterMapper;
 
+    @Autowired
+    private UserMapper userMapper;
     @Override
     public Result comicList(ComicQuery comicQuery) {
         if(comicQuery.getCategory()!=null&&comicQuery.getCategory()!=""&&comicQuery.getCategory().equals("全部")){
@@ -129,6 +133,35 @@ public class ComicServiceImpl implements ComicService {
                 chapterMapper.update(chapterQuery);
             }
         }
+
+        Integer money = comicMapper.getEpisodeBy(comicId).getMoney().intValue();//阅读该章节需要的费用
+        if (money != null || money != 0){//收费小说
+            if (authenticationInterceptor.userId=="null"&&authenticationInterceptor.userId.equals("null")){
+                return Result.error(-1, "请登录！");
+            }
+            User user = userMapper.findUserById(Integer.parseInt(authenticationInterceptor.userId));
+            if (user.getIsVip() == 0){//如果不是vip
+                if (comicMapper.getIsPay(user.getId(), comicId) == 0){//如果本章节没付过费
+                    if (user.getBookCurrency() < money){//如果用户的书币不足以支付该章节费用
+                        return Result.error(-1, "书币不足！");
+                    }else {
+                        userMapper.reduceBookCurrency(money, user.getId());//扣除用户书币
+                        //新增书币变动表
+                        UserCurrencyLog userCurrencyLog = new UserCurrencyLog();
+                        userCurrencyLog.setCreateTime(new Date());
+                        userCurrencyLog.setUserId(user.getId());
+                        userCurrencyLog.setUserName(user.getUserName());
+                        userCurrencyLog.setCurrencyType(5);
+                        userCurrencyLog.setCurrency(money);
+                        userMapper.insertUserCurrencyLog(userCurrencyLog);//添加书币记录
+
+                        ComicIsPay comicIsPay = new ComicIsPay(user.getId(), Integer.parseInt(comicId), 1);
+                        comicMapper.addComicIsPay(comicIsPay);//标记该章节为已付费
+                    }
+                }
+            }
+        }
+
         return Result.success(comicMapper.bannerDetails(comicId));
     }
 
