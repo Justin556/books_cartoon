@@ -159,7 +159,7 @@ public class UserController {
         if(userMapper.findUserById(userId).getBalance().intValue()<amount){
             return Result.error("余额不足");
         }
-        Integer givingNum = bookCurrencyMapper.findRechargeConfig(amount);
+        Integer givingNum = bookCurrencyMapper.findRechargeConfigAmount(amount);
         bookCurrencyMapper.updateUser(amount,amount*100+givingNum,userId);
         UserCurrencyLog userCurrencyLog = new UserCurrencyLog();
         userCurrencyLog.setCurrencyType(2);
