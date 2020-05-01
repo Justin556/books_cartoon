@@ -286,5 +286,5 @@ public interface BookMapper {
 
     @Select("SELECT is_pay FROM t_book_ispay\n" +
             "WHERE user_id = #{userId} AND chapter_id = #{chapterId}")
-    Integer getIsPay(Integer userId, Integer chapterId);
+    String getIsPay(Integer userId, Integer chapterId);
 }

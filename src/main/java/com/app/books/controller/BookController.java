@@ -1,5 +1,6 @@
 package com.app.books.controller;
 
+import com.app.books.config.AuthenticationInterceptor;
 import com.app.books.config.LoginRequired;
 import com.app.books.entity.*;
 import com.app.books.mapper.BookMapper;
@@ -34,6 +35,8 @@ public class BookController {
     private BookMapper bookMapper;
     @Autowired
     private ChapterMapper chapterMapper;
+    @Autowired
+    private AuthenticationInterceptor authenticationInterceptor;
 
     @GetMapping("page")
     @ApiOperation(value = "模糊/条件 搜索")
@@ -97,29 +100,34 @@ public class BookController {
 
         Integer money = bookMapper.getMoneyByChapterId(chapterId).intValue();//阅读该章节需要的费用
         if (money != null && money != 0){//收费小说
-            if (token == null){
+//            if (token == null){
+//                return Result.error(200, "请登录！");
+//            }else if (!redisUtil.hasKey(token)) {
+//                return Result.error(200, "token无效，请重新登录！");
+//            }
+
+            if(authenticationInterceptor.userId=="null" && authenticationInterceptor.userId.equals("null")){
                 return Result.error(200, "请登录！");
-            }else if (!redisUtil.hasKey(token)) {
-                return Result.error(200, "token无效，请重新登录！");
-            }
+            }else{
+                if (user.getIsVip() == 0){//如果不是vip
+                    String moneyStut = bookMapper.getIsPay(user.getId(), chapterId);
+                    if (moneyStut==null){//如果本章节没付过费
+                        if (user.getBookCurrency() < money){//如果用户的书币不足以支付该章节费用
+                            return Result.error(200, "书币不足！");
+                        }else {
+                            userMapper.reduceBookCurrency(money, user.getId());//扣除用户书币
+                            //新增书币变动表
+                            UserCurrencyLog userCurrencyLog = new UserCurrencyLog();
+                            userCurrencyLog.setCreateTime(new Date());
+                            userCurrencyLog.setUserId(user.getId());
+                            userCurrencyLog.setUserName(user.getUserName());
+                            userCurrencyLog.setCurrencyType(5);
+                            userCurrencyLog.setCurrency(money);
+                            userMapper.insertUserCurrencyLog(userCurrencyLog);//添加书币记录
 
-            if (user.getIsVip() == 0){//如果不是vip
-                if (bookMapper.getIsPay(user.getId(), chapterId) == 0){//如果本章节没付过费
-                    if (user.getBookCurrency() < money){//如果用户的书币不足以支付该章节费用
-                        return Result.error(200, "书币不足！");
-                    }else {
-                        userMapper.reduceBookCurrency(money, user.getId());//扣除用户书币
-                        //新增书币变动表
-                        UserCurrencyLog userCurrencyLog = new UserCurrencyLog();
-                        userCurrencyLog.setCreateTime(new Date());
-                        userCurrencyLog.setUserId(user.getId());
-                        userCurrencyLog.setUserName(user.getUserName());
-                        userCurrencyLog.setCurrencyType(5);
-                        userCurrencyLog.setCurrency(money);
-                        userMapper.insertUserCurrencyLog(userCurrencyLog);//添加书币记录
-
-                        BookIsPay bookIsPay = new BookIsPay(user.getId(), chapterId, 1);
-                        bookMapper.addBookIsPay(bookIsPay);//标记该章节为已付费
+                            BookIsPay bookIsPay = new BookIsPay(user.getId(), chapterId, 1);
+                            bookMapper.addBookIsPay(bookIsPay);//标记该章节为已付费
+                        }
                     }
                 }
             }
