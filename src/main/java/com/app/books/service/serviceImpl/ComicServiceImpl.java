@@ -142,7 +142,7 @@ public class ComicServiceImpl implements ComicService {
             User user = userMapper.findUserById(Integer.parseInt(authenticationInterceptor.userId));
             if (user.getIsVip() == 0){//如果不是vip
                 String moneyStut= comicMapper.getIsPay(user.getId(), comicId);
-                if (moneyStut==null&&moneyStut.equals(0)){//如果本章节没付过费
+                if (moneyStut==null){//如果本章节没付过费
                     if (user.getBookCurrency() < money){//如果用户的书币不足以支付该章节费用
                         return Result.error(-1, "书币不足！");
                     }else {
