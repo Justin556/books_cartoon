@@ -53,6 +53,7 @@ public class BalanceServiceImpl implements BalanceService {
             agentBalanceLog.setProxyId(user.getProxyId());
             agentBalanceLog.setOrderNo(orderNo);
             agentBalanceLog.setMoney(amount);
+            agentBalanceLog.setUserId(user.getId());
             agentMapper.addAgentBalanceLog(agentBalanceLog);
             AgentShareLog agentShareLog = new AgentShareLog();
             agentShareLog.setProxyId(user.getProxyId());
