@@ -1,5 +1,6 @@
 package com.app.books.entity;;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -26,9 +27,11 @@ public class User {
     private Integer isVip = 0;
 
     //vip开始时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date vipStartTime;
 
     //vip到期时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date vipEndTime;
 
     //用户名称
