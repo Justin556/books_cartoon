@@ -16,8 +16,20 @@ public interface BookCurrencyMapper {
     /**
      * @return
      */
-    @Select("select giving_num as givingNum,recharge_num as rechargeNum from t_recharge_config")
+    @Select("select id,giving_num as givingNum,recharge_num as rechargeNum from t_recharge_config")
     List<Recharge> findRechargeConfig();
 
+    /**
+     * @return
+     */
+    @Select("select giving_num from t_recharge_config where recharge_num=#{amount}")
+    Integer findRechargeConfig(Integer amount);
 
+    /**
+     * @return
+     */
+    @Select("UPDATE t_user\n" +
+            "set balance=balance-#{balance},book_currency=book_currency+#{bookCurrency}\n" +
+            "where id=#{userId}")
+    void updateUser(Integer balance,Integer bookCurrency,Integer userId);
 }

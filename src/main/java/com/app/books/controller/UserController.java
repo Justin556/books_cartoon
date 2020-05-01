@@ -3,6 +3,7 @@ package com.app.books.controller;
 import com.app.books.config.LoginRequired;
 import com.app.books.entity.Suggest;
 import com.app.books.entity.User;
+import com.app.books.entity.UserCurrencyLog;
 import com.app.books.entity.UserSendLog;
 import com.app.books.mapper.BalanceMapper;
 import com.app.books.mapper.BookCurrencyMapper;
@@ -150,14 +151,25 @@ public class UserController {
     }
     /**
      * 充值书币
-     * @param userSendLog
      */
     @GetMapping("chongBookCurrency")
     @ApiOperation(value = "充值书币")
     @LoginRequired
-    public Result chongBookCurrency(HttpServletRequest request, UserSendLog userSendLog)
+    public Result chongBookCurrency(HttpServletRequest request, Integer amount)
     {
-
+        Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
+        if(userMapper.findUserById(userId).getBalance().intValue()<amount){
+            return Result.error("余额不足");
+        }
+        Integer givingNum = bookCurrencyMapper.findRechargeConfig(amount);
+        bookCurrencyMapper.updateUser(amount,givingNum,userId);
+        UserCurrencyLog userCurrencyLog = new UserCurrencyLog();
+        userCurrencyLog.setCurrencyType(2);
+        userCurrencyLog.setUserId(userId);
+        userCurrencyLog.setCurrency(givingNum);
+        String userName = userMapper.findUserById(userId).getUserName();
+        userCurrencyLog.setUserName(userName);
+        userMapper.insertUserCurrencyLog(userCurrencyLog);
         return Result.success();
     }
 }
