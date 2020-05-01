@@ -1,12 +1,10 @@
 package com.app.books.mapper;
 
-import com.app.books.entity.Suggest;
-import com.app.books.entity.User;
-import com.app.books.entity.UserCurrencyLog;
-import com.app.books.entity.UserRetailLevel;
+import com.app.books.entity.*;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -168,4 +166,67 @@ public interface UserMapper {
     @Insert("INSERT INTO t_suggest(create_time, msg, path, tel, user_id, user_name)\n" +
             "VALUES(#{createTime},#{msg},#{path},#{tel},#{userId},#{userName})")
     void addSuggest(Suggest suggest);
+
+    /**
+     * 获取分销的上级用户id
+     * @param userId
+     * @return
+     */
+    @Select("SELECT parent_id FROM t_user_retail_level WHERE user_id = #{userId}")
+    Integer getParentIdByUserId(Integer userId);
+
+    /**
+     * 新增：用户分佣记录
+     * @param userCentLog
+     */
+    @Insert("INSERT INTO t_user_cent_log(create_time, \n" +
+            "order_fee, \n" +
+            "order_no, \n" +
+            "out_user_id, \n" +
+            "out_user_level, \n" +
+            "out_user_level_scale, \n" +
+            "out_user_name, \n" +
+            "status, \n" +
+            "user_id,\n" +
+            "user_name, \n" +
+            "commission)\n" +
+            "VALUES (NOW(),\n" +
+            "#{orderFee},\n" +
+            "#{orderNo},\n" +
+            "#{outUserId},\n" +
+            "#{outUserLevel},\n" +
+            "#{outUserLevelScale},\n" +
+            "#{outUserName},\n" +
+            "#{status},\n" +
+            "#{userId},\n" +
+            "#{userName},\n" +
+            "#{commission})")
+    void addUserCentLog(UserCentLog userCentLog);
+
+    /**
+     * 增加用户的余额
+     * @param userId
+     * @param amount
+     */
+    @Update("UPDATE t_user SET update_time = NOW(), balance = balance + #{amount}  \n" +
+            "WHERE id = #{userId}")
+    void  addUserBalance(Integer userId, BigDecimal amount);
+
+    /**
+     * 获取分销配置数据
+     * @return
+     */
+    @Select("SELECT create_time as createTime, \n" +
+            "update_time as updateTime, \n" +
+            "divided, \n" +
+            "level_one as levelOne, \n" +
+            "level_one_scale as levelOneScale, \n" +
+            "level_three as levelThree, \n" +
+            "level_three_scale as levelThreeScale, \n" +
+            "level_two as levelTwo, \n" +
+            "level_two_scale as levelTwoScale, \n" +
+            "retail_store_name as retailStoreName\n" +
+            "FROM t_retail_store \n" +
+            "LIMIT 0,1")
+    RetailStore getRetailStore();
 }

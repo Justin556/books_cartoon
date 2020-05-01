@@ -19,7 +19,7 @@ public class AgentShareLog {
     private Integer proxyId;
     //单号
     private String orderNo;
-    //金额
+    //分成金额
     private BigDecimal money;
     //分成的用户来源
     private Integer userId;

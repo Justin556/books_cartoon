@@ -3,6 +3,7 @@ package com.app.books.mapper;
 import com.app.books.entity.UserCentLog;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -37,4 +38,14 @@ public interface BalanceMapper {
     @Select("SELECT SUM(commission)\n" +
             "FROM t_user_cent_log WHERE user_id = #{userId}")
     BigDecimal getCommissionSum(Integer userId);
+
+    /**
+     * 更新用户余额
+     * @param userId
+     * @param amount
+     */
+    @Update("UPDATE t_user \n" +
+            "SET balance = balance + #{amount}, update_time = NOW()\n" +
+            "WHERE id = #{userId}")
+    void updateUserBalance(Integer userId, BigDecimal amount);
 }

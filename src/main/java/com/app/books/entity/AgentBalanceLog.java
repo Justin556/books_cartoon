@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-//代理下用户充值记录
+//代理下面的用户充值记录
 public class AgentBalanceLog {
     private Integer id;
 

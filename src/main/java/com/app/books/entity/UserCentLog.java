@@ -19,14 +19,17 @@ public class UserCentLog {
     //获拥用户id
     private Integer userId;
 
-    //用户名
+    //获拥用户名
     private String userName;
 
     //提供佣金用户id
     private Integer outUserId;
 
     //提供佣金用户级别
-    private Integer outUserLevel;
+    private String outUserLevel;
+
+    //分佣比例
+    private Integer outUserLevelScale;
 
     //提供佣金用户名
     private String outUserName;

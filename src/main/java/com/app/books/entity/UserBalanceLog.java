@@ -25,7 +25,7 @@ public class UserBalanceLog {
     //单编号
     private String orderNo;
 
-    //单类型（1充值，0提现）
+    //单类型（1充值, 0提现）
     private String orderType;
 
     //单金额

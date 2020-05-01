@@ -3,6 +3,7 @@ package com.app.books.controller;
 import com.app.books.config.LoginRequired;
 import com.app.books.mapper.BalanceMapper;
 import com.app.books.result.Result;
+import com.app.books.service.BalanceService;
 import com.app.books.utils.RedisUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 
 @RestController
 @Api(tags = "资金账户-业务接口")
@@ -19,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 public class BalanceController {
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private BalanceService balanceService;
     @Autowired
     private BalanceMapper balanceMapper;
 
@@ -37,4 +41,15 @@ public class BalanceController {
         Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
         return Result.success(balanceMapper.getCommissionSum(userId));
     }
+
+    @GetMapping("recharge")
+    @ApiOperation(value = "用户充值")
+    @LoginRequired
+    public Result recharge(HttpServletRequest request, BigDecimal amount) {
+        Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
+        balanceService.recharge(userId, amount);
+        return Result.success();
+    }
+
+
 }
