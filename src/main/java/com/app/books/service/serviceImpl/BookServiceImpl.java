@@ -1,6 +1,7 @@
 package com.app.books.service.serviceImpl;
 
 import com.app.books.entity.*;
+import com.app.books.exception.CustomerException;
 import com.app.books.mapper.ChapterMapper;
 import com.app.books.mapper.UserMapper;
 import com.app.books.pojo.BookDetailsPojo;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -39,13 +41,23 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDetailsPojo details(HttpServletRequest request, Integer bookId) {
+        System.out.println("************1***********" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         BookDetailsPojo bookDetailsPojo = bookMapper.details(bookId);
         if (bookDetailsPojo == null){
             return null;
         }
+        System.out.println("************2***********" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         bookDetailsPojo.setSendList(bookMapper.userSendList(bookId));
+        System.out.println("************3***********" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         bookDetailsPojo.setCommentList(bookMapper.commentList(bookId));
-        bookDetailsPojo.setBookEpisodeList(bookMapper.bookEpisodeList(bookId));
+        System.out.println("************4***********" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        if (redisUtil.hasKey(bookId + ":episodeList") && redisUtil.get(bookId + ":episodeList") != null) {
+            bookDetailsPojo.setBookEpisodeList((List<BookEpisodes>)redisUtil.get(bookId + ":episodeList"));
+        }else {
+            bookDetailsPojo.setBookEpisodeList(bookMapper.bookEpisodeList(bookId));
+        }
+
+        System.out.println("************5***********" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
         String token = request.getHeader("token");
         if (token != null) {//已登录
@@ -65,6 +77,7 @@ public class BookServiceImpl implements BookService {
             Integer newestChapterId = chapterMapper.getNewestChapter(bookId, 1);
             bookDetailsPojo.setNewestChapterId(newestChapterId);
         }
+        System.out.println("************6***********" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         return bookDetailsPojo;
     }
 
