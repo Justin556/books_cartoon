@@ -28,7 +28,8 @@ public interface BalanceMapper {
             "user_id as userId,\n" +
             "user_name as userName,\n" +
             "commission,\n" +
-            "(SELECT is_vip FROM t_user WHERE id = t_user_cent_log.user_id) as isVip\n" +
+            "(SELECT is_vip FROM t_user WHERE id = t_user_cent_log.user_id) as isVip,\n" +
+            "(select portrait from t_user where id = t_user_cent_log.user_id) as portrait \n" +
             "FROM t_user_cent_log WHERE user_id = #{userId}\n" +
             "ORDER BY create_time DESC")
     List<UserCentLog> getCommissionList(Integer userId);

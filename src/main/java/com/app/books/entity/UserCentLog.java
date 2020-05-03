@@ -49,6 +49,10 @@ public class UserCentLog {
     //0 未分成  1  已分成  2已取消
     private Integer status;
 
+    //*********************子查询字段***********************
     //提供佣金的用户是否vip
     private Integer isVip;
+
+    //提供佣金的用户头像
+    private String portrait;
 }
