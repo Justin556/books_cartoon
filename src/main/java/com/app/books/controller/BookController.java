@@ -10,6 +10,7 @@ import com.app.books.utils.RedisUtil;
 import com.app.books.vo.BookParams;
 import com.app.books.result.Result;
 import com.app.books.service.BookService;
+import com.app.books.vo.BookRankingParams;
 import com.app.books.vo.ChapterQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -221,13 +222,13 @@ public class BookController {
     }
 
     /**
-     * 漫画排行
-     * @param bookParams
+     * 小说排行
+     * @param bookRankingParams
      */
     @GetMapping("ranking")
     @ApiOperation(value = "小说排行")
-    public Result ranking(BookParams bookParams) {
-        return bookService.ranking(bookParams);
+    public Result ranking(BookRankingParams bookRankingParams) {
+        return Result.success(bookService.ranking(bookRankingParams));
     }
 
 }

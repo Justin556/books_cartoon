@@ -16,13 +16,93 @@ import java.util.List;
 @Mapper
 @Repository
 public interface BookMapper {
+    /**
+     * 点赞排行
+     * @return
+     */
+    @Select("SELECT t_book.id, \n" +
+            "t_book.create_time as createTime, \n" +
+            "t_book.title, \n" +
+            "t_book.author, \n" +
+            "t_book.category, \n" +
+            "t_book.status, \n" +
+            "t_book.number, \n" +
+            "t_book.summary, \n" +
+            "t_book.cover_pic as coverPic, \n" +
+            "t_book.detail_pic as detailPic, \n" +
+            "t_book.sort, \n" +
+            "(SELECT sum(amount) FROM t_user_send_log WHERE t_user_send_log.out_id = t_book.id) as sendSum,\n" +
+            "(SELECT COUNT(1) FROM t_book_likes WHERE t_book_likes.bid = t_book.id) as likeSum,\n" +
+            "(SELECT COUNT(1) FROM t_book_collect WHERE t_book_collect.bid = t_book.id) as collectSum,\n" +
+            "(SELECT COUNT(1) FROM t_comment WHERE t_comment.out_id = t_book.id) as commentSum\n" +
+            "FROM t_book order by likeSum DESC")
+    List<BookDetailsPojo> rankingLikes();
 
-    @Select("<script> SELECT COUNT(zong.coverPic) as sum,summary,zong.coverPic,zong.bookId,category,title,status,author from \n" +
-            "(select `status`,title,author,category,cover_pic as coverPic,detail_pic as detailPic,summary,tcl.bid as bookId from t_book tc\n" +
-            "            left JOIN t_book_likes tcl on tcl.bid=tc.id)as zong\n" +
-            "            group by zong.coverPic,zong.bookId,category,title,status,author,summary\n" +
-            "            order by sum desc </script>")
-    List<Book> ranking();
+    /**
+     * 打赏排行
+     * @return
+     */
+    @Select("SELECT t_book.id, \n" +
+            "t_book.create_time as createTime, \n" +
+            "t_book.title, \n" +
+            "t_book.author, \n" +
+            "t_book.category, \n" +
+            "t_book.status, \n" +
+            "t_book.number, \n" +
+            "t_book.summary, \n" +
+            "t_book.cover_pic as coverPic, \n" +
+            "t_book.detail_pic as detailPic, \n" +
+            "t_book.sort, \n" +
+            "(SELECT sum(amount) FROM t_user_send_log WHERE t_user_send_log.out_id = t_book.id) as sendSum,\n" +
+            "(SELECT COUNT(1) FROM t_book_likes WHERE t_book_likes.bid = t_book.id) as likeSum,\n" +
+            "(SELECT COUNT(1) FROM t_book_collect WHERE t_book_collect.bid = t_book.id) as collectSum,\n" +
+            "(SELECT COUNT(1) FROM t_comment WHERE t_comment.out_id = t_book.id) as commentSum\n" +
+            "FROM t_book order by sendSum DESC")
+    List<BookDetailsPojo> rankingSends();
+
+    /**
+     * 收藏排行
+     * @return
+     */
+    @Select("SELECT t_book.id, \n" +
+            "t_book.create_time as createTime, \n" +
+            "t_book.title, \n" +
+            "t_book.author, \n" +
+            "t_book.category, \n" +
+            "t_book.status, \n" +
+            "t_book.number, \n" +
+            "t_book.summary, \n" +
+            "t_book.cover_pic as coverPic, \n" +
+            "t_book.detail_pic as detailPic, \n" +
+            "t_book.sort, \n" +
+            "(SELECT sum(amount) FROM t_user_send_log WHERE t_user_send_log.out_id = t_book.id) as sendSum,\n" +
+            "(SELECT COUNT(1) FROM t_book_likes WHERE t_book_likes.bid = t_book.id) as likeSum,\n" +
+            "(SELECT COUNT(1) FROM t_book_collect WHERE t_book_collect.bid = t_book.id) as collectSum,\n" +
+            "(SELECT COUNT(1) FROM t_comment WHERE t_comment.out_id = t_book.id) as commentSum\n" +
+            "FROM t_book order by collectSum DESC")
+    List<BookDetailsPojo> rankingCollects();
+
+    /**
+     * 评论排行
+     * @return
+     */
+    @Select("SELECT t_book.id, \n" +
+            "t_book.create_time as createTime, \n" +
+            "t_book.title, \n" +
+            "t_book.author, \n" +
+            "t_book.category, \n" +
+            "t_book.status, \n" +
+            "t_book.number, \n" +
+            "t_book.summary, \n" +
+            "t_book.cover_pic as coverPic, \n" +
+            "t_book.detail_pic as detailPic, \n" +
+            "t_book.sort, \n" +
+            "(SELECT sum(amount) FROM t_user_send_log WHERE t_user_send_log.out_id = t_book.id) as sendSum,\n" +
+            "(SELECT COUNT(1) FROM t_book_likes WHERE t_book_likes.bid = t_book.id) as likeSum,\n" +
+            "(SELECT COUNT(1) FROM t_book_collect WHERE t_book_collect.bid = t_book.id) as collectSum,\n" +
+            "(SELECT COUNT(1) FROM t_comment WHERE t_comment.out_id = t_book.id) as commentSum\n" +
+            "FROM t_book order by commentSum DESC")
+    List<BookDetailsPojo> rankingComments();
 
     @Select("<script> select *,cover_pic as coverPic,detail_pic as detailPic from t_book where 1=1 " +
             "<if test=\"name !=null and name !=''\"> AND title like \"%\"#{name}\"%\" OR author like \"%\"#{name}\"%\" </if>" +

@@ -4,6 +4,7 @@ import com.app.books.entity.*;
 import com.app.books.pojo.BookDetailsPojo;
 import com.app.books.result.Result;
 import com.app.books.vo.BookParams;
+import com.app.books.vo.BookRankingParams;
 import com.github.pagehelper.PageInfo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,5 +40,5 @@ public interface BookService {
 
     List<BookCollect> bookCollectList(Integer userId);
 
-    Result ranking(BookParams bookParams);
+    PageInfo<BookDetailsPojo> ranking(BookRankingParams bookRankingParams);
 }

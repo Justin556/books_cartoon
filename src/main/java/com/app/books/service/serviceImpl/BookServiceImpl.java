@@ -10,6 +10,7 @@ import com.app.books.utils.RedisUtil;
 import com.app.books.vo.BookParams;
 import com.app.books.mapper.BookMapper;
 import com.app.books.service.BookService;
+import com.app.books.vo.BookRankingParams;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -221,10 +222,26 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Result ranking(BookParams bookParams) {
-        PageHelper.startPage(bookParams.getPageNumber(),bookParams.getPageSize());//这行是重点，表示从pageNum页开始，每页pageSize条数据
-        List<Book> list = bookMapper.ranking();
-        PageInfo<Book> pageInfo = new PageInfo<Book>(list);
-        return Result.success(pageInfo);
+    public PageInfo<BookDetailsPojo> ranking(BookRankingParams bookRankingParams) {
+        PageHelper.startPage(bookRankingParams.getPageNumber(),bookRankingParams.getPageSize());
+        List<BookDetailsPojo> list;
+        switch(bookRankingParams.getType()){
+            case 1 ://点赞
+                list = bookMapper.rankingLikes();
+                break;
+            case 2 ://打赏
+                list = bookMapper.rankingSends();
+                break;
+            case 3 ://收藏
+                list = bookMapper.rankingCollects();
+                break;
+            case 4 ://评论
+                list = bookMapper.rankingComments();
+                break;
+            default :
+                list = null;
+        }
+        PageInfo<BookDetailsPojo> pageInfo = new PageInfo<>(list);
+        return pageInfo;
     }
 }
