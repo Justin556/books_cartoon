@@ -1,8 +1,7 @@
 package com.app.books.controller;
 
-import com.app.books.mapper.ArticleMapper;
-import com.app.books.mapper.NoticeMapper;
 import com.app.books.result.Result;
+import com.app.books.service.ArticleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/article/")
 public class ArticleController {
     @Autowired
-    private ArticleMapper articleMapper;
+    private ArticleService articleService;
 
     @GetMapping("show")
     @ApiOperation(value = "获取最新消息")
-    public Result show() {
-        return Result.success(articleMapper.getArticleList());
+    public Result show(Integer pageNumber, Integer pageSize) {
+        return Result.success(articleService.getArticleList(pageNumber,pageSize));
     }
 }
