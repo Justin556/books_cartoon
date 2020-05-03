@@ -1,8 +1,6 @@
 package com.app.books.config;
 
 import com.app.books.mapper.BookMapper;
-import com.app.books.mapper.ChapterMapper;
-import com.app.books.mapper.UserMapper;
 import com.app.books.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
