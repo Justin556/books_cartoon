@@ -1,5 +1,6 @@
 package com.app.books.entity;;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import java.util.Date;
 public class Article {
     private Integer id;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     private Date updateTime;

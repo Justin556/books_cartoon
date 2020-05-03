@@ -1,6 +1,8 @@
 package com.app.books.entity;;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
@@ -9,6 +11,8 @@ import java.util.Date;
  * 用户分销配置表
  */
 @Data
+@Getter
+@Setter
 public class RetailStore {
     private Integer id;
 
