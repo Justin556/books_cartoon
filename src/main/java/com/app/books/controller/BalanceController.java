@@ -29,9 +29,9 @@ public class BalanceController {
     @GetMapping("getCommissionList")
     @ApiOperation(value = "用户分销佣金列表")
     @LoginRequired
-    public Result getCommissionList(HttpServletRequest request) {
+    public Result getCommissionList(HttpServletRequest request, Integer pageNumber, Integer pageSize) {
         Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
-        return Result.success(balanceMapper.getCommissionList(userId));
+        return Result.success(balanceService.getCommissionPage(userId, pageNumber, pageSize));
     }
 
     @GetMapping("getCommissionSum")

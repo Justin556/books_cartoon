@@ -1,5 +1,6 @@
 package com.app.books.entity;;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -12,6 +13,8 @@ import java.util.Date;
 public class UserCentLog {
     private Integer id;
 
+    //日期格式
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     private Date updateTime;
@@ -45,4 +48,11 @@ public class UserCentLog {
 
     //0 未分成  1  已分成  2已取消
     private Integer status;
+
+    //*********************子查询字段***********************
+    //提供佣金的用户是否vip
+    private Integer isVip;
+
+    //提供佣金的用户头像
+    private String portrait;
 }
