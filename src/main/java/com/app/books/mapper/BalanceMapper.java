@@ -56,4 +56,18 @@ public interface BalanceMapper {
     @Insert("insert into t_user_balance_log(create_time,order_fee,order_no,order_type,status,user_id,user_name)\n" +
             "values(NOW(),#{orderFee},#{orderNo},#{orderType},#{status},#{userId},#{userName})")
     void addUseBalanceLog(UserBalanceLog userBalanceLog);
+
+    /**
+     * 获取用户账号明细
+     * @param userId
+     */
+    @Select("SELECT create_time as createTime,\n" +
+            "order_fee as orderFee,\n" +
+            "order_no as orderNo,\n" +
+            "order_type as orderType,\n" +
+            "user_id as userId,\n" +
+            "user_name as userName\n" +
+            "FROM t_user_balance_log WHERE user_id = #{userId}\n" +
+            "ORDER BY create_time DESC")
+    List<UserBalanceLog> getBalanceByUserId(Integer userId);
 }

@@ -209,4 +209,17 @@ public class UserController {
         userMapper.insertUserCurrencyLog(userCurrencyLog);
         return Result.success();
     }
+
+    /**
+     * 账户明细
+     */
+    @GetMapping("getBalanceList")
+    @ApiOperation(value = "账号明细")
+    @LoginRequired
+    public Result getBalanceList(HttpServletRequest request)
+    {
+        Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
+        User user = userMapper.findUserById(userId);
+        return Result.success(balanceMapper.getBalanceByUserId(user.getId()));
+    }
 }
