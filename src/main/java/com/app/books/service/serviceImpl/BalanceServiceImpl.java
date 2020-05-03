@@ -115,4 +115,12 @@ public class BalanceServiceImpl implements BalanceService {
         PageInfo<UserCentLog> pageInfo = new PageInfo<UserCentLog>(list);
         return pageInfo;
     }
+
+    @Override
+    public PageInfo<UserBalanceLog> getBalanceByUserId(Integer userId, Integer pageNumber, Integer pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
+        List<UserBalanceLog> list = balanceMapper.getBalanceByUserId(userId);
+        PageInfo<UserBalanceLog> pageInfo = new PageInfo<UserBalanceLog>(list);
+        return pageInfo;
+    }
 }

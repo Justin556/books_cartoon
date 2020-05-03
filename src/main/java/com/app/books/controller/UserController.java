@@ -9,6 +9,7 @@ import com.app.books.mapper.BookCurrencyMapper;
 import com.app.books.mapper.SettingMapper;
 import com.app.books.mapper.UserMapper;
 import com.app.books.result.Result;
+import com.app.books.service.BalanceService;
 import com.app.books.service.UserService;
 import com.app.books.utils.RedisUtil;
 import com.app.books.vo.RegisterParams;
@@ -38,6 +39,8 @@ public class UserController {
     private SettingMapper settingMapper;
     @Autowired
     private BalanceMapper balanceMapper;
+    @Autowired
+    private BalanceService balanceService;
 
     @ApiOperation(value = "注册")
     @PutMapping("register")
@@ -216,10 +219,10 @@ public class UserController {
     @GetMapping("getBalanceList")
     @ApiOperation(value = "账号明细")
     @LoginRequired
-    public Result getBalanceList(HttpServletRequest request)
+    public Result getBalanceList(HttpServletRequest request,Integer pageNumber, Integer pageSize)
     {
         Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
         User user = userMapper.findUserById(userId);
-        return Result.success(balanceMapper.getBalanceByUserId(user.getId()));
+        return Result.success(balanceService.getBalanceByUserId(user.getId(),pageNumber,pageSize));
     }
 }
