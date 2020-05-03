@@ -1,5 +1,6 @@
 package com.app.books.entity;;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -11,7 +12,7 @@ import java.util.Date;
 @Data
 public class UserBalanceLog {
     private Integer id;
-
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     private Date updateTime;
