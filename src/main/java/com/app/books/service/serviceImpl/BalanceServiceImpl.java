@@ -66,16 +66,19 @@ public class BalanceServiceImpl implements BalanceService {
             agentShareLog.setUserId(userId);
             agentMapper.addAgentShareLog(agentShareLog);
         }else if (user.getUserSource() != null && user.getUserSource() == 1){//上级是分销
-            findParent(userId, amount, orderNo, 1);
+            //传一个持久化充值用户的id
+            Integer userIdStr = userId;
+            findParent(userId, amount, orderNo, 1, userIdStr);
         }
     }
 
-    public void findParent(Integer userId, BigDecimal amount, String orderNo, int i) {
+    public void findParent(Integer userId, BigDecimal amount, String orderNo, int i, Integer userIdStr) {
         Integer parentId = userMapper.getParentIdByUserId(userId);
         if (parentId != null){
             RetailStore retailStore = userMapper.getRetailStore();
             String level = "";//用户分佣级别
             Float levelScale = null;//分成比例
+            UserCentLog userCentLog = new UserCentLog();
             if (i==1){
                 level = retailStore.getLevelOne();
                 levelScale = retailStore.getLevelOneScale();
@@ -89,11 +92,10 @@ public class BalanceServiceImpl implements BalanceService {
                 throw new CustomerException("success", 200);
             }
 
-            UserCentLog userCentLog = new UserCentLog();
             userCentLog.setUserId(parentId);//获佣用户的id
             userCentLog.setUserName(userMapper.findUserById(parentId).getUserName());
-            userCentLog.setOutUserId(userId);
-            userCentLog.setOutUserName(userMapper.findUserById(userId).getUserName());
+            userCentLog.setOutUserId(userIdStr);//提供佣金的用户永远是充值的用户
+            userCentLog.setOutUserName(userMapper.findUserById(userIdStr).getUserName());
             userCentLog.setOutUserLevel(level);
             userCentLog.setOutUserLevelScale(levelScale);
             userCentLog.setOrderNo(orderNo);
@@ -104,7 +106,7 @@ public class BalanceServiceImpl implements BalanceService {
             userMapper.addUserCentLog(userCentLog);
             userMapper.addUserBalance(parentId, commission);//父级的余额增加佣金的金额
             i++;
-            findParent(parentId, amount, orderNo, i);
+            findParent(parentId, amount, orderNo, i, userIdStr);
         }
     }
 
