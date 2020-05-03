@@ -14,7 +14,7 @@ public class UserCentLog {
     private Integer id;
 
     //日期格式
-    @JsonFormat
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     private Date updateTime;
