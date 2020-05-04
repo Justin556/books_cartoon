@@ -53,9 +53,23 @@ public class ComicServiceImpl implements ComicService {
     @Override
     public Result ranking(ComicQuery comicQuery) {
         PageHelper.startPage(comicQuery.getPageNumber(),comicQuery.getPageSize());//这行是重点，表示从pageNum页开始，每页pageSize条数据
-        List<Comic> list = comicMapper.ranking(comicQuery.getType());
-        PageInfo<Comic> pageInfo = new PageInfo<Comic>(list);
-        return Result.success(pageInfo);
+        if(comicQuery.getType().equals("likes")){
+            List<Comic> list = comicMapper.likesRanking();
+            return Result.success(new PageInfo<Comic>(list));
+        }else
+        if(comicQuery.getType().equals("collect")){
+            List<Comic> list = comicMapper.collectRanking();
+            return Result.success(new PageInfo<Comic>(list));
+        }else
+        if(comicQuery.getType().equals("comments")){
+            List<Comic> list = comicMapper.commentsRanking();
+            return Result.success(new PageInfo<Comic>(list));
+        }else
+        if(comicQuery.getType().equals("send")){
+            List<Comic> list = comicMapper.sendRanking();
+            return Result.success(new PageInfo<Comic>(list));
+        }
+        return Result.error("请输入正确类型");
     }
 
     @Override

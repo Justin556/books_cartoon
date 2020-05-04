@@ -22,10 +22,22 @@ public interface ComicMapper {
              "</script>")
     List<Comic> findAll(ComicQuery comicQuery);
 
-    @Select("<script> select *,cover_pic as coverPic,detail_pic as detailPic from t_comic where 1=1 " +
-            "            <if test=\"type !=null and type !=''\"> ORDER BY #{type} desc </if>" +
-            "            </script>")
-    List<Comic> ranking(String type);
+    @Select("select *,cover_pic as coverPic,detail_pic as detailPic from t_comic where 1=1 " +
+            "             ORDER BY send desc ")
+    List<Comic> sendRanking();
+
+    @Select("select *,cover_pic as coverPic,detail_pic as detailPic from t_comic where 1=1 " +
+            "             ORDER BY likes desc ")
+    List<Comic> likesRanking();
+
+    @Select("select *,cover_pic as coverPic,detail_pic as detailPic from t_comic where 1=1 " +
+            "             ORDER BY collect desc ")
+    List<Comic> collectRanking( );
+
+    @Select("select *,cover_pic as coverPic,detail_pic as detailPic from t_comic where 1=1 " +
+            "             ORDER BY comments desc ")
+    List<Comic> commentsRanking();
+
 
     @Update("<script> update t_comic  " +
             "<if test=\"likes !=null and likes !=''\"> set likes = #{likes}+likes  </if>" +
