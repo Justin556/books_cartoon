@@ -70,4 +70,8 @@ public class User {
 
     //vip到期时间
     private String endTime;
+
+    //子查询所用字段
+    //统计当前总佣金
+    private BigDecimal  tiCommission;
 }
