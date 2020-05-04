@@ -34,4 +34,9 @@ public class Comic {
     //状态:1连载 2完结
     private String status;
 
+    private Integer like;
+
+    private Integer send;
+    private Integer comments;
+    private Integer collect;
 }
