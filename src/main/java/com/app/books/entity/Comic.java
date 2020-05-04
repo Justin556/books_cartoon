@@ -33,10 +33,12 @@ public class Comic {
     private Integer sort = 1;
     //状态:1连载 2完结
     private String status;
-
-    private Integer like;
-
+    //点赞数
+    private Integer likes;
+    //打赏数
     private Integer send;
+    //评论数
     private Integer comments;
+    //收藏数
     private Integer collect;
 }
