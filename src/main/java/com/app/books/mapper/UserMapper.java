@@ -24,7 +24,7 @@ public interface UserMapper {
             "proxy_id\n" +
             ") \n" +
             "VALUES(\n" +
-            "#{createTime},\n" +
+            "now(),\n" +
             "#{userName},\n" +
             "#{password},\n" +
             "#{userSource},\n" +

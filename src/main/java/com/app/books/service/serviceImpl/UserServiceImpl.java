@@ -38,7 +38,6 @@ public class UserServiceImpl implements UserService {
                 user.setUserSource(1);
             }
         }
-        user.setCreateTime(new Date());
         userMapper.insertUser(user);
         if (registerParams.getType() != null && registerParams.getType() == 2) {//用户来源是分销
             //更新用户分销关系表
