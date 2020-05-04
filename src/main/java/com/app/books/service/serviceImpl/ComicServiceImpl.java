@@ -177,12 +177,12 @@ public class ComicServiceImpl implements ComicService {
         if (comicMapper.getLikeIdByComicIdIdAndUserId(comicLikes.getComicId(), Integer.parseInt(authenticationInterceptor.userId)) == null) {//未点赞
             comicLikes.setUserId(Integer.parseInt(authenticationInterceptor.userId));
             comicMapper.insertComicLike(comicLikes);
-            comicQuery.setLike(1);
+            comicQuery.setLikes(1);
             comicMapper.update(comicQuery);
         }else{
             //如果已点赞则取消点赞
             comicMapper.deleteComicLike(comicLikes.getComicId(), Integer.parseInt(authenticationInterceptor.userId));
-            comicQuery.setLike(-1);
+            comicQuery.setLikes(-1);
             comicMapper.update(comicQuery);
         }
         return  Result.success();
