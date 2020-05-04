@@ -1,5 +1,6 @@
 package com.app.books.service.serviceImpl;
 
+import com.app.books.config.AuthenticationInterceptor;
 import com.app.books.vo.UserQuery;
 import com.app.books.entity.User;
 import com.app.books.entity.UserRetailLevel;
@@ -20,10 +21,13 @@ public class promoteServiceImpl implements PromoteService {
     private PromoteMapper promoteMapper;
 
 
+    @Autowired
+    private AuthenticationInterceptor authenticationInterceptor;
+
     @Override
     public Result promoteList(UserQuery userQuery) {
         PageHelper.startPage(userQuery.getPageNumber(),userQuery.getPageSize());//这行是重点，表示从pageNum页开始，每页pageSize条数据
-        List<User> list = promoteMapper.findAllLowerLevel(userQuery.getId());
+        List<User> list = promoteMapper.findAllLowerLevel(userQuery.getId(),authenticationInterceptor.userId);
         PageInfo<User> pageInfo = new PageInfo<User>(list);
         return Result.success(pageInfo);
     }

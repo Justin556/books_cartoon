@@ -108,6 +108,11 @@ public class ComicController {
         Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
         User user = userMapper.findUserById(userId);
         comicMapper.insertComment(comicId,user.getId(), commentInfo);
+
+        ComicQuery comicQuery =new ComicQuery();
+        comicQuery.setComicId(comicId.toString());
+        comicQuery.setComments(1);
+        comicMapper.update(comicQuery);
         return Result.success();
     }
 
@@ -146,7 +151,12 @@ public class ComicController {
         if (user.getBookCurrency() < userSendLog.getAmount()) {
             return Result.error("书币不足");
         }
+
         bookService.userSend(user, userSendLog.getOutId(), userSendLog.getAmount(),2);
+        ComicQuery comicQuery =new ComicQuery();
+        comicQuery.setComicId(userSendLog.getOutId().toString());
+        comicQuery.setSend( userSendLog.getAmount());
+        comicMapper.update(comicQuery);
         return Result.success();
     }
 

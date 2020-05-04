@@ -55,4 +55,7 @@ public class UserCentLog {
 
     //提供佣金的用户头像
     private String portrait;
+
+    //提供佣金数量
+    private BigDecimal tiCommission;
 }

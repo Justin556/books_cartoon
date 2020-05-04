@@ -23,4 +23,10 @@ public class ComicQuery {
     private String category;
 
     private String comicId;
+
+    private Integer like;
+
+    private Integer send;
+    private Integer comments;
+    private Integer collect;
 }

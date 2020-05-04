@@ -4,10 +4,7 @@ import com.app.books.entity.*;
 import com.app.books.pojo.ComicDetailsPojo;
 import com.app.books.vo.ChapterQuery;
 import com.app.books.vo.ComicQuery;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,14 +18,22 @@ public interface ComicMapper {
             "<if test=\"name !=null and name !=''\"> AND title like \"%\"#{name}\"%\" </if>" +
             "<if test=\"category !=null and category !=''\"> AND category  like \"%\"#{category}\"%\" </if>" +
             "<if test=\"status !=null and status !=''\"> AND status  like \"%\"#{status}\"%\" </if>" +
-            "</script>")
+            "<if test=\"comments !=null and comments !=''\"> AND comments  like \"%\"#{comments}\"%\" </if>" +
+             "</script>")
     List<Comic> findAll(ComicQuery comicQuery);
 
-    @Select("<script>SELECT COUNT(zong.coverPic) as sum,zong.coverPic,summary,zong.comicId,category,title,status,author from (select `status`,title,author,category,summary,cover_pic as coverPic,detail_pic as detailPic,tcl.comic_id as comicId from t_comic tc\n" +
-            "left JOIN t_comic_likes tcl on tcl.comic_id=tc.id)as zong\n" +
-            "group by zong.coverPic,zong.comicId,category,title,status,author,summary\n" +
-            "order by sum desc </script>")
-    List<Comic> ranking();
+    @Select("<script> select *,cover_pic as coverPic,detail_pic as detailPic from t_comic where 1=1 " +
+            "            <if test=\"type !=null and type !=''\"> ORDER BY #{type} desc </if>" +
+            "            </script>")
+    List<Comic> ranking(String type);
+
+    @Update("<script> update t_comic  " +
+            "<if test=\"likes !=null and likes !=''\"> set likes = #{likes}+likes  </if>" +
+            "<if test=\"send !=null and send !=''\"> set send = #{send}+send  </if>" +
+            "<if test=\"collect !=null and collect !=''\"> set collect = #{collect}+collect </if>" +
+            "<if test=\"comments !=null and comments !=''\"> set comments = #{comments}+comments </if>" +
+            "where id=#{comicId}</script>")
+    void update(ComicQuery comicQuery);
 
     @Select("<script> select *,cover_pic as coverPic,(SELECT COUNT(1) FROM t_comic_likes WHERE t_comic_likes.comic_id = t_comic.id) as likeSum," +
             "(SELECT COUNT(1) FROM t_comic_collect WHERE t_comic_collect.comic_id = t_comic.id) as collectSum" +

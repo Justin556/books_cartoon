@@ -53,7 +53,7 @@ public class ComicServiceImpl implements ComicService {
     @Override
     public Result ranking(ComicQuery comicQuery) {
         PageHelper.startPage(comicQuery.getPageNumber(),comicQuery.getPageSize());//这行是重点，表示从pageNum页开始，每页pageSize条数据
-        List<Comic> list = comicMapper.ranking();
+        List<Comic> list = comicMapper.ranking(comicQuery.getType());
         PageInfo<Comic> pageInfo = new PageInfo<Comic>(list);
         return Result.success(pageInfo);
     }
@@ -172,12 +172,18 @@ public class ComicServiceImpl implements ComicService {
 
     @Override
     public Result addComicLikes(ComicLikes comicLikes) {
+        ComicQuery comicQuery =new ComicQuery();
+        comicQuery.setComicId(comicLikes.getComicId().toString());
         if (comicMapper.getLikeIdByComicIdIdAndUserId(comicLikes.getComicId(), Integer.parseInt(authenticationInterceptor.userId)) == null) {//未点赞
             comicLikes.setUserId(Integer.parseInt(authenticationInterceptor.userId));
             comicMapper.insertComicLike(comicLikes);
+            comicQuery.setLike(1);
+            comicMapper.update(comicQuery);
         }else{
             //如果已点赞则取消点赞
             comicMapper.deleteComicLike(comicLikes.getComicId(), Integer.parseInt(authenticationInterceptor.userId));
+            comicQuery.setLike(-1);
+            comicMapper.update(comicQuery);
         }
         return  Result.success();
     }
@@ -202,12 +208,18 @@ public class ComicServiceImpl implements ComicService {
 
     @Override
     public Result closedComic(ComicCollect comicCollect) {
+        ComicQuery comicQuery =new ComicQuery();
+        comicQuery.setComicId(comicCollect.getComicId().toString());
         comicCollect.setUserId(Integer.parseInt(authenticationInterceptor.userId));
         if (comicMapper.getCollectIdByComicIdIdAndUserId(comicCollect.getComicId(), Integer.parseInt(authenticationInterceptor.userId)) == null) {//未收藏
             comicMapper.insertComicCollect(comicCollect);
+            comicQuery.setCollect(1);
+            comicMapper.update(comicQuery);
         }else{
             //如果已收藏则取消收藏
             comicMapper.deleteComicCollect(comicCollect.getComicId(), comicCollect.getUserId());
+            comicQuery.setCollect(-1);
+            comicMapper.update(comicQuery);
         }
         return Result.success();
     }
