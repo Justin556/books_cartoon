@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -74,4 +75,10 @@ public class User {
     //子查询所用字段
     //统计当前总佣金
     private BigDecimal  tiCommission;
+
+
+    public void setCreateTime(Date createTime){
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.createTime=sdf.format(createTime);
+    }
 }
