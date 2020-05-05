@@ -89,7 +89,7 @@ public class BookController {
     public Result episodesContent(HttpServletRequest request, Integer bid, Integer chapterId, Integer jiNo) {
         String token = request.getHeader("token");
         User user = userMapper.findUserById((Integer) redisUtil.get(token));
-        log.info(user.toString());
+        //log.info(user.toString());
         if (token != null) {//如果已登录，向小说历史记录表插入或更新数据
             Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
             ChapterQuery chapter = new ChapterQuery();
@@ -107,7 +107,7 @@ public class BookController {
 
         Integer money = bookMapper.getMoneyByChapterId(chapterId).intValue();//阅读该章节需要的费用
         if (money != null && money != 0) {//收费小说
-            if (token == null) {
+            if (token == null || "null".equals(token)) {
                 return Result.error("请登录！");
             } else if (!redisUtil.hasKey(token)) {
                 return Result.error("登录凭证无效，请重新登录！");
