@@ -66,4 +66,5 @@ public class ComicDetailsPojo {
 
 
     private ChapterQuery chapterQuery;
+
 }

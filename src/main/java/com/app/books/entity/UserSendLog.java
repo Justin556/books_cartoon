@@ -56,4 +56,9 @@ public class UserSendLog {
         this.amount = amount;
         this.type = type;
     }
+
+    public void setCreateTime(Date createTime){
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.createTime=sdf.format(createTime);
+    }
 }

@@ -46,4 +46,9 @@ public class Comment {
 
     public Comment() {
     }
+
+    public void setCreateTime(Date createTime){
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.createTime=sdf.format(createTime);
+    }
 }
