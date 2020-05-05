@@ -37,7 +37,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 throw new CustomerException("无token，请重新登录", -1);
             }
             if (!redisUtil.hasKey(token)) {
-                throw new CustomerException("token无效，请重新登录", -1);
+                throw new CustomerException("登录凭证无效，请重新登录", -1);
             }
         }
         userId=String.valueOf(redisUtil.get(request.getHeader("token")));

@@ -47,6 +47,7 @@ public class BookController {
 
     /**
      * 主页：猜你喜欢/大家一起看
+     *
      * @param
      * @return
      */
@@ -65,6 +66,7 @@ public class BookController {
     /**
      * 单部小说详情
      * 包含：打赏总数，打赏列表，点赞总数，收藏总数，评论总数，评论列表，章节总数，所有章节的title
+     *
      * @param bookId
      * @return
      */
@@ -76,6 +78,7 @@ public class BookController {
 
     /**
      * 单个章节内容
+     *
      * @param chapterId
      * @return
      */
@@ -85,7 +88,7 @@ public class BookController {
         String token = request.getHeader("token");
         User user = userMapper.findUserById((Integer) redisUtil.get(token));
         if (token != null) {//如果已登录，向小说历史记录表插入或更新数据
-            Integer userId = (Integer)redisUtil.get(request.getHeader("token"));
+            Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
             ChapterQuery chapter = new ChapterQuery();
             chapter.setUserId(userId);
             chapter.setOutId(bid);
@@ -94,53 +97,51 @@ public class BookController {
             chapter.setChapter(bookMapper.getEpisodesTitleById(chapterId));
             if (chapterMapper.selectChapter(chapter) != null) {
                 chapterMapper.update(chapter);
-            }else {
+            } else {
                 chapterMapper.addChapter(chapter);
             }
         }
 
         Integer money = bookMapper.getMoneyByChapterId(chapterId).intValue();//阅读该章节需要的费用
-        if (money != null && money != 0){//收费小说
-//            if (token == null){
-//                return Result.error(200, "请登录！");
-//            }else if (!redisUtil.hasKey(token)) {
-//                return Result.error(200, "token无效，请重新登录！");
-//            }
+        if (money != null && money != 0) {//收费小说
+            if (token == null) {
+                return Result.error("请登录！");
+            } else if (!redisUtil.hasKey(token)) {
+                return Result.error("登录凭证无效，请重新登录！");
+            }
 
-            if(authenticationInterceptor.userId=="null" && authenticationInterceptor.userId.equals("null")){
-                return Result.error(200, "请登录！");
-            }else{
-                if (user.getIsVip() == 0){//如果不是vip
-                    String moneyStut = bookMapper.getIsPay(user.getId(), chapterId);
-                    if (moneyStut==null){//如果本章节没付过费
-                        if (user.getBookCurrency() < money){//如果用户的书币不足以支付该章节费用
-                            return Result.error(200, "书币不足！");
-                        }else {
-                            userMapper.reduceBookCurrency(money, user.getId());//扣除用户书币
-                            //新增书币变动表
-                            UserCurrencyLog userCurrencyLog = new UserCurrencyLog();
-                            userCurrencyLog.setCreateTime(new Date());
-                            userCurrencyLog.setUserId(user.getId());
-                            userCurrencyLog.setUserName(user.getUserName());
-                            userCurrencyLog.setCurrencyType(5);
-                            userCurrencyLog.setCurrency(money);
-                            userMapper.insertUserCurrencyLog(userCurrencyLog);//添加书币记录
+            if (user.getIsVip() == 0) {//如果不是vip
+                String moneyStut = bookMapper.getIsPay(user.getId(), chapterId);
+                if (moneyStut == null) {//如果本章节没付过费
+                    if (user.getBookCurrency() < money) {//如果用户的书币不足以支付该章节费用
+                        return Result.error("书币不足！");
+                    } else {
+                        userMapper.reduceBookCurrency(money, user.getId());//扣除用户书币
+                        //新增书币变动表
+                        UserCurrencyLog userCurrencyLog = new UserCurrencyLog();
+                        userCurrencyLog.setCreateTime(new Date());
+                        userCurrencyLog.setUserId(user.getId());
+                        userCurrencyLog.setUserName(user.getUserName());
+                        userCurrencyLog.setCurrencyType(5);
+                        userCurrencyLog.setCurrency(money);
+                        userMapper.insertUserCurrencyLog(userCurrencyLog);//添加书币记录
 
-                            BookIsPay bookIsPay = new BookIsPay(user.getId(), chapterId, 1);
-                            bookMapper.addBookIsPay(bookIsPay);//标记该章节为已付费
-                        }
+                        BookIsPay bookIsPay = new BookIsPay(user.getId(), chapterId, 1);
+                        bookMapper.addBookIsPay(bookIsPay);//标记该章节为已付费
                     }
                 }
             }
+
         }
         return Result.success(bookService.episodesContent(jiNo));
     }
 
     /**
      * 打赏
+     *
      * @param request
-     * @param bookId 小说id
-     * @param amount 打赏书币金额
+     * @param bookId  小说id
+     * @param amount  打赏书币金额
      * @return
      */
     @PostMapping("userSend")
@@ -152,7 +153,7 @@ public class BookController {
         if (user.getBookCurrency() < amount) {
             return Result.error("书币不足");
         }
-        bookService.userSend(user, bookId, amount,1);
+        bookService.userSend(user, bookId, amount, 1);
         return Result.success();
     }
 
@@ -184,6 +185,7 @@ public class BookController {
 
     /**
      * 小说打赏列表
+     *
      * @param bookId
      */
     @GetMapping("userSendList")
@@ -223,6 +225,7 @@ public class BookController {
 
     /**
      * 小说排行
+     *
      * @param bookRankingParams
      */
     @GetMapping("ranking")
