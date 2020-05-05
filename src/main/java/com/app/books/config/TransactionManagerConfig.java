@@ -19,9 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Description: 配置全局事务
- * @author: DongFangQi
- * @Date: Created in 2019/8/19 4:40 PM
+ * 全局事务
  */
 @Aspect
 @Configuration
