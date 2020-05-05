@@ -4,7 +4,6 @@ import com.app.books.entity.*;
 import com.app.books.exception.CustomerException;
 import com.app.books.mapper.AgentMapper;
 import com.app.books.mapper.BalanceMapper;
-import com.app.books.mapper.SettingMapper;
 import com.app.books.mapper.UserMapper;
 import com.app.books.service.BalanceService;
 import com.github.pagehelper.PageHelper;
@@ -12,7 +11,6 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 
