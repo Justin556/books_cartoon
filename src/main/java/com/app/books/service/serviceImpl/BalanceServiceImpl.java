@@ -26,7 +26,6 @@ public class BalanceServiceImpl implements BalanceService {
     private AgentMapper agentMapper;
 
     @Override
-    @Transactional
     public void recharge(Integer userId, BigDecimal amount) {
         balanceMapper.updateUserBalance(userId, amount);//用户余额增加
         String orderNo = "NO" + System.currentTimeMillis();

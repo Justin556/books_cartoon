@@ -20,7 +20,6 @@ public class RedisCommandLineRunner implements CommandLineRunner {
         for (Integer bookId: bookMapper.getAllIdFromBook()
              ) {
             redisUtil.set(bookId + ":episodeList", bookMapper.bookEpisodeList(bookId));
-            //log.info("bookId为：" + bookId + "的章节缓存到redis");
         }
     }
 }
