@@ -37,7 +37,7 @@ public class TransactionManagerConfig {
 
         /** 只读事务，不做更新操作 */
         RuleBasedTransactionAttribute readOnlyTx = new RuleBasedTransactionAttribute();
-        readOnlyTx.setReadOnly(true);
+        readOnlyTx.setReadOnly(false);
         readOnlyTx.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
         /** 当前存在事务就使用当前事务，当前不存在事务就创建一个新的事务 */
