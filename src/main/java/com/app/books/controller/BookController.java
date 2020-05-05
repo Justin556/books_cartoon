@@ -112,7 +112,7 @@ public class BookController {
             } else if (!redisUtil.hasKey(token)) {
                 return Result.error("登录凭证无效，请重新登录！");
             }
-
+            log.info(token);
             if (user.getIsVip() == 0) {//如果不是vip
                 String moneyStut = bookMapper.getIsPay(user.getId(), chapterId);
                 if (moneyStut == null) {//如果本章节没付过费
