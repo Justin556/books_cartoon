@@ -15,6 +15,7 @@ import com.app.books.vo.ChapterQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@Slf4j
 @RestController
 @Api(tags = "小说-业务接口")
 @RequestMapping("/book/")
@@ -87,6 +89,7 @@ public class BookController {
     public Result episodesContent(HttpServletRequest request, Integer bid, Integer chapterId, Integer jiNo) {
         String token = request.getHeader("token");
         User user = userMapper.findUserById((Integer) redisUtil.get(token));
+        log.info(user.toString());
         if (token != null) {//如果已登录，向小说历史记录表插入或更新数据
             Integer userId = (Integer) redisUtil.get(request.getHeader("token"));
             ChapterQuery chapter = new ChapterQuery();
