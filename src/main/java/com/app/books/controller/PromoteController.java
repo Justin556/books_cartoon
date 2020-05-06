@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/promote/")
@@ -41,7 +43,10 @@ public class PromoteController {
         String text = "http://47.56.19.236/books/#/pages/register/register?type=2&id="+authenticationInterceptor.userId;
         //不含Logo
        String fileName = QrCodeUtils2.encode(text, null, "/home/project/picture/qrCode", true);
-       return Result.success("/books/qrCode/"+fileName);
+       Map<String,String> er=new HashMap<>();
+        er.put("text",text);
+        er.put("yards","/books/qrCode/"+fileName);
+       return Result.success(er);
     }
 
     //增加本人推广用户
