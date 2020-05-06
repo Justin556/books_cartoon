@@ -3,6 +3,7 @@ package com.app.books.vo;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -27,4 +28,10 @@ public class ChapterQuery {
     //以下为子查询所用
     private String title;
     private String coverPic;
+
+    public void setCreateTime(Date createTime){
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.createTime=sdf.format(createTime);
+    }
+
 }
